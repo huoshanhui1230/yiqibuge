@@ -1,0 +1,49 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "tools/*"
+
+# 带安装脚本的依赖要显式放行。pnpm 12 认 allowBuilds，pnpm 10/11 认下面的
+# onlyBuiltDependencies，两份都留着，换 pnpm 版本时不用改。
+allowBuilds:
+  esbuild: true
+  "@swc/core": true
+  playwright: true
+  # msgpackr-extract 是 bullmq 底下 msgpackr 的原生加速模块，纯属可选：
+  # 不编译它 msgpackr 照样跑，而编译要 node-gyp 和 MSVC，Windows 上容易挂。故意不装。
+  msgpackr-extract: false
+  # core-js 的 postinstall 只是打一条募捐横幅，没有功能，故意不跑。
+  core-js: false
+  core-js-pure: false
+
+onlyBuiltDependencies:
+  - esbuild
+  - "@swc/core"
+  - playwright
+
+ignoredBuiltDependencies:
+  - msgpackr-extract
+  - core-js
+  - core-js-pure
+
+# pnpm 的「新发布包冷却期」白名单，装的时候 pnpm 自己加的：
+# 这几个版本比冷却期新，但允许使用。
+minimumReleaseAgeExclude:
+  - "@typescript-eslint/eslint-plugin@8.72.1"
+  - "@typescript-eslint/parser@8.72.1"
+  - "@typescript-eslint/project-service@8.72.1"
+  - "@typescript-eslint/scope-manager@8.72.1"
+  - "@typescript-eslint/tsconfig-utils@8.72.1"
+  - "@typescript-eslint/type-utils@8.72.1"
+  - "@typescript-eslint/types@8.72.1"
+  - "@typescript-eslint/typescript-estree@8.72.1"
+  - "@typescript-eslint/utils@8.72.1"
+  - "@typescript-eslint/visitor-keys@8.72.1"
+  - eslint-plugin-vue@10.12.0
+  - typescript-eslint@8.72.1
+  - "@nestjs/cli@12.0.11"
+  - "@nestjs/common@12.3.1"
+  - "@nestjs/core@12.3.1"
+  - "@nestjs/platform-express@12.3.1"
+  - "@nestjs/testing@12.3.1"
+  - bullmq@6.5.0

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+unpackage/
+.shots/
+pnpm-lock.yaml
+
+# 文档和设计稿是手写/导出的资料，不让 Prettier 改排版
+docs/
+*.md
+
+# 由 tokens.json 生成
+apps/miniapp/src/styles/themes.css

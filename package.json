@@ -1,0 +1,48 @@
+{
+  "name": "yiqibuge",
+  "version": "0.0.0",
+  "private": true,
+  "description": "一起不鸽 · 微信小程序单仓（uni-app + NestJS + 共用包）",
+  "packageManager": "pnpm@12.15.0",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "bootstrap": "pnpm install && pnpm dev:db && pnpm -F @yiqi/shared build && pnpm migrate",
+    "dev:db": "docker compose up -d",
+    "dev:db:down": "docker compose down",
+    "dev:db:reset": "docker compose down -v && docker compose up -d",
+    "migrate": "pnpm -F @yiqi/server db:migrate",
+    "migrate:gen": "pnpm -F @yiqi/server db:generate",
+    "dev:server": "pnpm -F @yiqi/server start:dev",
+    "dev:worker": "pnpm -F @yiqi/server start:worker:dev",
+    "dev:h5": "pnpm -F @yiqi/miniapp dev:h5",
+    "dev:mp": "pnpm -F @yiqi/miniapp dev:mp-weixin",
+    "build": "pnpm -r build",
+    "build:mp": "pnpm -F @yiqi/miniapp build:mp-weixin",
+    "build:server": "pnpm -F @yiqi/server build",
+    "shots": "pnpm -F @yiqi/tools-shots shots",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm -F @yiqi/server test:e2e",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "~10.0.1",
+    "@types/node": "~24.19.2",
+    "cross-env": "~10.1.0",
+    "eslint": "~10.13.0",
+    "eslint-config-prettier": "~10.1.8",
+    "eslint-plugin-vue": "~10.12.0",
+    "globals": "~17.13.0",
+    "prettier": "~3.9.10",
+    "tsx": "~4.23.15",
+    "typescript": "5.9.3",
+    "typescript-eslint": "~8.72.1",
+    "vue-eslint-parser": "~10.4.1"
+  }
+}
