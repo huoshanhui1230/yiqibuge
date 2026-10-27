@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { validateEnv } from "./env";
 
 const base = {
-  DATABASE_URL: "mysql://yiqi:yiqi@127.0.0.1:3306/yiqibuge?timezone=Z",
+  DATABASE_URL: "mysql://yiqi:yiqi@127.0.0.1:3307/yiqibuge?timezone=Z",
   REDIS_URL: "redis://127.0.0.1:6379",
 };
 

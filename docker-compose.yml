@@ -18,7 +18,9 @@ services:
       MYSQL_PASSWORD: yiqi
       TZ: UTC
     ports:
-      - "3306:3306"
+      # 宿主机用 3307：很多人机器上已经装了 MySQL 占着 3306，撞上就起不来。
+      # 容器内部仍是 3306，改这里要同步改 .env 里的 DATABASE_URL。
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:

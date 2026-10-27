@@ -6,7 +6,7 @@ import { FakeContentSecurity } from "./fake-content-security";
 import { FakeWechatAuth } from "./fake-wechat-auth";
 
 const env = validateEnv({
-  DATABASE_URL: "mysql://yiqi:yiqi@127.0.0.1:3306/yiqibuge?timezone=Z",
+  DATABASE_URL: "mysql://yiqi:yiqi@127.0.0.1:3307/yiqibuge?timezone=Z",
   REDIS_URL: "redis://127.0.0.1:6379",
   FAKE_DEFAULT_OPENID: "openid_test_a",
   FAKE_USERS: "openid_test_a:小明,openid_test_b:小红",
