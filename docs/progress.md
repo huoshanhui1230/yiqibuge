@@ -105,7 +105,11 @@
 6. **云托管的身份请求头名字要按官方文档核对**。`apps/server/src/wechat/real/real-cloud-run-identity.ts` 和 `apps/miniapp/src/env.d.ts` 里按 `x-wx-openid` / `x-wx-from-openid` 写的，`.claude/rules/server.md` 要求「以微信云托管官方文档为准」，接云托管时核一遍。
 7. **字体还没接**。三套主题要「站酷快乐体」和「思源黑体」，现在只在 CSS 变量里写了字体名，没加载字体文件，H5 截图里是系统默认字体。阶段 1 要决定怎么引（小程序不能用网络字体 `@font-face` 加载本地文件要用 `wx.loadFontFace`）。
 8. **图片存储（影响阶段 1）**。`spec.md` 选型表写的是腾讯云 COS，`CLAUDE.md` 说第 1 阶段定。`.env.example` 里留了 `COS_BUCKET`、`COS_REGION` 占位。
-9. **提审前要查的两个开关（阶段 5）**。`apps/miniapp/src/manifest.json` 里 `mp-weixin.setting.urlCheck: false`（方便本地联调关掉域名校验），提审前确认要不要改回 true。另外后端已经做了硬拦截：`NODE_ENV=production` 配 `WECHAT_DRIVER=fake` 时直接启动失败。
+9. **提审前要查的几项（阶段 5）**。
+   - `apps/miniapp/src/manifest.json` 里 `mp-weixin.setting.urlCheck: false`（方便本地联调关掉域名校验），提审前确认要不要改回 true。
+   - `mp-weixin.appid` 还空着，发版前要填真实的微信 AppID；顶层那个 `appid` 是 uni-app 自己生成的 DCloud 应用 ID，不是微信的，别搞混。
+   - uni 统计已经显式关掉（`uniStatistics.enable: false`），正式产物里核对过没有任何上报端点。但 uni-app 运行时仍会在本地存一个设备标识 `__DC_STAT_UUID`（只落在小程序自己的 storage 里，不外发），填「用户隐私保护指引」时留意要不要声明。
+   - 后端这边已经是硬拦截，不用人查：`NODE_ENV=production` 配 `WECHAT_DRIVER=fake` 时直接启动失败，正式镜像里验证过。
 
 ### 仓库之外
 
