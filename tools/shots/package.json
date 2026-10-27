@@ -1,0 +1,17 @@
+{
+  "name": "@yiqi/tools-shots",
+  "version": "0.0.0",
+  "private": true,
+  "description": "用 Playwright 给 H5 预览截图，对照设计稿走查用",
+  "scripts": {
+    "shots": "tsx capture.ts",
+    "install:browser": "playwright install chromium",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "~24.19.2",
+    "playwright": "~1.64.1",
+    "tsx": "~4.23.15",
+    "typescript": "5.9.3"
+  }
+}
