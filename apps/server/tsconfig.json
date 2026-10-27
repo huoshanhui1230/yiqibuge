@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // NestJS 跑 CJS，依赖注入靠 experimentalDecorators + emitDecoratorMetadata
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "outDir": "./dist",
+    "types": ["node"],
+
+    // 构造函数注入的属性由 Nest 赋值，不走初始化器
+    "strictPropertyInitialization": false
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "drizzle.config.ts", "vitest.config*.ts"]
+}
