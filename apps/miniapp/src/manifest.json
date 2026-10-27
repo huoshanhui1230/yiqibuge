@@ -1,10 +1,13 @@
 {
   "name": "一起不鸽",
-  "appid": "",
+  "appid": "wx0759420477855ff8",
   "description": "朋友和家人在固定的群组里约局：有人发起计划，群友点跟了或不跟，人够了就成局。",
   "versionName": "0.0.0",
   "versionCode": "1",
   "vueVersion": "3",
+  "uniStatistics": {
+    "enable": false
+  },
   "mp-weixin": {
     "appid": "",
     "setting": {
