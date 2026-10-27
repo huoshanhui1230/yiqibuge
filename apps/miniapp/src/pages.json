@@ -1,0 +1,14 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "一起不鸽"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTitleText": "一起不鸽",
+    "navigationBarTextStyle": "black"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "一起不鸽",
+  "appid": "",
+  "description": "朋友和家人在固定的群组里约局：有人发起计划，群友点跟了或不跟，人够了就成局。",
+  "versionName": "0.0.0",
+  "versionCode": "1",
+  "vueVersion": "3",
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "es6": true,
+      "minified": true,
+      "postcss": true,
+      "urlCheck": false
+    },
+    "usingComponents": true
+  },
+  "h5": {
+    "title": "一起不鸽 · H5 预览"
+  }
+}
