@@ -1,0 +1,18 @@
+.git
+.gitignore
+node_modules
+**/node_modules
+**/dist
+**/coverage
+**/unpackage
+.shots
+.env
+.env.*
+!.env.example
+
+# 设计稿体积大，后端镜像不需要
+docs/design
+
+.idea
+.vscode
+*.log

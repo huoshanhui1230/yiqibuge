@@ -1,0 +1,46 @@
+# 本地开发用的 MySQL 8 和 Redis。正式环境用微信云托管自己开通的实例。
+# 起停：pnpm dev:db / pnpm dev:db:down，清库重来用 pnpm dev:db:reset。
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: yiqi-mysql
+    restart: unless-stopped
+    command:
+      # 「时间一律存 UTC」：数据库时区固定 +00:00，不跟随宿主机
+      - --default-time-zone=+00:00
+      # 群名、昵称、计划标题里会有 emoji，必须 utf8mb4
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: yiqibuge
+      MYSQL_USER: yiqi
+      MYSQL_PASSWORD: yiqi
+      TZ: UTC
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: yiqi-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mysql-data:
+  redis-data:
