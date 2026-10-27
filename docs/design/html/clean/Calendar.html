@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>一起恰 · 清爽风 · 日历</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900">
+<style>
+body{margin:0;background:#F6F5F2}
+a{color:#1C1B19}a:hover{color:#C2361A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F5F2; font-family: 'Noto Sans SC', sans-serif; color: #1C1B19; font-variant-numeric: tabular-nums">
+<svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="crown" viewBox="0 0 60 40">
+<path d="M8 33 L5 12 L17 21 L30 7 L43 21 L55 12 L52 33 Z" fill="#F2B400"></path>
+</symbol>
+<symbol id="feather" viewBox="0 0 30 60">
+<path d="M15 3 C27 14 27 40 15 57 C3 40 3 14 15 3 Z" fill="#D5DAE6" stroke="none" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M15 9 L15 58" fill="none" stroke="#1C1B19" stroke-width="1.88" stroke-linecap="round"></path>
+</symbol>
+<symbol id="fly" viewBox="0 0 140 90">
+<path d="M30 54 L6 46 L9 58 L6 70 L32 62 Z" fill="#6F7B99"></path>
+<ellipse cx="64" cy="56" rx="38" ry="20" fill="#8592B0"></ellipse>
+<ellipse cx="68" cy="63" rx="22" ry="9" fill="#C9D0E2"></ellipse>
+<path d="M86 46 Q94 55 91 66" fill="none" stroke="#1F9D63" stroke-width="5" stroke-linecap="round"></path>
+<circle cx="104" cy="40" r="16" fill="#8592B0"></circle>
+<circle cx="109" cy="37" r="4.4" fill="#FFFFFF"></circle>
+<circle cx="109.6" cy="37" r="2.3" fill="#1C1B19"></circle>
+<path d="M118 42 L130 46 L118 50 Z" fill="#3B3F4A"></path>
+<path d="M50 50 C44 26 56 8 80 6 C75 19 77 34 73 50 Z" fill="#6F7B99"></path>
+</symbol>
+</defs>
+</svg>
+
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 84px; overflow: hidden; box-sizing: border-box; padding: 8px 16px 0; display: flex; flex-direction: column; gap: 10px">
+
+<div style="height: 44px; flex: none; display: flex; align-items: center; justify-content: space-between">
+<span style="font-family: 'Noto Sans SC', sans-serif; font-size: 21px; line-height: 1; font-weight: 700">日历</span>
+<div aria-hidden="true" style="width: 87px; height: 32px; box-sizing: border-box; border: 1px solid #E3E0DA; border-radius: 14px; background: #FFFFFF; display: flex; align-items: center">
+<div style="flex: 1; display: flex; justify-content: center; gap: 3px"><span style="width: 4px; height: 4px; border-radius: 50%; background: #1C1B19; color: #FFFFFF"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #1C1B19; color: #FFFFFF"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #1C1B19; color: #FFFFFF"></span></div>
+<div style="width: 1px; height: 18px; background: #E3E0DA"></div>
+<div style="flex: 1; display: flex; justify-content: center"><span style="width: 15px; height: 15px; box-sizing: border-box; border: 2px solid #1C1B19; border-radius: 50%"></span></div>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; justify-content: space-between">
+<div style="display: flex; align-items: center; gap: 10px">
+<span role="button" aria-label="上个月" style="width: 30px; height: 30px; box-sizing: border-box; border: 0; border-radius: 8px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1C1B19" stroke-width="2.46" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span>
+<span style="font-family: 'Noto Sans SC', sans-serif; font-size: 18.5px; font-weight: 700">2026年10月</span>
+<span role="button" aria-label="下个月" style="width: 30px; height: 30px; box-sizing: border-box; border: 0; border-radius: 8px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1C1B19" stroke-width="2.46" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></span>
+</div>
+<div role="tablist" style="display: flex; padding: 2px; background: #EFECE7; border: 0; border-radius: 10px">
+<span role="tab" aria-selected="false" style="padding: 2px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: #6B6762">周</span>
+<span role="tab" aria-selected="true" style="padding: 2px 12px; border-radius: 8px; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #1C1B19; box-shadow: 0 1px 3px rgba(28,27,25,0.12)">月</span>
+</div>
+</div>
+
+<div style="position: relative; flex: none; box-sizing: border-box; padding: 6px; background: #FFFFFF; border: 0; border-radius: 14px; box-shadow: 0 1px 2px rgba(28,27,25,0.04), 0 6px 20px rgba(28,27,25,0.05)">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: 11.5px; color: #6B6762; padding-bottom: 4px; border-bottom: 1px solid #EFECE7">
+<span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); grid-auto-rows: 50px; text-align: center; font-family: 'Noto Sans SC', sans-serif; font-size: 15px; font-weight: 700">
+<div style="padding-top: 4px; color: #CFCBC4">28</div>
+<div style="padding-top: 4px; color: #CFCBC4">29</div>
+<div style="padding-top: 4px; color: #CFCBC4">30</div>
+<div style="padding-top: 4px">1</div>
+<div style="padding-top: 4px">2</div>
+<div style="padding-top: 4px; display: flex; flex-direction: column; align-items: center; gap: 3px">3<span style="width: 7px; height: 7px; border-radius: 50%; background: #DCD8D1"></span></div>
+<div style="padding-top: 4px">4</div>
+
+<div style="padding-top: 4px">5</div>
+<div style="padding-top: 4px">6</div>
+<div style="padding-top: 4px">7</div>
+<div style="padding-top: 4px">8</div>
+<div style="padding-top: 4px">9</div>
+<div style="padding-top: 4px; display: flex; flex-direction: column; align-items: center; gap: 3px">10<span style="width: 7px; height: 7px; border-radius: 50%; background: #DCD8D1"></span></div>
+<div style="padding-top: 4px">11</div>
+
+<div style="padding-top: 4px">12</div>
+<div style="padding-top: 4px">13</div>
+<div style="padding-top: 4px; display: flex; flex-direction: column; align-items: center; gap: 1px">14<svg width="8" height="15" viewBox="0 0 30 60" role="img" aria-label="这天你鸽过"><use href="#feather"></use></svg></div>
+<div style="padding-top: 4px">15</div>
+<div style="padding-top: 4px">16</div>
+<div style="padding-top: 4px; display: flex; flex-direction: column; align-items: center; gap: 3px">17<span style="width: 7px; height: 7px; border-radius: 50%; background: #DCD8D1"></span></div>
+<div style="padding-top: 4px">18</div>
+
+<div style="padding-top: 4px">19</div>
+<div style="padding-top: 4px">20</div>
+<div style="padding-top: 1px; display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="width: 28px; height: 28px; box-sizing: border-box; border: 0; border-radius: 50%; background: #D6391D; display: flex; align-items: center; justify-content: center; color: #FFFFFF">21</span></div>
+<div style="padding-top: 4px">22</div>
+<div style="position: relative; margin: 1px; padding-top: 3px; box-sizing: border-box; border: 0; border-radius: 8px; background: #FDECE8; display: flex; flex-direction: column; align-items: center; gap: 3px">23<span style="display: flex; gap: 3px"><span style="width: 7px; height: 7px; box-sizing: border-box; border: 0; border-radius: 50%; background: #D6391D"></span><span style="width: 7px; height: 7px; box-sizing: border-box; border: 0; border-radius: 50%; background: #D6391D"></span></span><span style="position: absolute; top: -8px; right: -7px; padding: 0 3px; background: #FDECE8; border: 0; border-radius: 6px; font-family: 'Noto Sans SC', sans-serif; font-size: 9.5px; font-weight: 700; line-height: 13px">撞</span></div>
+<div style="padding-top: 4px; display: flex; flex-direction: column; align-items: center; gap: 2px">24<span style="display: flex; align-items: center; gap: 2px"><span style="width: 7px; height: 7px; box-sizing: border-box; border: 1.5px solid #CFCBC4; border-radius: 50%; background: #FFFFFF"></span><svg width="12" height="8" viewBox="0 0 60 40" role="img" aria-label="鸽王局"><use href="#crown"></use></svg></span></div>
+<div style="padding-top: 4px; display: flex; flex-direction: column; align-items: center; gap: 3px">25<span style="width: 7px; height: 7px; box-sizing: border-box; border: 0; border-radius: 50%; background: #D6391D"></span></div>
+
+<div style="padding-top: 4px">26</div>
+<div style="padding-top: 4px">27</div>
+<div style="padding-top: 4px">28</div>
+<div style="padding-top: 4px">29</div>
+<div style="padding-top: 4px">30</div>
+<div style="padding-top: 4px">31</div>
+<div style="padding-top: 4px; color: #CFCBC4">1</div>
+</div>
+<div role="img" aria-label="10月31日到11月1日：周末去海边，待表态" style="position: absolute; left: 266px; top: 248px; width: 76px; height: 9px; box-sizing: border-box; border: 0; border-radius: 999px; background: #EFECE7"></div>
+</div>
+
+<div style="flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 11.5px; color: #6B6762">
+<span style="display: flex; align-items: center; gap: 4px"><span style="width: 8px; height: 8px; box-sizing: border-box; border: 0; border-radius: 50%; background: #D6391D"></span>已跟</span>
+<span style="display: flex; align-items: center; gap: 4px"><span style="width: 8px; height: 8px; box-sizing: border-box; border: 1.5px solid #CFCBC4; border-radius: 50%; background: #FFFFFF"></span>待表态</span>
+<span style="display: flex; align-items: center; gap: 4px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #DCD8D1"></span>已结束</span>
+<span style="display: flex; align-items: center; gap: 4px"><svg width="6" height="11" viewBox="0 0 30 60" aria-hidden="true"><use href="#feather"></use></svg>鸽过</span>
+<span style="display: flex; align-items: center; gap: 4px"><span style="width: 12px; height: 9px; box-sizing: border-box; border: 0; border-radius: 3px; background: #FDECE8"></span>时间撞了</span>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 8px; margin-top: 2px">
+<span style="font-family: 'Noto Sans SC', sans-serif; font-size: 16.5px; font-weight: 700">10月23日 · 周五</span>
+<span style="padding: 0 8px; background: #FDECE8; border: 0; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 18px">2 个局</span>
+</div>
+
+<a href="CleanPlanDetail.dc.html" style="flex: none; display: flex; align-items: center; gap: 12px; padding: 9px 12px; background: #FFFFFF; border: 0; border-radius: 14px; box-shadow: 0 1px 2px rgba(28,27,25,0.04), 0 6px 20px rgba(28,27,25,0.05); text-decoration: none">
+<div style="width: 46px; flex: none; display: flex; flex-direction: column; align-items: center; line-height: 1.15"><span style="font-family: 'Noto Sans SC', sans-serif; font-size: 16px; font-weight: 700">18:30</span><span style="font-size: 11px; color: #6B6762">20:30</span></div>
+<div style="width: 3px; align-self: stretch; border-radius: 2px; background: #D6391D; color: #FFFFFF"></div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 700">周五火锅局</span><span style="font-size: 12px; color: #6B6762">大学室友 · 示例火锅店</span></div>
+<span style="padding: 1px 8px; background: #DDF3E8; border: 0; border-radius: 999px; font-size: 11.5px; font-weight: 700">已跟</span>
+</a>
+<div style="flex: none; display: flex; align-items: center; gap: 12px; padding: 9px 12px; background: #FFFFFF; border: 0; border-radius: 14px; box-shadow: 0 1px 2px rgba(28,27,25,0.04), 0 6px 20px rgba(28,27,25,0.05)">
+<div style="width: 46px; flex: none; display: flex; flex-direction: column; align-items: center; line-height: 1.15"><span style="font-family: 'Noto Sans SC', sans-serif; font-size: 16px; font-weight: 700">19:00</span><span style="font-size: 11px; color: #6B6762">21:00</span></div>
+<div style="width: 3px; align-self: stretch; border-radius: 2px; background: #D6391D; color: #FFFFFF"></div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 700">部门聚餐</span><span style="font-size: 12px; color: #6B6762">同事群 · 公司楼下</span></div>
+<span style="padding: 1px 8px; background: #DDF3E8; border: 0; border-radius: 999px; font-size: 11.5px; font-weight: 700">已跟</span>
+</div>
+
+<div role="note" style="flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #FDECE8; border: 0; border-radius: 12px; font-size: 13px">
+<svg width="34" height="22" viewBox="0 0 140 90" aria-hidden="true" style="flex: none"><use href="#fly"></use></svg>
+<span><span style="font-weight: 700">时间撞了 1.5 小时：</span>想好去哪个，别到时候两边都鸽</span>
+</div>
+
+</div>
+
+<nav aria-label="底部导航" style="position: absolute; left: 0; right: 0; bottom: 0; height: 78px; box-sizing: border-box; padding: 8px 8px 20px; background: #FFFFFF; border-top: 1px solid #ECE9E4; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center">
+<a href="CleanHome.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #6B6762"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6762" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7v8.5a1 1 0 0 1-1 1h-4.5v-5.5h-6v5.5H4.5a1 1 0 0 1-1-1z"></path></svg><span style="font-size: 10.5px; font-weight: 500">首页</span></a>
+<a href="CleanCalendar.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #C2361A"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2361A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="4"></rect><path d="M8 3v4M16 3v4M3.5 10h17"></path></svg><span style="font-size: 10.5px; font-weight: 700">日历</span></a>
+<a href="CleanCreatePlan.dc.html" aria-label="发起计划" style="justify-self: center; width: 44px; height: 44px; border-radius: 14px; background: #1C1B19; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+<a href="CleanGroups.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #6B6762"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6762" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="3.5"></circle><circle cx="16.5" cy="10" r="2.8"></circle><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5M15 14.4c2.6-.3 4.8 1.2 5.5 4.6"></path></svg><span style="font-size: 10.5px; font-weight: 500">群组</span></a>
+<a href="CleanProfile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #6B6762"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6762" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="4"></circle><path d="M4.5 20c1-3.8 4-5.8 7.5-5.8s6.5 2 7.5 5.8"></path></svg><span style="font-size: 10.5px; font-weight: 500">我的</span></a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

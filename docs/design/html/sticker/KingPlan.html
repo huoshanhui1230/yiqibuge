@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>一起恰 · 鸽王发起的局</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900">
+<style>
+body{margin:0;background:#FFF4DF}
+a{color:#2A1E16}a:hover{color:#C2361A}
+@keyframes flyacross{0%{transform:translate(-130px,0)}25%{transform:translate(22px,-8px)}50%{transform:translate(175px,4px)}75%{transform:translate(328px,-6px)}100%{transform:translate(480px,0)}}
+@keyframes plop{0%{transform:scale(0);opacity:0}55%{transform:scale(1.18);opacity:1}75%{transform:scale(.92)}100%{transform:scale(1);opacity:1}}
+@keyframes burst{0%{transform:scale(0) rotate(-12deg);opacity:0}60%{transform:scale(1.15) rotate(-12deg);opacity:1}100%{transform:scale(1) rotate(-12deg);opacity:1}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFF4DF; font-family: 'Noto Sans SC', sans-serif; color: #2A1E16">
+<svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="gg" viewBox="0 0 120 120">
+<path d="M47 103 L41 113 M47 103 L47 114 M47 103 L53 113 M73 103 L67 113 M73 103 L73 114 M73 103 L79 113" fill="none" stroke="#E8705A" stroke-width="4" stroke-linecap="round"></path>
+<g transform="rotate(18 24 74)"><ellipse cx="24" cy="74" rx="13" ry="22" fill="#7C89A6" stroke="#2A1E16" stroke-width="3"></ellipse><path d="M18 72 L30 75 M19 80 L30 83" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round"></path></g>
+<g transform="rotate(-18 96 74)"><ellipse cx="96" cy="74" rx="13" ry="22" fill="#7C89A6" stroke="#2A1E16" stroke-width="3"></ellipse><path d="M90 75 L102 72 M90 83 L101 80" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round"></path></g>
+<ellipse cx="60" cy="75" rx="37" ry="32" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></ellipse>
+<ellipse cx="60" cy="84" rx="23" ry="19" fill="#D7DEEC"></ellipse>
+<path d="M30 58 Q60 76 90 58 L88 66 Q60 82 32 66 Z" fill="#33B683" stroke="#2A1E16" stroke-width="2.5" stroke-linejoin="round"></path>
+<path d="M36 65 Q60 79 84 65" fill="none" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"></path>
+<circle cx="60" cy="37" r="24" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></circle>
+<circle cx="51" cy="35" r="6.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="51.5" cy="35" r="2.8" fill="#2A1E16"></circle>
+<circle cx="69" cy="35" r="6.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="68.5" cy="35" r="2.8" fill="#2A1E16"></circle>
+<ellipse cx="60" cy="42.5" rx="4" ry="2.4" fill="#F7F3EA" stroke="#2A1E16" stroke-width="1.5"></ellipse>
+<path d="M55 45 L65 45 L60 52 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2" stroke-linejoin="round"></path>
+<ellipse cx="43" cy="45" rx="4" ry="2.4" fill="#FF9AA8"></ellipse>
+<ellipse cx="77" cy="45" rx="4" ry="2.4" fill="#FF9AA8"></ellipse>
+</symbol>
+<symbol id="crown" viewBox="0 0 60 40">
+<path d="M7 35 L4 11 L18 22 L30 5 L42 22 L56 11 L53 35 Z" fill="#FFC93C" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M8 29 L52 29" fill="none" stroke="#2A1E16" stroke-width="2.5"></path>
+<circle cx="30" cy="5" r="3.6" fill="#FF5B3A" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="4" cy="11" r="3" fill="#59A7FF" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="56" cy="11" r="3" fill="#59A7FF" stroke="#2A1E16" stroke-width="2"></circle>
+</symbol>
+<symbol id="hood-back" viewBox="0 0 120 120">
+<path d="M18 72 C5 74 3 92 11 102 C15 94 19 88 24 84 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M102 72 C115 74 117 92 109 102 C105 94 101 88 96 84 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M60 12 C90 12 108 34 108 64 C108 94 88 114 60 114 C32 114 12 94 12 64 C12 34 30 12 60 12 Z" fill="#9AA7C2" stroke="#2A1E16" stroke-width="4"></path>
+</symbol>
+<symbol id="hood-front" viewBox="0 0 120 120">
+<circle cx="60" cy="72" r="28" fill="none" stroke="#2A1E16" stroke-width="4"></circle>
+<path d="M34 99 Q60 115 86 99 L88 106 Q60 121 32 106 Z" fill="#33B683" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M36 104 Q60 117 84 104" fill="none" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"></path>
+<circle cx="43" cy="33" r="7" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="43.5" cy="33" r="3" fill="#2A1E16"></circle>
+<circle cx="77" cy="33" r="7" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="76.5" cy="33" r="3" fill="#2A1E16"></circle>
+<ellipse cx="60" cy="38" rx="4.5" ry="2.6" fill="#F7F3EA" stroke="#2A1E16" stroke-width="1.6"></ellipse>
+<path d="M54 41 L66 41 L60 49 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2.2" stroke-linejoin="round"></path>
+</symbol>
+<symbol id="splat" viewBox="0 0 100 100">
+<circle cx="13" cy="27" r="4.5" fill="#FFFDF4" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="88" cy="18" r="3.5" fill="#FFFDF4" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="91" cy="82" r="5" fill="#FFFDF4" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="9" cy="80" r="3" fill="#FFFDF4" stroke="#2A1E16" stroke-width="2.5"></circle>
+<path d="M50 15 C57 15 60 23 65 26 C72 21 82 25 81 34 C80 40 87 43 88 51 C90 60 81 63 79 69 C81 78 72 86 64 82 C60 90 49 92 45 85 C38 89 28 85 28 76 C20 74 13 66 18 58 C12 51 16 41 25 41 C23 32 31 24 39 27 C41 19 45 15 50 15 Z" fill="#FFFDF4" stroke="#2A1E16" stroke-width="3.5" stroke-linejoin="round"></path>
+<path d="M41 47 C46 39 60 41 60 51 C60 59 48 61 46 55 C44 51 50 49 52 52" fill="none" stroke="#CFC7AE" stroke-width="4" stroke-linecap="round"></path>
+<circle cx="65" cy="63" r="3.6" fill="#7A6E58"></circle>
+<circle cx="36" cy="65" r="2.6" fill="#7A6E58"></circle>
+<circle cx="57" cy="31" r="2" fill="#7A6E58"></circle>
+</symbol>
+<symbol id="fly" viewBox="0 0 140 90">
+<path d="M28 52 L4 44 L6 58 L4 70 L30 62 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<ellipse cx="62" cy="56" rx="38" ry="20" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></ellipse>
+<path d="M42 66 Q62 76 88 65" fill="none" stroke="#D7DEEC" stroke-width="6" stroke-linecap="round"></path>
+<path d="M86 44 Q95 54 92 66" fill="none" stroke="#33B683" stroke-width="7" stroke-linecap="round"></path>
+<circle cx="104" cy="40" r="16" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></circle>
+<circle cx="109" cy="37" r="4.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="110" cy="37" r="2" fill="#2A1E16"></circle>
+<ellipse cx="117" cy="40" rx="3" ry="2" fill="#F7F3EA" stroke="#2A1E16" stroke-width="1.2"></ellipse>
+<path d="M118 42 L131 46 L118 50 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2" stroke-linejoin="round"></path>
+<path d="M50 50 C44 26 56 6 82 4 C76 18 78 34 74 50 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M57 40 L73 36 M59 30 L75 26" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round"></path>
+<path d="M58 75 L54 83 M66 75 L64 83" fill="none" stroke="#E8705A" stroke-width="3.5" stroke-linecap="round"></path>
+</symbol>
+</defs>
+</svg>
+
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 86px; overflow: hidden; box-sizing: border-box; padding: 8px 16px 0; display: flex; flex-direction: column; gap: 12px">
+
+<div style="height: 44px; flex: none; display: flex; align-items: center; justify-content: space-between">
+<a href="Home.dc.html" aria-label="返回" style="width: 40px; height: 40px; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 12px; background: #FFFFFF; box-shadow: 2px 2px 0 #2A1E16; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+</a>
+<span style="font-size: 16px; font-weight: 900">计划详情</span>
+<div aria-hidden="true" style="width: 87px; height: 32px; box-sizing: border-box; border: 1px solid rgba(42,30,22,0.25); border-radius: 16px; background: rgba(255,255,255,0.75); display: flex; align-items: center">
+<div style="flex: 1; display: flex; justify-content: center; gap: 3px"><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span></div>
+<div style="width: 1px; height: 18px; background: rgba(42,30,22,0.25)"></div>
+<div style="flex: 1; display: flex; justify-content: center"><span style="width: 15px; height: 15px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%"></span></div>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 8px; background: #FFC93C; border: 2.5px solid #2A1E16; border-radius: 16px; box-shadow: 3px 3px 0 #2A1E16">
+<sc-if value="{{ hood }}" hint-placeholder-val="{{ true }}">
+<svg width="40" height="40" viewBox="0 0 120 120" role="img" aria-label="小王的鸽王头像" style="flex: none"><use href="#hood-back"></use><circle cx="60" cy="72" r="27" fill="#BFE0FF"></circle><text x="60" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="27" font-weight="900" fill="#2A1E16">王</text><use href="#hood-front"></use><use href="#crown" x="41" y="0" width="38" height="25"></use></svg>
+</sc-if>
+<sc-if value="{{ full }}" hint-placeholder-val="{{ false }}">
+<svg width="40" height="40" viewBox="0 0 120 120" role="img" aria-label="小王的鸽王头像" style="flex: none"><use href="#gg"></use><use href="#crown" x="45" y="0" width="30" height="20"></use></svg>
+</sc-if>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 13.5px; font-weight: 900">本局由本周鸽子王发起</span>
+<span style="font-size: 12px">跟之前请三思 · 点鸽屎可以擦掉</span>
+</div>
+<span style="flex: none; padding: 4px 10px; background: #FFFFFF; border: 2px solid #2A1E16; border-radius: 999px; font-size: 12px; font-weight: 900">{{ wipedLabel }}</span>
+</div>
+
+<div style="position: relative; flex: none; height: 120px; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 20px; background: #E6E0FF; overflow: hidden; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between">
+<svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true" style="position: absolute; right: 6px; bottom: -14px">
+<path d="M22 30 L22 14 L36 10 L36 26" fill="none" stroke="#2A1E16" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+<ellipse cx="18" cy="31" rx="5" ry="4" fill="#2A1E16"></ellipse>
+<ellipse cx="32" cy="27" rx="5" ry="4" fill="#2A1E16"></ellipse>
+<path d="M58 76 L36 110" fill="none" stroke="#2A1E16" stroke-width="14" stroke-linecap="round"></path>
+<path d="M58 76 L36 110" fill="none" stroke="#FFC93C" stroke-width="8" stroke-linecap="round"></path>
+<rect x="-12" y="-6" width="24" height="12" rx="2" fill="#59A7FF" stroke="#2A1E16" stroke-width="3" transform="translate(55 80) rotate(33)"></rect>
+<circle cx="72" cy="52" r="28" fill="#FF5B3A" stroke="#2A1E16" stroke-width="3"></circle>
+<path d="M48 44 Q72 36 96 44 M45 58 Q72 50 99 58 M62 26 Q56 52 62 78 M82 26 Q88 52 82 78" fill="none" stroke="#2A1E16" stroke-width="2.2" stroke-linecap="round"></path>
+<path d="M55 35 Q61 28 69 27" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.85"></path>
+<path d="M96 18 Q104 10 112 18" fill="none" stroke="#2A1E16" stroke-width="3" stroke-linecap="round"></path>
+</svg>
+<span style="position: relative; align-self: flex-start; padding: 3px 10px; background: #FFFFFF; border: 2px solid #2A1E16; border-radius: 999px; font-size: 12px; font-weight: 900">招募中 · 还差 2 人成局</span>
+<h1 style="position: relative; margin: 0; font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 30px; font-weight: 400; line-height: 1.1">周六 K 歌局</h1>
+</div>
+
+<div style="flex: none; display: flex; flex-direction: column; gap: 2px">
+<div style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 27px; line-height: 1.15">本周六 · 10月24日</div>
+<div style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 27px; line-height: 1.15">晚上 20:00–23:00</div>
+<div style="margin-top: 4px; display: flex; align-items: center; justify-content: space-between">
+<span style="font-size: 13px; color: #6B5B4E">还有 3 天 4 小时</span>
+<span style="font-size: 13px; font-weight: 900; text-decoration: underline; text-underline-offset: 3px">加到日历</span>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 8px; padding-top: 12px; border-top: 2px dashed #CDBFA9; font-size: 14px; font-weight: 700">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+<span style="flex: 1">示例 KTV · 人民路</span>
+<span style="font-size: 13px; font-weight: 900; text-decoration: underline; text-underline-offset: 3px">导航</span>
+</div>
+
+<div style="flex: none; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 900">已跟 <span style="font-size: 20px">2</span> / 最少 4 人</span>
+<div style="height: 12px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 999px; background: #FFFFFF; overflow: hidden"><div style="width: 50%; height: 100%; box-sizing: border-box; background: #FF5B3A; border-right: 2px solid #2A1E16"></div></div>
+</div>
+
+<div style="flex: none; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 900">跟了 2 · 不跟 0</span>
+<div style="display: flex; gap: 18px">
+<div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px">
+<sc-if value="{{ hood }}" hint-placeholder-val="{{ true }}">
+<svg width="56" height="56" viewBox="0 0 120 120" role="img" aria-label="小王，本周鸽子王"><use href="#hood-back"></use><circle cx="60" cy="72" r="27" fill="#BFE0FF"></circle><text x="60" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="27" font-weight="900" fill="#2A1E16">王</text><use href="#hood-front"></use><use href="#crown" x="41" y="0" width="38" height="25"></use></svg>
+</sc-if>
+<sc-if value="{{ full }}" hint-placeholder-val="{{ false }}">
+<div style="position: relative; width: 56px; height: 56px">
+<svg width="56" height="56" viewBox="0 0 120 120" role="img" aria-label="小王，本周鸽子王"><use href="#gg"></use><use href="#crown" x="45" y="0" width="30" height="20"></use></svg>
+<svg width="22" height="22" viewBox="0 0 60 60" style="position: absolute; right: -3px; bottom: 0" aria-hidden="true"><circle cx="30" cy="30" r="26" fill="#BFE0FF" stroke="#2A1E16" stroke-width="5"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">王</text></svg>
+</div>
+</sc-if>
+<span style="font-size: 12px; font-weight: 700">小王</span>
+<span style="position: absolute; top: -6px; left: -10px; padding: 0 6px; background: #FF5B3A; border: 2px solid #2A1E16; border-radius: 999px; font-size: 10.5px; font-weight: 900; line-height: 16px">局长</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<svg width="56" height="56" viewBox="0 0 60 60" role="img" aria-label="莉莉"><circle cx="30" cy="30" r="26" fill="#BDEFD8" stroke="#2A1E16" stroke-width="3"></circle><text x="30" y="39" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="24" font-weight="900" fill="#2A1E16">莉</text></svg>
+<span style="font-size: 12px; font-weight: 700">莉莉</span>
+</div>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #6B5B4E">
+<div aria-hidden="true" style="display: flex">
+<span style="width: 20px; height: 20px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%; background: #EDEAE6"></span>
+<span style="width: 20px; height: 20px; margin-left: -6px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%; background: #EDEAE6"></span>
+<span style="width: 20px; height: 20px; margin-left: -6px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%; background: #EDEAE6"></span>
+<span style="width: 20px; height: 20px; margin-left: -6px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%; background: #EDEAE6"></span>
+</div>
+<span>未表态 6 人（含你）</span>
+</div>
+
+<div style="flex: none; position: relative; margin-top: 4px; padding: 10px 12px; background: #FFFDF4; border: 2.5px solid #2A1E16; border-radius: 14px; box-shadow: 3px 3px 0 #2A1E16; transform: rotate(-1deg)">
+<div style="font-size: 12px; font-weight: 900; color: #6B5B4E">发起人的话</div>
+<div style="margin-top: 2px; font-size: 14px; font-weight: 700">这次真的不鸽！谁鸽谁请全场奶茶</div>
+<span style="position: absolute; right: 12px; top: -11px; padding: 1px 8px; background: #FF5B3A; border: 2px solid #2A1E16; border-radius: 6px; font-size: 11px; font-weight: 900; line-height: 16px; transform: rotate(5deg)">鸽王保证书</span>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6B5B4E">
+<svg width="18" height="18" viewBox="0 0 120 120" aria-hidden="true"><use href="#gg"></use></svg>
+<span>小王上周鸽了 3 次 · 鸽值 7 · 鸽王当到本周日</span>
+</div>
+
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 86px; box-sizing: border-box; padding: 10px 16px 24px; background: #FFFFFF; border-top: 2.5px solid #2A1E16; display: flex; gap: 10px">
+<button type="button" style="flex: 1; height: 48px; border: 2.5px solid #2A1E16; border-radius: 14px; background: #FFFFFF; box-shadow: 3px 3px 0 #2A1E16; font-family: 'Noto Sans SC', sans-serif; font-size: 15px; font-weight: 900; color: #2A1E16; cursor: pointer">不跟</button>
+<button type="button" style="flex: 2; height: 48px; border: 2.5px solid #2A1E16; border-radius: 14px; background: #FF5B3A; box-shadow: 3px 3px 0 #2A1E16; font-family: 'Noto Sans SC', sans-serif; font-size: 15px; font-weight: 900; color: #2A1E16; cursor: pointer">跟了 · 周六 20:00</button>
+</div>
+
+<sc-if value="{{ flyA }}" hint-placeholder-val="{{ true }}">
+<svg width="96" height="62" viewBox="0 0 140 90" aria-hidden="true" style="position: absolute; left: 0; top: 116px; pointer-events: none; animation: flyacross 3.6s linear 1 both"><use href="#fly"></use></svg>
+</sc-if>
+<sc-if value="{{ flyB }}" hint-placeholder-val="{{ false }}">
+<svg width="96" height="62" viewBox="0 0 140 90" aria-hidden="true" style="position: absolute; left: 0; top: 116px; pointer-events: none; animation: flyacross 3.6s linear 1 both"><use href="#fly"></use></svg>
+</sc-if>
+
+<sc-if value="{{ s0 }}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="擦掉这坨鸽屎" onClick="{{ wipe0 }}" style="position: absolute; left: 24px; top: 150px; width: 72px; height: 72px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: rotate(-10deg)">
+<svg width="72" height="72" viewBox="0 0 100 100" aria-hidden="true" style="display: block; animation: plop .5s ease-out both; animation-delay: .9s"><use href="#splat"></use></svg>
+</button>
+<div aria-hidden="true" style="position: absolute; left: 98px; top: 182px; padding: 2px 10px; background: #FFC93C; border: 2px solid #2A1E16; border-radius: 10px; font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 17px; color: #2A1E16; pointer-events: none; animation: burst .45s ease-out both; animation-delay: 1s">啪叽！</div>
+</sc-if>
+<sc-if value="{{ s1 }}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="擦掉这坨鸽屎" onClick="{{ wipe1 }}" style="position: absolute; left: 270px; top: 276px; width: 64px; height: 64px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: rotate(16deg)">
+<svg width="64" height="64" viewBox="0 0 100 100" aria-hidden="true" style="display: block; animation: plop .5s ease-out both; animation-delay: 2.3s"><use href="#splat"></use></svg>
+</button>
+</sc-if>
+<sc-if value="{{ s2 }}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="擦掉这坨鸽屎" onClick="{{ wipe2 }}" style="position: absolute; left: 296px; top: 418px; width: 56px; height: 56px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: rotate(-8deg)">
+<svg width="56" height="56" viewBox="0 0 100 100" aria-hidden="true" style="display: block; animation: plop .5s ease-out both; animation-delay: 2.5s"><use href="#splat"></use></svg>
+</button>
+</sc-if>
+<sc-if value="{{ s3 }}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="擦掉这坨鸽屎" onClick="{{ wipe3 }}" style="position: absolute; left: 108px; top: 494px; width: 62px; height: 62px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: rotate(22deg)">
+<svg width="62" height="62" viewBox="0 0 100 100" aria-hidden="true" style="display: block; animation: plop .5s ease-out both; animation-delay: 1.7s"><use href="#splat"></use></svg>
+</button>
+</sc-if>
+<sc-if value="{{ s4 }}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="擦掉这坨鸽屎" onClick="{{ wipe4 }}" style="position: absolute; left: 282px; top: 606px; width: 60px; height: 60px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: rotate(-18deg)">
+<svg width="60" height="60" viewBox="0 0 100 100" aria-hidden="true" style="display: block; animation: plop .5s ease-out both; animation-delay: 2.7s"><use href="#splat"></use></svg>
+</button>
+</sc-if>
+
+<sc-if value="{{ allClean }}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(42,30,22,0.38)"></div>
+<div role="status" style="position: absolute; left: 40px; right: 40px; top: 300px; box-sizing: border-box; padding: 18px 16px; background: #FFFFFF; border: 3px solid #2A1E16; border-radius: 22px; box-shadow: 5px 5px 0 #2A1E16; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; animation: pop .4s ease-out both">
+<svg width="64" height="64" viewBox="0 0 120 120" aria-hidden="true"><use href="#gg"></use></svg>
+<div style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 24px">擦干净了！</div>
+<div style="font-size: 13px; color: #6B5B4E">鸽王的局也是局，跟不跟随你</div>
+<button type="button" onClick="{{ reset }}" style="margin-top: 4px; height: 40px; padding: 0 18px; border: 2.5px solid #2A1E16; border-radius: 12px; background: #FFC93C; box-shadow: 3px 3px 0 #2A1E16; font-family: 'Noto Sans SC', sans-serif; font-size: 14px; font-weight: 900; color: #2A1E16; cursor: pointer">再来一坨</button>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"kingAvatar":{"editor":"enum","options":["鸽子头套","整只变鸽子"],"default":"鸽子头套","section":"鸽子王"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const v = this.props.kingAvatar ?? '鸽子头套';
+    const fresh = [false, false, false, false, false];
+    const wiped = (this.state && this.state.wiped) || fresh;
+    const round = (this.state && this.state.round) || 0;
+    const wipe = (i) => () => {
+      const next = wiped.slice();
+      next[i] = true;
+      this.setState({ wiped: next, round: round });
+    };
+    const count = wiped.filter(Boolean).length;
+    return {
+      hood: v !== '整只变鸽子',
+      full: v === '整只变鸽子',
+      s0: !wiped[0], s1: !wiped[1], s2: !wiped[2], s3: !wiped[3], s4: !wiped[4],
+      wipe0: wipe(0), wipe1: wipe(1), wipe2: wipe(2), wipe3: wipe(3), wipe4: wipe(4),
+      wipedLabel: '已擦 ' + count + '/5',
+      allClean: count === 5,
+      flyA: round % 2 === 0,
+      flyB: round % 2 === 1,
+      reset: () => this.setState({ wiped: fresh.slice(), round: round + 1 })
+    };
+  }
+}
+</script>
+</body>
+</html>

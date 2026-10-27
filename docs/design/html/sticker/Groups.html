@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>一起恰 · 群组列表</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900">
+<style>
+body{margin:0;background:#FFF4DF}
+a{color:#2A1E16}a:hover{color:#C2361A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFF4DF; font-family: 'Noto Sans SC', sans-serif; color: #2A1E16">
+<svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="crown" viewBox="0 0 60 40">
+<path d="M7 35 L4 11 L18 22 L30 5 L42 22 L56 11 L53 35 Z" fill="#FFC93C" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M8 29 L52 29" fill="none" stroke="#2A1E16" stroke-width="2.5"></path>
+<circle cx="30" cy="5" r="3.6" fill="#FF5B3A" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="4" cy="11" r="3" fill="#59A7FF" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="56" cy="11" r="3" fill="#59A7FF" stroke="#2A1E16" stroke-width="2"></circle>
+</symbol>
+<symbol id="hood-back" viewBox="0 0 120 120">
+<path d="M18 72 C5 74 3 92 11 102 C15 94 19 88 24 84 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M102 72 C115 74 117 92 109 102 C105 94 101 88 96 84 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M60 12 C90 12 108 34 108 64 C108 94 88 114 60 114 C32 114 12 94 12 64 C12 34 30 12 60 12 Z" fill="#9AA7C2" stroke="#2A1E16" stroke-width="4"></path>
+</symbol>
+<symbol id="hood-front" viewBox="0 0 120 120">
+<circle cx="60" cy="72" r="28" fill="none" stroke="#2A1E16" stroke-width="4"></circle>
+<path d="M34 99 Q60 115 86 99 L88 106 Q60 121 32 106 Z" fill="#33B683" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M36 104 Q60 117 84 104" fill="none" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"></path>
+<circle cx="43" cy="33" r="7" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="43.5" cy="33" r="3" fill="#2A1E16"></circle>
+<circle cx="77" cy="33" r="7" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="76.5" cy="33" r="3" fill="#2A1E16"></circle>
+<ellipse cx="60" cy="38" rx="4.5" ry="2.6" fill="#F7F3EA" stroke="#2A1E16" stroke-width="1.6"></ellipse>
+<path d="M54 41 L66 41 L60 49 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2.2" stroke-linejoin="round"></path>
+</symbol>
+<symbol id="gg" viewBox="0 0 120 120">
+<path d="M47 103 L41 113 M47 103 L47 114 M47 103 L53 113 M73 103 L67 113 M73 103 L73 114 M73 103 L79 113" fill="none" stroke="#E8705A" stroke-width="4" stroke-linecap="round"></path>
+<g transform="rotate(18 24 74)"><ellipse cx="24" cy="74" rx="13" ry="22" fill="#7C89A6" stroke="#2A1E16" stroke-width="3"></ellipse></g>
+<g transform="rotate(-18 96 74)"><ellipse cx="96" cy="74" rx="13" ry="22" fill="#7C89A6" stroke="#2A1E16" stroke-width="3"></ellipse></g>
+<ellipse cx="60" cy="75" rx="37" ry="32" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></ellipse>
+<ellipse cx="60" cy="84" rx="23" ry="19" fill="#D7DEEC"></ellipse>
+<path d="M30 58 Q60 76 90 58 L88 66 Q60 82 32 66 Z" fill="#33B683" stroke="#2A1E16" stroke-width="2.5" stroke-linejoin="round"></path>
+<circle cx="60" cy="37" r="24" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></circle>
+<circle cx="51" cy="35" r="6.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="51.5" cy="35" r="2.8" fill="#2A1E16"></circle>
+<circle cx="69" cy="35" r="6.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="68.5" cy="35" r="2.8" fill="#2A1E16"></circle>
+<path d="M55 45 L65 45 L60 52 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2" stroke-linejoin="round"></path>
+</symbol>
+<symbol id="shades" viewBox="0 0 120 120">
+<path d="M28 26 H56 V34 A7 7 0 0 1 49 41 H35 A7 7 0 0 1 28 34 Z M64 26 H92 V34 A7 7 0 0 1 85 41 H71 A7 7 0 0 1 64 34 Z" fill="#2A1E16"></path>
+<path d="M56 30 H64" fill="none" stroke="#2A1E16" stroke-width="3.5"></path>
+<path d="M33 30 L40 30" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></path>
+</symbol>
+</defs>
+</svg>
+
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 84px; overflow: hidden; box-sizing: border-box; padding: 8px 16px 0; display: flex; flex-direction: column; gap: 12px">
+
+<div style="height: 44px; flex: none; display: flex; align-items: center; justify-content: space-between">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 26px; line-height: 1">群组</span>
+<div aria-hidden="true" style="width: 87px; height: 32px; box-sizing: border-box; border: 1px solid rgba(42,30,22,0.25); border-radius: 16px; background: rgba(255,255,255,0.75); display: flex; align-items: center">
+<div style="flex: 1; display: flex; justify-content: center; gap: 3px"><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span></div>
+<div style="width: 1px; height: 18px; background: rgba(42,30,22,0.25)"></div>
+<div style="flex: 1; display: flex; justify-content: center"><span style="width: 15px; height: 15px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%"></span></div>
+</div>
+</div>
+
+<div style="flex: none; display: flex; gap: 10px">
+<span role="button" style="flex: 1; height: 42px; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 14px; background: #FFC93C; box-shadow: 3px 3px 0 #2A1E16; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14.5px; font-weight: 900"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>建个群</span>
+<a href="JoinLanding.dc.html" style="flex: 1; height: 42px; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 14px; background: #FFFFFF; box-shadow: 3px 3px 0 #2A1E16; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14.5px; font-weight: 900; text-decoration: none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"></circle><path d="M11 12l9-9M17 6l3 3M15 8l2 2"></path></svg>输入邀请码</a>
+</div>
+
+<a href="GroupHome.dc.html" style="flex: none; display: block; background: #FFFFFF; border: 2.5px solid #2A1E16; border-radius: 20px; box-shadow: 4px 4px 0 #2A1E16; overflow: hidden; text-decoration: none">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px">
+<span aria-hidden="true" style="width: 48px; height: 48px; flex: none; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 14px; background: #BDEFD8; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"></path><path d="M9 21v-6h6v6M9 11h.01M15 11h.01"></path></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 21px; line-height: 1.15">大学室友</span>
+<span style="font-size: 12px; color: #6B5B4E">8 人 · 你是群主</span>
+</div>
+<span style="padding: 2px 9px; background: #FF5B3A; border: 2px solid #2A1E16; border-radius: 999px; font-size: 12px; font-weight: 900">进行中 2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: #FFC93C; border-top: 2.5px solid #2A1E16; font-size: 13px; font-weight: 900">
+<svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true"><use href="#hood-back"></use><circle cx="60" cy="72" r="27" fill="#BFE0FF"></circle><text x="60" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="27" font-weight="900" fill="#2A1E16">王</text><use href="#hood-front"></use><use href="#crown" x="41" y="0" width="38" height="25"></use></svg>
+<span style="flex: 1">本周鸽子王：小王</span>
+<span style="font-size: 12px">鸽值 7 ›</span>
+</div>
+</a>
+
+<div style="flex: none; background: #FFFFFF; border: 2.5px solid #2A1E16; border-radius: 20px; box-shadow: 4px 4px 0 #2A1E16; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px">
+<span aria-hidden="true" style="width: 48px; height: 48px; flex: none; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 14px; background: #FFD9CF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M12 17.5s-3-1.8-3-3.6a1.6 1.6 0 0 1 3-.8 1.6 1.6 0 0 1 3 .8c0 1.8-3 3.6-3 3.6z" fill="#FF5B3A" stroke-width="1.6"></path></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 21px; line-height: 1.15">家人群</span>
+<span style="font-size: 12px; color: #6B5B4E">5 人 · 妈妈是群主</span>
+</div>
+<span style="padding: 2px 9px; background: #FF5B3A; border: 2px solid #2A1E16; border-radius: 999px; font-size: 12px; font-weight: 900">进行中 1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: #BDEFD8; border-top: 2.5px solid #2A1E16; font-size: 13px; font-weight: 900">
+<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 14c2-5 7-8 13-7l4-3-1 5c1 4-2 8-7 9-4 .5-7-1.5-9-4z" fill="#FFFFFF" stroke="#2A1E16" stroke-width="1.8" stroke-linejoin="round"></path><path d="M9 13c2 1 4 1 6-1" fill="none" stroke="#2A1E16" stroke-width="1.6" stroke-linecap="round"></path><circle cx="16" cy="9" r="1" fill="#2A1E16"></circle><path d="M20 6.5c1 .2 2 .8 2.5 1.6" fill="none" stroke="#3CC48C" stroke-width="2" stroke-linecap="round"></path></svg>
+<span style="flex: 1">和平周 · 连续 3 周零鸽</span>
+<span style="font-size: 12px">全员靠谱</span>
+</div>
+</div>
+
+<div style="flex: none; background: #FFFFFF; border: 2.5px solid #2A1E16; border-radius: 20px; box-shadow: 4px 4px 0 #2A1E16; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px">
+<span aria-hidden="true" style="width: 48px; height: 48px; flex: none; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 14px; background: #DDEEFF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"></path><path d="M9 18 6 4M15 18l3-14M12 18V3M7.5 11h9"></path></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 21px; line-height: 1.15">羽毛球搭子</span>
+<span style="font-size: 12px; color: #6B5B4E">12 人 · 大刘是群主</span>
+</div>
+<span style="padding: 2px 9px; background: #FF5B3A; border: 2px solid #2A1E16; border-radius: 999px; font-size: 12px; font-weight: 900">进行中 1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: #FFC93C; border-top: 2.5px solid #2A1E16; font-size: 13px; font-weight: 900">
+<svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true"><use href="#hood-back"></use><circle cx="60" cy="72" r="27" fill="#FFE59E"></circle><text x="60" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="27" font-weight="900" fill="#2A1E16">刘</text><use href="#hood-front"></use><use href="#shades"></use><use href="#crown" x="41" y="0" width="38" height="25"></use></svg>
+<span style="flex: 1">本周鸽子王：大刘</span>
+<span style="padding: 0 7px; background: #2A1E16; border-radius: 999px; font-size: 11px; color: #FFC93C; line-height: 18px">连任 2 周</span>
+</div>
+</div>
+
+<div style="flex: none; background: #FFFFFF; border: 2.5px solid #2A1E16; border-radius: 20px; box-shadow: 4px 4px 0 #2A1E16; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px">
+<span aria-hidden="true" style="width: 48px; height: 48px; flex: none; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 14px; background: #E6E0FF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"></rect><path d="M8.5 7V5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2M3 12.5h18"></path></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 21px; line-height: 1.15">同事群</span>
+<span style="font-size: 12px; color: #6B5B4E">20 人 · 小林是群主</span>
+</div>
+<span style="padding: 2px 9px; background: #FF5B3A; border: 2px solid #2A1E16; border-radius: 999px; font-size: 12px; font-weight: 900">进行中 1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: #EDE6DA; border-top: 2.5px solid #2A1E16; font-size: 12.5px; font-weight: 700; color: #6B5B4E">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B5B4E" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg>
+<span>群主关闭了鸽子王评选</span>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 2.5px dashed #2A1E16; border-radius: 20px">
+<svg width="46" height="46" viewBox="0 0 120 120" aria-hidden="true"><use href="#gg"></use></svg>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 900">还想约别的圈子？</span><span style="font-size: 12px; color: #6B5B4E">建个新群，或让朋友发邀请把你拉进去</span></div>
+</div>
+
+</div>
+
+<nav aria-label="底部导航" style="position: absolute; left: 0; right: 0; bottom: 0; height: 84px; box-sizing: border-box; padding: 8px 8px 22px; background: #FFFFFF; border-top: 2.5px solid #2A1E16; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center">
+<a href="Home.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #6B5B4E; font-size: 11.5px; font-weight: 700">
+<span style="height: 28px; display: flex; align-items: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B5B4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path></svg></span>
+首页
+</a>
+<a href="Calendar.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #6B5B4E; font-size: 11.5px; font-weight: 700">
+<span style="height: 28px; display: flex; align-items: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B5B4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg></span>
+日历
+</a>
+<a href="CreatePlan.dc.html" aria-label="发起计划" style="justify-self: center; width: 58px; height: 58px; margin-top: -30px; box-sizing: border-box; border: 3px solid #2A1E16; border-radius: 50%; background: #FF5B3A; box-shadow: 3px 3px 0 #2A1E16; display: flex; align-items: center; justify-content: center">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+</a>
+<a href="Groups.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #2A1E16; font-size: 11.5px; font-weight: 900">
+<span style="width: 46px; height: 28px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 999px; background: #FF5B3A; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.5-3.5 3-5.5 6.5-5.5s6 2 6.5 5.5"></path><circle cx="17" cy="9" r="2.5"></circle><path d="M16 14.6c2.8.2 4.8 2 5.2 5"></path></svg></span>
+群组
+</a>
+<a href="Profile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: #6B5B4E; font-size: 11.5px; font-weight: 700">
+<span style="height: 28px; display: flex; align-items: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B5B4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c.8-4 4-6 8-6s7.2 2 8 6"></path></svg></span>
+我的
+</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

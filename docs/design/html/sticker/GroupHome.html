@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>一起恰 · 群组主页</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900">
+<style>
+body{margin:0;background:#FFF4DF}
+a{color:#2A1E16}a:hover{color:#C2361A}
+@keyframes crownbob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-3px) rotate(4deg)}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFF4DF; font-family: 'Noto Sans SC', sans-serif; color: #2A1E16">
+<svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="gg" viewBox="0 0 120 120">
+<path d="M47 103 L41 113 M47 103 L47 114 M47 103 L53 113 M73 103 L67 113 M73 103 L73 114 M73 103 L79 113" fill="none" stroke="#E8705A" stroke-width="4" stroke-linecap="round"></path>
+<g transform="rotate(18 24 74)"><ellipse cx="24" cy="74" rx="13" ry="22" fill="#7C89A6" stroke="#2A1E16" stroke-width="3"></ellipse><path d="M18 72 L30 75 M19 80 L30 83" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round"></path></g>
+<g transform="rotate(-18 96 74)"><ellipse cx="96" cy="74" rx="13" ry="22" fill="#7C89A6" stroke="#2A1E16" stroke-width="3"></ellipse><path d="M90 75 L102 72 M90 83 L101 80" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round"></path></g>
+<ellipse cx="60" cy="75" rx="37" ry="32" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></ellipse>
+<ellipse cx="60" cy="84" rx="23" ry="19" fill="#D7DEEC"></ellipse>
+<path d="M30 58 Q60 76 90 58 L88 66 Q60 82 32 66 Z" fill="#33B683" stroke="#2A1E16" stroke-width="2.5" stroke-linejoin="round"></path>
+<path d="M36 65 Q60 79 84 65" fill="none" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"></path>
+<circle cx="60" cy="37" r="24" fill="#9AA7C2" stroke="#2A1E16" stroke-width="3"></circle>
+<circle cx="51" cy="35" r="6.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="51.5" cy="35" r="2.8" fill="#2A1E16"></circle>
+<circle cx="69" cy="35" r="6.5" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="68.5" cy="35" r="2.8" fill="#2A1E16"></circle>
+<ellipse cx="60" cy="42.5" rx="4" ry="2.4" fill="#F7F3EA" stroke="#2A1E16" stroke-width="1.5"></ellipse>
+<path d="M55 45 L65 45 L60 52 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2" stroke-linejoin="round"></path>
+<ellipse cx="43" cy="45" rx="4" ry="2.4" fill="#FF9AA8"></ellipse>
+<ellipse cx="77" cy="45" rx="4" ry="2.4" fill="#FF9AA8"></ellipse>
+</symbol>
+<symbol id="crown" viewBox="0 0 60 40">
+<path d="M7 35 L4 11 L18 22 L30 5 L42 22 L56 11 L53 35 Z" fill="#FFC93C" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M8 29 L52 29" fill="none" stroke="#2A1E16" stroke-width="2.5"></path>
+<circle cx="30" cy="5" r="3.6" fill="#FF5B3A" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="4" cy="11" r="3" fill="#59A7FF" stroke="#2A1E16" stroke-width="2"></circle>
+<circle cx="56" cy="11" r="3" fill="#59A7FF" stroke="#2A1E16" stroke-width="2"></circle>
+</symbol>
+<symbol id="hood-back" viewBox="0 0 120 120">
+<path d="M18 72 C5 74 3 92 11 102 C15 94 19 88 24 84 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M102 72 C115 74 117 92 109 102 C105 94 101 88 96 84 Z" fill="#7C89A6" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M60 12 C90 12 108 34 108 64 C108 94 88 114 60 114 C32 114 12 94 12 64 C12 34 30 12 60 12 Z" fill="#9AA7C2" stroke="#2A1E16" stroke-width="4"></path>
+</symbol>
+<symbol id="hood-front" viewBox="0 0 120 120">
+<circle cx="60" cy="72" r="28" fill="none" stroke="#2A1E16" stroke-width="4"></circle>
+<path d="M34 99 Q60 115 86 99 L88 106 Q60 121 32 106 Z" fill="#33B683" stroke="#2A1E16" stroke-width="3" stroke-linejoin="round"></path>
+<path d="M36 104 Q60 117 84 104" fill="none" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"></path>
+<circle cx="43" cy="33" r="7" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="43.5" cy="33" r="3" fill="#2A1E16"></circle>
+<circle cx="77" cy="33" r="7" fill="#FF8A3D" stroke="#2A1E16" stroke-width="2.5"></circle>
+<circle cx="76.5" cy="33" r="3" fill="#2A1E16"></circle>
+<ellipse cx="60" cy="38" rx="4.5" ry="2.6" fill="#F7F3EA" stroke="#2A1E16" stroke-width="1.6"></ellipse>
+<path d="M54 41 L66 41 L60 49 Z" fill="#4B4F5C" stroke="#2A1E16" stroke-width="2.2" stroke-linejoin="round"></path>
+</symbol>
+</defs>
+</svg>
+
+<div style="position: absolute; inset: 0; box-sizing: border-box; padding: 8px 16px 0; display: flex; flex-direction: column; gap: 12px">
+
+<div style="height: 44px; flex: none; display: flex; align-items: center; justify-content: space-between">
+<a href="Groups.dc.html" aria-label="返回群组列表" style="width: 40px; height: 40px; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 12px; background: #FFFFFF; box-shadow: 2px 2px 0 #2A1E16; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+</a>
+<span style="font-size: 16px; font-weight: 900">群组主页</span>
+<div aria-hidden="true" style="width: 87px; height: 32px; box-sizing: border-box; border: 1px solid rgba(42,30,22,0.25); border-radius: 16px; background: rgba(255,255,255,0.75); display: flex; align-items: center">
+<div style="flex: 1; display: flex; justify-content: center; gap: 3px"><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #2A1E16"></span></div>
+<div style="width: 1px; height: 18px; background: rgba(42,30,22,0.25)"></div>
+<div style="flex: 1; display: flex; justify-content: center"><span style="width: 15px; height: 15px; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%"></span></div>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 12px">
+<span aria-hidden="true" style="width: 62px; height: 62px; flex: none; box-sizing: border-box; border: 2.5px solid #2A1E16; border-radius: 18px; background: #BDEFD8; box-shadow: 3px 3px 0 #2A1E16; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"></path><path d="M9 21v-6h6v6M9 11h.01M15 11h.01"></path></svg></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 26px; line-height: 1.1">大学室友</span>
+<span style="font-size: 12px; color: #6B5B4E">8 人 · 群主 阿杰 · 北京时间</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<a href="Invite.dc.html" style="padding: 3px 10px; background: #FFC93C; border: 2px solid #2A1E16; border-radius: 10px; box-shadow: 2px 2px 0 #2A1E16; font-size: 12.5px; font-weight: 900; text-decoration: none; text-align: center">邀请好友</a>
+<a href="GroupSettings.dc.html" style="padding: 3px 10px; background: #FFFFFF; border: 2px solid #2A1E16; border-radius: 10px; font-size: 12.5px; font-weight: 900; text-decoration: none; text-align: center">群设置</a>
+</div>
+</div>
+
+<a href="Reveal.dc.html" style="flex: none; display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFC93C; border: 2.5px solid #2A1E16; border-radius: 18px; box-shadow: 3px 3px 0 #2A1E16; text-decoration: none">
+<div style="position: relative; width: 54px; height: 54px; flex: none">
+<svg width="54" height="54" viewBox="0 0 120 120" role="img" aria-label="小王戴着鸽子头套"><use href="#hood-back"></use><circle cx="60" cy="72" r="27" fill="#BFE0FF"></circle><text x="60" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="27" font-weight="900" fill="#2A1E16">王</text><use href="#hood-front"></use></svg>
+<svg width="20" height="14" viewBox="0 0 60 40" aria-hidden="true" style="position: absolute; left: 17px; top: -4px; animation: crownbob 2s ease-in-out infinite"><use href="#crown"></use></svg>
+</div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+<span style="font-size: 12px; font-weight: 900">本周鸽子王 · 头套戴到周日</span>
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 20px; line-height: 1.15">小王 · 鸽值 7</span>
+<span style="font-size: 12px">任务：下次局负责订位</span>
+</div>
+<span style="font-size: 13px; font-weight: 900">围观 ›</span>
+</a>
+
+<div role="tablist" style="flex: none; display: flex; padding: 3px; background: #FFFFFF; border: 2.5px solid #2A1E16; border-radius: 14px">
+<span role="tab" aria-selected="false" style="flex: 1; padding: 5px 0; border-radius: 10px; text-align: center; font-size: 14px; font-weight: 700; color: #6B5B4E">计划 3</span>
+<span role="tab" aria-selected="true" style="flex: 1; padding: 5px 0; border: 2px solid #2A1E16; border-radius: 10px; background: #FF5B3A; text-align: center; font-size: 14px; font-weight: 900">鸽榜</span>
+<span role="tab" aria-selected="false" style="flex: 1; padding: 5px 0; border-radius: 10px; text-align: center; font-size: 14px; font-weight: 700; color: #6B5B4E">成员 8</span>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; justify-content: space-between">
+<div style="display: flex; align-items: baseline; gap: 6px">
+<span style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 21px">本周鸽榜</span>
+<span style="font-size: 12px; color: #6B5B4E">10月19日–25日</span>
+</div>
+<span style="padding: 2px 9px; background: #DDEEFF; border: 2px solid #2A1E16; border-radius: 999px; font-size: 11.5px; font-weight: 900">4 天 21 小时后揭晓</span>
+</div>
+
+<div style="flex: none; background: #FFFFFF; border: 2.5px solid #2A1E16; border-radius: 20px; box-shadow: 4px 4px 0 #2A1E16; padding: 4px 14px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 2px dashed #E8DCC6">
+<span style="width: 26px; height: 26px; flex: none; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%; background: #FFC93C; display: flex; align-items: center; justify-content: center; font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 15px">1</span>
+<svg width="40" height="40" viewBox="0 0 60 60" role="img" aria-label="老陈" style="flex: none"><circle cx="30" cy="30" r="26" fill="#E4E1DA" stroke="#2A1E16" stroke-width="3.5"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="26" font-weight="900" fill="#2A1E16">陈</text></svg>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 6px"><span style="font-size: 14.5px; font-weight: 900">老陈</span><span style="padding: 0 6px; background: #FF5B3A; border: 1.5px solid #2A1E16; border-radius: 999px; font-size: 10.5px; font-weight: 900; line-height: 15px">领跑</span></div>
+<span style="font-size: 11.5px; color: #6B5B4E">鸽 1 次 · 周五火锅局（中鸽）</span>
+<div style="height: 8px; box-sizing: border-box; border: 1.5px solid #2A1E16; border-radius: 999px; background: #FFF4DF; overflow: hidden"><div style="width: 100%; height: 100%; background: #FF5B3A"></div></div>
+</div>
+<span style="flex: none; font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 24px">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 2px dashed #E8DCC6">
+<span style="width: 26px; height: 26px; flex: none; box-sizing: border-box; border: 2px solid #2A1E16; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 15px">2</span>
+<svg width="40" height="40" viewBox="0 0 60 60" role="img" aria-label="大壮" style="flex: none"><circle cx="30" cy="30" r="26" fill="#FFE59E" stroke="#2A1E16" stroke-width="3.5"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="26" font-weight="900" fill="#2A1E16">壮</text></svg>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 14.5px; font-weight: 900">大壮</span>
+<span style="font-size: 11.5px; color: #6B5B4E">鸽 1 次 · 周三奶茶局（小鸽）</span>
+<div style="height: 8px; box-sizing: border-box; border: 1.5px solid #2A1E16; border-radius: 999px; background: #FFF4DF; overflow: hidden"><div style="width: 50%; height: 100%; background: #FF5B3A"></div></div>
+</div>
+<span style="flex: none; font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 24px">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 0">
+<div aria-hidden="true" style="display: flex; flex: none">
+<svg width="24" height="24" viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#FFC7B8" stroke="#2A1E16" stroke-width="4"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">杰</text></svg>
+<svg width="24" height="24" viewBox="0 0 60 60" style="margin-left: -7px"><circle cx="30" cy="30" r="26" fill="#BDEFD8" stroke="#2A1E16" stroke-width="4"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">莉</text></svg>
+<svg width="24" height="24" viewBox="0 0 60 60" style="margin-left: -7px"><circle cx="30" cy="30" r="26" fill="#DCD3FF" stroke="#2A1E16" stroke-width="4"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">美</text></svg>
+<svg width="24" height="24" viewBox="0 0 60 60" style="margin-left: -7px"><circle cx="30" cy="30" r="26" fill="#BFE0FF" stroke="#2A1E16" stroke-width="4"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">王</text></svg>
+<svg width="24" height="24" viewBox="0 0 60 60" style="margin-left: -7px"><circle cx="30" cy="30" r="26" fill="#C9F2DE" stroke="#2A1E16" stroke-width="4"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">林</text></svg>
+<svg width="24" height="24" viewBox="0 0 60 60" style="margin-left: -7px"><circle cx="30" cy="30" r="26" fill="#FFE1D9" stroke="#2A1E16" stroke-width="4"></circle><text x="30" y="40" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="900" fill="#2A1E16">周</text></svg>
+</div>
+<span style="flex: 1; font-size: 13px; font-weight: 700">其余 6 人本周零鸽</span>
+<span style="font-size: 12px; font-weight: 900; color: #1F7A52">靠谱！</span>
+</div>
+</div>
+
+<div style="flex: none; display: flex; align-items: center; gap: 6px">
+<svg width="40" height="40" viewBox="0 0 120 120" aria-hidden="true"><use href="#gg"></use></svg>
+<span style="padding: 6px 12px; background: #FFFFFF; border: 2px solid #2A1E16; border-radius: 14px 14px 14px 4px; font-size: 12.5px; font-weight: 700">老陈暂时领跑，周日 24:00 前谁都可能后来居上</span>
+</div>
+
+<div style="flex: none; padding: 10px 14px 12px; background: #FFFFFF; border: 2.5px dashed #2A1E16; border-radius: 18px; display: flex; flex-direction: column; gap: 7px">
+<span style="font-size: 13.5px; font-weight: 900">鸽值怎么算？鸽得越晚分越高</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; font-size: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 9px; background: #FFF4DF; border: 2px solid #2A1E16; border-radius: 10px"><span>提前 3 天以上</span><span style="font-weight: 900">小鸽 +1</span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 9px; background: #FFF4DF; border: 2px solid #2A1E16; border-radius: 10px"><span>提前 1–3 天</span><span style="font-weight: 900">中鸽 +2</span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 9px; background: #FFF4DF; border: 2px solid #2A1E16; border-radius: 10px"><span>提前 2–24 小时</span><span style="font-weight: 900">大鸽 +3</span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 9px; background: #FFE1D9; border: 2px solid #2A1E16; border-radius: 10px"><span>不到 2 小时</span><span style="font-weight: 900">闪电鸽 +5</span></div>
+</div>
+<span style="font-size: 11.5px; color: #6B5B4E">用免鸽卡不计分，但照样通知全群；开始前回归，这次作废</span>
+</div>
+
+</div>
+
+<a href="CreatePlan.dc.html" style="position: absolute; right: 16px; bottom: 30px; display: flex; align-items: center; gap: 6px; padding: 12px 18px; background: #FF5B3A; border: 2.5px solid #2A1E16; border-radius: 999px; box-shadow: 3px 3px 0 #2A1E16; font-size: 15px; font-weight: 900; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A1E16" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+在本群发起
+</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
