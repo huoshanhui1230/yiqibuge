@@ -4,9 +4,9 @@
 
 ## 当前状态
 
-- **阶段**：第 0 步 · 搭工程 —— 已完成（2026-10-27）
+- **阶段**：第 0 步 · 搭工程 —— 已完成并全部验证过（2026-10-27）
 - **下一步**：阶段 1（主题、组件、登录、群组），见 `docs/prompts.md`
-- **没验证完的**：后端接口测试（`pnpm test:e2e`）和 `apps/server/Dockerfile` 都要 Docker 守护进程，当天本机 Docker Desktop 没开，没跑成。详见下面「第 0 步」的「没验证到的」。
+- **没有遗留**：接口测试和 Dockerfile 构建当天都补验通过了，见下面「第 0 步」的验证表。
 
 ---
 
@@ -73,18 +73,23 @@
 | H5 预览 | `pnpm dev:h5` | `http://localhost:5173` 打得开，显示 mock 档的 health 结果和「一起不鸽」 |
 | 截图 | `pnpm shots` | 三套主题各一张，贴纸风和清爽风视觉明显不同（底色、描边、投影、主按钮都变了），说明主题变量链路通了 |
 | 生产产物可用 | `pnpm --filter @yiqi/server deploy --prod` | 产物自带 `dist/`、`drizzle/` 和 `@yiqi/shared` 的 CJS+ESM，`require('@yiqi/shared')` 拿得到 `APP_NAME` |
+| 数据库迁移真跑 | `pnpm dev:db` + `pnpm migrate` | 建出 `app_meta` 和 `__drizzle_migrations`；库里 `@@global.time_zone` 和 `@@session.time_zone` 都是 `+00:00`，`updated_at` 落成 `datetime`，「时间一律存 UTC」在数据库层坐实了 |
+| 后端接口测试 | `pnpm test:e2e` | 2 个通过，连的是真 MySQL + Redis |
+| 全链路（真依赖） | `pnpm dev:server` + `curl /api/v1/health` | `{"ok":true,...,"deps":{"db":"up","redis":"up"}}` |
+| Worker 进程 | `node dist/worker.js` | 起得来，日志里 `ScheduleModule` 只在 worker 角色加载，`AppModule.forRole()` 的按角色装配生效 |
+| Dockerfile 构建 | `docker build -f apps/server/Dockerfile -t yiqi-server .` | 成功，镜像 364MB |
+| 镜像跑起来 | `docker run ... yiqi-server` | 配齐 `WECHAT_DRIVER=real` + 凭据时正常启动，容器里 `curl /api/v1/health` 返回 `ok:true`、`db:up`、`redis:up` |
+| 假开关防线（在正式镜像里） | 同上但 `WECHAT_DRIVER` 留默认 | 容器退出码 1，日志第二行就是中文原因「正式环境（NODE_ENV=production）不允许用微信能力的假实现…」 |
 
 **顺手修掉的两个问题**
 
 - ESLint 加了一条硬规则：禁止 `toLocaleDateString` / `toLocaleTimeString` / `Intl.DateTimeFormat`（`packages/shared/src/time/**` 除外），把 CLAUDE.md 的「不手写日期格式」变成 lint 不过。用探针文件验过会报错，而数字的 `toLocaleString` 不受影响（V1.1 记账要用）。
 - 统一错误返回原本会把 NestJS 自带的英文文案（`Cannot GET /x`）直接吐给用户，违反「message 用中文」。改成只认带中文的 message，其余换中文兜底，并补了 6 条单测。
 
-**没验证到的（要 Docker）**
+**补验时又修掉的两件事**
 
-当天本机 Docker Desktop 的守护进程没启动，下面两项没跑成，**开了 Docker 之后要补**：
-
-1. `pnpm dev:db` → `pnpm migrate` → `pnpm test:e2e`：接口测试要连真的 MySQL 和 Redis，跑通后 health 应该返回 `ok:true`、`db:up`、`redis:up`。
-2. `docker build -f apps/server/Dockerfile -t yiqi-server .`：Dockerfile **没有构建过**。里面最关键的 `pnpm --filter @yiqi/server deploy --prod /out` 那步已经在本机单独验过能用，但整份镜像没验。
+- **MySQL 容器端口从 3306 改成 3307**。本机装了 MySQL 服务占着 3306，容器起不来（`ports are not available`）。没去动已装的那个 MySQL，改成把容器映射到宿主机 3307；`docker-compose.yml` 和 `.env.example` 都跟着改了。换机器部署时注意这个端口不是默认值。
+- **`request_id` 只能是 ASCII**。接口测试里原本用了中文的 `req-测试-1`，Node 直接拒发：HTTP 头的值不允许非 Latin-1 字符。小程序端的 `newRequestId()` 生成的是 base36，天然没问题，已在代码注释和测试里写清楚。
 
 ---
 
