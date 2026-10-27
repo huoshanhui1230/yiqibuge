@@ -19,7 +19,10 @@ export const API_PREFIX = "/api/v1";
  */
 export const apiMode: ApiMode = __API_MODE__;
 
-/** 每个请求带一个 request_id：表态接口靠它做幂等，出错时也好对日志 */
+/**
+ * 每个请求带一个 request_id：表态接口靠它做幂等，出错时也好对日志。
+ * 只能是 ASCII —— HTTP 头的值不允许非 Latin-1 字符，带中文会直接发不出去。
+ */
 export function newRequestId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 }

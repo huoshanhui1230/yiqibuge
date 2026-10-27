@@ -51,15 +51,18 @@ describe("GET /api/v1/health", () => {
   });
 
   it("不存在的路径返回统一的中文错误格式", async () => {
+    // request_id 只能是 ASCII：HTTP 头的值不允许非 Latin-1 字符，Node 会直接拒发。
+    // 小程序端的 newRequestId() 生成的是 base36，天然符合。
     const response = await request(app.getHttpServer())
-      .get(`${prefix}/不存在的路径`)
-      .set("x-request-id", "req-测试-1")
+      .get(`${prefix}/no-such-path`)
+      .set("x-request-id", "req-test-1")
       .expect(404);
 
     expect(response.body).toMatchObject({
       code: "NOT_FOUND",
-      requestId: "req-测试-1",
+      requestId: "req-test-1",
     });
-    expect(typeof (response.body as { message: unknown }).message).toBe("string");
+    // message 一律中文，能直接显示给用户（NestJS 自带的英文文案会被换掉）
+    expect((response.body as { message: string }).message).toBe("找不到要看的内容。");
   });
 });
