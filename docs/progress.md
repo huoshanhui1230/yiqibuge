@@ -4,9 +4,8 @@
 
 ## 当前状态
 
-- **阶段**：第 0 步 · 搭工程 —— 已完成并全部验证过（2026-10-27）
-- **下一步**：阶段 1（主题、组件、登录、群组），见 `docs/prompts.md`
-- **没有遗留**：接口测试和 Dockerfile 构建当天都补验通过了，见下面「第 0 步」的验证表。
+- **阶段**：阶段 1 · 主题、组件、登录、群组 —— 进行中（2026-10-30 方案确认，决定见 `docs/decisions.md` 第 22–26 条）
+- **上一步**：第 0 步 · 搭工程，已完成并全部验证过（2026-10-27）
 
 ---
 
@@ -98,13 +97,14 @@
 按发现的顺序编号，解决后把结论写进 `docs/decisions.md` 并在这里划掉。
 
 1. **`PATCH` 发不出去（影响阶段 2）**。微信的 `wx.request` / `uni.request` 只认 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT，**没有 PATCH**。而 `docs/spec.md`「核心接口」写的是 `PATCH /plans/{id}`。要改成 `PUT /plans/{id}` 还是 `POST /plans/{id}/update`？阶段 2 做计划编辑前要定。现在 `apps/miniapp/src/request/types.ts` 的 `HttpMethod` 已经去掉了 PATCH。
+   - 阶段 1 的群设置已经用了 `PUT /circles/:id` 做部分更新（只传要改的字段），计划编辑可以照这个写法。
 2. ~~**多币种和 `circle.currency`（影响阶段 1）**~~ —— 已定，见 `docs/decisions.md` 第 20 条（2026-10-28）：**不建**，V1.1 做 AA 记账时再加。关键依据是「创建者所在地区」这个信号已经以 `circle.timezone` 存下来了，以后推得出来，没有信息损失。
-3. **主题 store 用什么（影响阶段 1）**。pinia 所有在用的版本都要 `vue ^3.5.11`，和 uni-app 锁的 Vue 3.4.21 对不上，所以第 0 步没装。主题 store 很小（当前主题 + 存到本地缓存），建议直接用 Vue 的 `ref` 写个 composable，不引 pinia；真要用 pinia 得先确认老版本能不能配 Vue 3.4。
-4. **token 里的 px 要不要换成 rpx（影响阶段 1）**。`.claude/rules/miniapp.md` 要求设计稿的 px 乘 750/390 换成 rpx。生成器现在按 tokens.json 原样输出 px —— 因为 `border` 和 `shadow` 的值是「2.5px solid #2A1E16」这种复合字符串，要解析里面的 px 才能换。阶段 1 做主题系统时定。
+3. ~~**主题 store 用什么（影响阶段 1）**~~ —— 已定（2026-10-30 阶段 1 方案）：用 Vue 的 `ref` 写成 composable（`apps/miniapp/src/theme/useTheme.ts`），不引入 pinia。
+4. ~~**token 里的 px 要不要换成 rpx（影响阶段 1）**~~ —— 已定（2026-10-30 阶段 1 方案）：生成器把复合值里的 px 也解析出来，乘 750/390 换成 rpx；1px 细线和 999px 胶囊圆角保持原样。H5 预览在 `pages.json` 里把 rpx 的计算宽度固定成 390，这样 1240 宽截 Main 时和设计稿是 1:1。
 5. ~~**原生导航栏用不了主题变量（影响阶段 1）**~~ —— 已定，见 `docs/decisions.md` 第 21 条（2026-10-28）：**全局 `navigationStyle: "custom"`**，顶部导航自己画成组件。查设计稿发现这其实没得选：25 个手机页面全都从 `top: 0` 开始、自绘 44px header、右上角留了胶囊位，根本没给原生导航栏留空间。三个实现坑（状态栏高度、胶囊实测位置、H5 没有胶囊）记在 `.claude/rules/miniapp.md`「顶部导航」。
 6. **云托管的身份请求头名字要按官方文档核对**。`apps/server/src/wechat/real/real-cloud-run-identity.ts` 和 `apps/miniapp/src/env.d.ts` 里按 `x-wx-openid` / `x-wx-from-openid` 写的，`.claude/rules/server.md` 要求「以微信云托管官方文档为准」，接云托管时核一遍。
-7. **字体还没接**。三套主题要「站酷快乐体」和「思源黑体」，现在只在 CSS 变量里写了字体名，没加载字体文件，H5 截图里是系统默认字体。阶段 1 要决定怎么引（小程序不能用网络字体 `@font-face` 加载本地文件要用 `wx.loadFontFace`）。
-8. **图片存储（影响阶段 1）**。`spec.md` 选型表写的是腾讯云 COS，`CLAUDE.md` 说第 1 阶段定。`.env.example` 里留了 `COS_BUCKET`、`COS_REGION` 占位。
+7. ~~**字体还没接**~~ —— 已定，见 `docs/decisions.md` 第 24 条（2026-10-30）：H5 预览从 Google Fonts 加载；小程序里正文用系统字体，快乐体运行时用 `uni.loadFontFace` 从云存储加载，失败就退回系统字体。
+8. ~~**图片存储（影响阶段 1）**~~ —— 已定，见 `docs/decisions.md` 第 23 条（2026-10-30）：微信云托管对象存储，库里存 `cloud://` 文件 ID。`.env.example` 里的 `COS_BUCKET`、`COS_REGION` 占位不再需要。
 9. **提审前要查的几项（阶段 5）**。
    - `apps/miniapp/src/manifest.json` 里 `mp-weixin.setting.urlCheck: false`（方便本地联调关掉域名校验），提审前确认要不要改回 true。
    - `mp-weixin.appid` 还空着，发版前要填真实的微信 AppID；顶层那个 `appid` 是 uni-app 自己生成的 DCloud 应用 ID，不是微信的，别搞混。
