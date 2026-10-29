@@ -13,6 +13,8 @@ const BLOCKED_WORDS = ["测试敏感词", "违规内容"];
 const SCENE_LABEL: Record<TextScene, string> = {
   circleName: "群名",
   nickname: "昵称",
+  groupNickname: "群昵称",
+  penaltyText: "鸽王任务卡",
   planTitle: "计划标题",
   planNote: "计划详情",
   flakeReason: "鸽了理由",

@@ -10,18 +10,27 @@ import type { CloudRunIdentityPort, RequestHeaders } from "../ports/cloud-run-id
  * 核对结论记进 docs/progress.md。
  */
 const OPENID_HEADERS = ["x-wx-openid", "x-wx-from-openid"] as const;
+const UNIONID_HEADERS = ["x-wx-unionid", "x-wx-from-unionid"] as const;
+
+function firstHeader(headers: RequestHeaders, names: readonly string[]): string | null {
+  for (const name of names) {
+    const raw = headers[name];
+    const value = (Array.isArray(raw) ? raw[0] : raw)?.trim();
+
+    if (value && value.length > 0) {
+      return value;
+    }
+  }
+
+  return null;
+}
 
 export class RealCloudRunIdentity implements CloudRunIdentityPort {
   openidFrom(headers: RequestHeaders): string | null {
-    for (const name of OPENID_HEADERS) {
-      const raw = headers[name];
-      const value = (Array.isArray(raw) ? raw[0] : raw)?.trim();
+    return firstHeader(headers, OPENID_HEADERS);
+  }
 
-      if (value && value.length > 0) {
-        return value;
-      }
-    }
-
-    return null;
+  unionidFrom(headers: RequestHeaders): string | null {
+    return firstHeader(headers, UNIONID_HEADERS);
   }
 }

@@ -17,4 +17,9 @@ export class FakeCloudRunIdentity implements CloudRunIdentityPort {
 
     return fromHeader && fromHeader.length > 0 ? fromHeader : this.env.FAKE_DEFAULT_OPENID;
   }
+
+  /** 假身份没有 unionid */
+  unionidFrom(_headers: RequestHeaders): string | null {
+    return null;
+  }
 }

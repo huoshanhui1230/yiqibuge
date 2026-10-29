@@ -79,6 +79,21 @@ function rawMessage(exception: unknown): string | null {
   return null;
 }
 
+/** 业务错误（BusinessError）自带的 code，形如 CIRCLE_FULL；没有或不合规就返回 null */
+function businessCode(exception: unknown): string | null {
+  if (!(exception instanceof HttpException)) {
+    return null;
+  }
+
+  const response = exception.getResponse();
+  if (typeof response !== "object" || response === null) {
+    return null;
+  }
+
+  const { code } = response as { code?: unknown };
+  return typeof code === "string" && /^[A-Z][A-Z_]*$/.test(code) ? code : null;
+}
+
 function messageOf(exception: unknown, status: number): string {
   const raw = rawMessage(exception);
 
@@ -102,7 +117,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const body: ApiError = {
-      code: CODE_BY_STATUS.get(status) ?? "INTERNAL_ERROR",
+      code: businessCode(exception) ?? CODE_BY_STATUS.get(status) ?? "INTERNAL_ERROR",
       message: messageOf(exception, status),
     };
 

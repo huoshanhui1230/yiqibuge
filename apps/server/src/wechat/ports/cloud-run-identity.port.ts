@@ -13,4 +13,6 @@ export type RequestHeaders = Record<string, string | string[] | undefined>;
 export interface CloudRunIdentityPort {
   /** 取不到身份时返回 null，由上层决定要不要 401 */
   openidFrom(headers: RequestHeaders): string | null;
+  /** 小程序绑了开放平台才有 unionid，没有就是 null（docs/decisions.md 第 22 条） */
+  unionidFrom(headers: RequestHeaders): string | null;
 }

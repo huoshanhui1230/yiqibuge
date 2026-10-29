@@ -2,11 +2,15 @@ import { Module, type DynamicModule } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import type { AppRole } from "@yiqi/shared";
 
+import { AuthModule } from "./auth/auth.module";
+import { CirclesModule } from "./circles/circles.module";
 import { AppConfigModule } from "./config/config.module";
 import { DbModule } from "./db/db.module";
+import { DevModule } from "./dev/dev.module";
 import { HealthModule } from "./health/health.module";
 import { QueueModule } from "./queue/queue.module";
 import { RedisModule } from "./redis/redis.module";
+import { UsersModule } from "./users/users.module";
 import { WechatModule } from "./wechat/wechat.module";
 
 /**
@@ -26,7 +30,11 @@ export class AppModule {
         RedisModule,
         QueueModule,
         WechatModule,
+        UsersModule,
+        AuthModule,
         HealthModule,
+        CirclesModule,
+        DevModule,
         ...(role === "worker" ? [ScheduleModule.forRoot()] : []),
       ],
     };

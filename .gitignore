@@ -6,6 +6,9 @@ coverage/
 # uni-app 产物
 unpackage/
 
+# 本地联调传的图（apps/server/.uploads），正式环境图片在云托管对象存储
+.uploads/
+
 # Playwright 截图：走查时现生成，不入库（设计稿基准图在 docs/design/png/，必须保留）
 .shots/
 
