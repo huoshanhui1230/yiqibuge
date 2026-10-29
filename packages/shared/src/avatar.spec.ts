@@ -35,8 +35,19 @@ describe("字母头像底色", () => {
 
 describe("字母头像上的字", () => {
   it("取名字的第一个字", () => {
-    expect(avatarLetter("阿杰")).toBe("阿");
+    expect(avatarLetter("莉莉")).toBe("莉");
     expect(avatarLetter("Amy")).toBe("A");
+  });
+
+  it("阿、小、老、大开头的昵称取第二个字（设计稿：阿杰写杰、小王写王）", () => {
+    expect(avatarLetter("阿杰")).toBe("杰");
+    expect(avatarLetter("小王")).toBe("王");
+    expect(avatarLetter("老陈")).toBe("陈");
+    expect(avatarLetter("大壮")).toBe("壮");
+  });
+
+  it("只有一个字的前缀本身照写", () => {
+    expect(avatarLetter("小")).toBe("小");
   });
 
   it("emoji 开头就用那个 emoji，不会切成半个", () => {
@@ -44,7 +55,8 @@ describe("字母头像上的字", () => {
   });
 
   it("先去掉首尾空白", () => {
-    expect(avatarLetter("  小王")).toBe("小");
+    expect(avatarLetter("  莉莉")).toBe("莉");
+    expect(avatarLetter("  小王")).toBe("王");
   });
 
   it("空名字用「?」", () => {

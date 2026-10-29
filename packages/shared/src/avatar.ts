@@ -18,9 +18,19 @@ export function avatarColorIndex(userId: string): number {
   return hash % AVATAR_PALETTE_SIZE;
 }
 
-/** 字母头像上的字：取名字的第一个字（emoji 也算一个字），名字是空的就用「?」 */
+/** 昵称前面常见的称呼前缀：阿杰、小王、老陈、大壮，设计稿的头像上写的是杰、王、陈、壮 */
+const NICKNAME_PREFIXES = new Set(["阿", "小", "老", "大"]);
+
+/**
+ * 字母头像上的字：取名字的第一个字（emoji 也算一个字）；
+ * 第一个字是阿、小、老、大这类称呼前缀、后面还有字时，取第二个字。名字是空的就用「?」。
+ */
 export function avatarLetter(name: string): string {
-  const [first] = Array.from(trimText(name));
+  const [first, second] = Array.from(trimText(name));
+
+  if (first && second && NICKNAME_PREFIXES.has(first)) {
+    return second;
+  }
 
   return first ?? "?";
 }
