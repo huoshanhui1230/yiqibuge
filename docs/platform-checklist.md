@@ -9,6 +9,38 @@
 - [ ] **开通微信云托管**，和小程序关联。小程序用 `wx.cloud.callContainer` 调后端时，不用在小程序后台配置服务器域名，后端也能直接拿到用户的 openid。
   - 这样首版可以先不买自己的域名、不做域名备案。方案里写的是「自建后端的域名要 ICP 备案」，二选一，开工前定下来，告诉 Claude Code。
 
+## 部署到微信云托管（后端）
+
+在云托管「服务管理 → 新建服务」里建，**不要用它首页那些「免费快速部署」模板**——那些是空白脚手架，我们自己有 `Dockerfile`。
+
+选择代码这一步：
+
+| 字段 | 填什么 |
+| --- | --- |
+| 选择方式 | 绑定 GitHub 仓库（本仓库是公开的，不用 CLI） |
+| 分支 | `main` |
+| 端口 | `3000` |
+| 目标目录 | **留空**（就是仓库根） |
+| Dockerfile 文件 / 名称 | 有 / `Dockerfile` |
+
+目标目录必须留空。`Dockerfile` 放在仓库根就是为了这个：构建上下文要包含 `pnpm-workspace.yaml`、`pnpm-lock.yaml` 和 `packages/shared`，而云托管要求 Dockerfile 与目标目录同级。填成 `apps/server` 会在 `pnpm install --frozen-lockfile` 那步失败。
+
+环境变量（不填服务起不来，后端有启动断言）：
+
+```
+DATABASE_URL=mysql://<用户>:<密码>@<内网地址>:3306/yiqibuge?timezone=Z
+REDIS_URL=redis://<内网地址>:6379
+WECHAT_DRIVER=real
+WX_APPID=wx...
+WX_APP_SECRET=...
+```
+
+- `NODE_ENV=production`、`APP_ROLE=web`、`PORT=3000` 已经写在 Dockerfile 里，不用再填。
+- `WECHAT_DRIVER` 必须是 `real`：配成 `fake` 时后端会拒绝启动（防止假数据开关漏进正式版）。
+- MySQL 和 Redis 要先在云托管后台开通，拿内网地址。只想先验证镜像能不能跑通的话，这两个填占位值也能启动，`GET /api/v1/health` 会返回 `ok:false` 加 `db:down`、`redis:down`，服务本身是活的。
+
+Worker 以后部署成**第二个服务**，同一个镜像，启动命令改成 `node dist/worker.js`、环境变量 `APP_ROLE=worker`。
+
 ## 开发期间办
 - [ ] **订阅消息模板**：按 docs/spec.md「通知矩阵」和「订阅消息额度策略」，在公众平台的订阅消息里挑一次性订阅模板，记下模板 ID 交给开发。个人主体只能用一次性订阅。
 - [ ] **用户隐私保护指引**：在小程序后台填写，把用到的接口（选择位置、头像昵称、保存图片到相册等）全部声明。

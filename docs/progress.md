@@ -76,7 +76,7 @@
 | 后端接口测试 | `pnpm test:e2e` | 2 个通过，连的是真 MySQL + Redis |
 | 全链路（真依赖） | `pnpm dev:server` + `curl /api/v1/health` | `{"ok":true,...,"deps":{"db":"up","redis":"up"}}` |
 | Worker 进程 | `node dist/worker.js` | 起得来，日志里 `ScheduleModule` 只在 worker 角色加载，`AppModule.forRole()` 的按角色装配生效 |
-| Dockerfile 构建 | `docker build -f apps/server/Dockerfile -t yiqi-server .` | 成功，镜像 364MB |
+| Dockerfile 构建 | `docker build -t yiqi-server .` | 成功，镜像 364MB（当时 Dockerfile 还在 `apps/server/`，2026-10-30 为适配云托管挪到了仓库根，构建上下文和指令都没变） |
 | 镜像跑起来 | `docker run ... yiqi-server` | 配齐 `WECHAT_DRIVER=real` + 凭据时正常启动，容器里 `curl /api/v1/health` 返回 `ok:true`、`db:up`、`redis:up` |
 | 假开关防线（在正式镜像里） | 同上但 `WECHAT_DRIVER` 留默认 | 容器退出码 1，日志第二行就是中文原因「正式环境（NODE_ENV=production）不允许用微信能力的假实现…」 |
 
