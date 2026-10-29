@@ -34,6 +34,7 @@ export default tseslint.config(
       "docs/design/**",
       "apps/miniapp/src/styles/themes.css",
       "apps/miniapp/src/theme/theme-meta.generated.ts",
+      "apps/miniapp/src/theme/illustrations.generated.ts",
     ],
   },
 

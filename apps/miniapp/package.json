@@ -10,6 +10,7 @@
     "build:mp-weixin": "uni build -p mp-weixin",
     "build:h5": "uni build",
     "gen:theme": "tsx scripts/gen-theme-css.ts",
+    "gen:art": "tsx scripts/extract-illustrations.ts && tsx scripts/gen-icons.ts",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"

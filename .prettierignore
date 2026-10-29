@@ -13,4 +13,5 @@ docs/
 apps/miniapp/src/styles/themes.css
 apps/miniapp/src/styles/icons.css
 apps/miniapp/src/theme/theme-meta.generated.ts
+apps/miniapp/src/theme/illustrations.generated.ts
 apps/miniapp/src/static/themes/
