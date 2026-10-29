@@ -91,6 +91,9 @@ page,
   --yq-tab-pill: #FF5B3A;
   --yq-tab-center-bg: #FF5B3A;
   --yq-tab-center-fg: #2A1E16;
+  --yq-segment-active-bg: #FF5B3A;
+  --yq-color-scrim: rgba(42,30,22,0.5);
+  --yq-color-grabber: #D9CCB8;
   --yq-border-card: 4.81rpx solid #2A1E16;
   --yq-border-button: 4.81rpx solid #2A1E16;
   --yq-border-chip: 3.85rpx solid #2A1E16;
@@ -104,6 +107,7 @@ page,
   --yq-border-band: 4.81rpx solid #2A1E16;
   --yq-border-row: 3.85rpx dashed #E8DCC6;
   --yq-border-row-king: 3.85rpx dashed #E8D29A;
+  --yq-border-sheet: 5.77rpx solid #2A1E16;
   --yq-radius-card: 38.46rpx;
   --yq-radius-button: 26.92rpx;
   --yq-radius-chip: 999px;
@@ -121,6 +125,7 @@ page,
   --yq-radius-tabbar: 0px;
   --yq-radius-tab-center: 50%;
   --yq-radius-tab-pill: 999px;
+  --yq-radius-sheet: 50rpx;
   --yq-shadow-card: 7.69rpx 7.69rpx 0 #2A1E16;
   --yq-shadow-icon-button: 3.85rpx 3.85rpx 0 #2A1E16;
   --yq-shadow-surface-sm: 3.85rpx 3.85rpx 0 #2A1E16;
@@ -132,6 +137,7 @@ page,
   --yq-shadow-selected: 9.62rpx 9.62rpx 0 #FF5B3A;
   --yq-shadow-tabbar: none;
   --yq-shadow-tab-center: 5.77rpx 5.77rpx 0 #2A1E16;
+  --yq-shadow-segment-active: none;
   --yq-shadow-primary-sm: 3.85rpx 3.85rpx 0 #2A1E16;
   --yq-shadow-primary-md: 5.77rpx 5.77rpx 0 #2A1E16;
   --yq-shadow-primary-lg: 7.69rpx 7.69rpx 0 #2A1E16;
@@ -266,6 +272,9 @@ page,
   --yq-tab-pill: #FFD3DD;
   --yq-tab-center-bg: #FF9EB5;
   --yq-tab-center-fg: #4A3228;
+  --yq-segment-active-bg: #FF9EB5;
+  --yq-color-scrim: rgba(74,50,40,0.5);
+  --yq-color-grabber: #EAD3DA;
   --yq-border-card: 4.81rpx solid #6B4A3A;
   --yq-border-button: 4.81rpx solid #6B4A3A;
   --yq-border-chip: 3.85rpx solid #6B4A3A;
@@ -279,6 +288,7 @@ page,
   --yq-border-band: 4.81rpx solid #6B4A3A;
   --yq-border-row: 3.85rpx dashed #F6D5DD;
   --yq-border-row-king: 3.85rpx dashed #F3D9A0;
+  --yq-border-sheet: 5.77rpx solid #6B4A3A;
   --yq-radius-card: 46.15rpx;
   --yq-radius-button: 999px;
   --yq-radius-chip: 999px;
@@ -296,6 +306,7 @@ page,
   --yq-radius-tabbar: 59.62rpx;
   --yq-radius-tab-center: 50%;
   --yq-radius-tab-pill: 26.92rpx;
+  --yq-radius-sheet: 57.69rpx;
   --yq-shadow-card: 0 7.69rpx 0 #F4C2CE;
   --yq-shadow-icon-button: 0 5.77rpx 0 #F4C2CE;
   --yq-shadow-surface-sm: 0 5.77rpx 0 #F4C2CE;
@@ -307,6 +318,7 @@ page,
   --yq-shadow-selected: 0 9.62rpx 0 #E2708E;
   --yq-shadow-tabbar: 0 7.69rpx 0 #F4C2CE;
   --yq-shadow-tab-center: 0 7.69rpx 0 #E2708E;
+  --yq-shadow-segment-active: none;
   --yq-shadow-primary-sm: 0 5.77rpx 0 #E2708E;
   --yq-shadow-primary-md: 0 5.77rpx 0 #E2708E;
   --yq-shadow-primary-lg: 0 7.69rpx 0 #E2708E;
@@ -441,6 +453,9 @@ page,
   --yq-tab-pill: transparent;
   --yq-tab-center-bg: #1C1B19;
   --yq-tab-center-fg: #FFFFFF;
+  --yq-segment-active-bg: #FFFFFF;
+  --yq-color-scrim: rgba(28,27,25,0.40);
+  --yq-color-grabber: #E3E0DA;
   --yq-border-card: none;
   --yq-border-button: none;
   --yq-border-chip: none;
@@ -454,6 +469,7 @@ page,
   --yq-border-band: 1px solid #ECE9E4;
   --yq-border-row: 1px solid #EFECE7;
   --yq-border-row-king: 1px solid #EFECE7;
+  --yq-border-sheet: 1px solid #ECE9E4;
   --yq-radius-card: 30.77rpx;
   --yq-radius-button: 23.08rpx;
   --yq-radius-chip: 999px;
@@ -471,6 +487,7 @@ page,
   --yq-radius-tabbar: 0px;
   --yq-radius-tab-center: 26.92rpx;
   --yq-radius-tab-pill: 0px;
+  --yq-radius-sheet: 39.42rpx;
   --yq-shadow-card: 0 1px 3.85rpx rgba(28,27,25,0.04), 0 11.54rpx 38.46rpx rgba(28,27,25,0.05);
   --yq-shadow-icon-button: 0 1px 3.85rpx rgba(28,27,25,0.06), 0 3.85rpx 15.38rpx rgba(28,27,25,0.06);
   --yq-shadow-surface-sm: 0 1px 3.85rpx rgba(28,27,25,0.04), 0 11.54rpx 38.46rpx rgba(28,27,25,0.05);
@@ -482,6 +499,7 @@ page,
   --yq-shadow-selected: 0 0 0 3.85rpx #D6391D, 0 11.54rpx 38.46rpx rgba(28,27,25,0.06);
   --yq-shadow-tabbar: none;
   --yq-shadow-tab-center: none;
+  --yq-shadow-segment-active: 0 1px 5.77rpx rgba(28,27,25,0.12);
   --yq-shadow-primary-sm: none;
   --yq-shadow-primary-md: none;
   --yq-shadow-primary-lg: none;

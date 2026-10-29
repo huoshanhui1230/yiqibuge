@@ -10,10 +10,16 @@ export interface ShotTarget {
   name: string;
   /** H5 预览里的路由，和 apps/miniapp/src/pages.json 对应 */
   route: string;
+  /** 路由参数，例如 "id=c-dorm&tab=board"（H5 预览走假数据，id 是 src/mocks 里的） */
+  query?: string;
+  /** 不传就是手机尺寸；风格说明板 Main 是 1240 宽 */
+  viewport?: { width: number; height: number };
 }
 
 /**
- * 要截的页面。
- * 第 0 步只有首页；阶段 1 起每做完一个页面就往这里加一行，/design-check 才截得到。
+ * 要截的页面。每做完一个页面就往这里加一行，/design-check 才截得到。
+ * 只截其中几个：pnpm shots Main GroupHome
  */
-export const TARGETS: ShotTarget[] = [{ name: "Index", route: "/pages/index/index" }];
+export const TARGETS: ShotTarget[] = [
+  { name: "Main", route: "/pages/dev/components", viewport: { width: 1240, height: 844 } },
+];

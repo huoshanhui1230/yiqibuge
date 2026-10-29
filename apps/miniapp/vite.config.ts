@@ -3,6 +3,8 @@ import { resolve } from "node:path";
 import uni from "@dcloudio/vite-plugin-uni";
 import { defineConfig, loadEnv } from "vite";
 
+import { pxToRpxPlugin } from "./scripts/postcss-px-to-rpx";
+
 /**
  * 请求层的三档在编译期定下来（运行时读 __API_MODE__）：
  *   H5 预览 → mock（只在开发时用，走假数据，方便截图对照设计稿）
@@ -24,14 +26,21 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
   const platform = process.env.UNI_PLATFORM ?? "h5";
   const apiMode = resolveApiMode(mode, platform, env.VITE_API_MODE);
+  const srcDir = resolve(import.meta.dirname, "src");
 
   return {
     plugins: [uni()],
     define: {
       __API_MODE__: JSON.stringify(apiMode),
     },
+    css: {
+      postcss: {
+        // 组件样式按设计稿写 px，构建时换成 rpx（见 scripts/postcss-px-to-rpx.ts）
+        plugins: [pxToRpxPlugin(srcDir)],
+      },
+    },
     resolve: {
-      alias: { "@": resolve(import.meta.dirname, "src") },
+      alias: { "@": srcDir },
     },
     server: {
       port: 5173,

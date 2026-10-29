@@ -1,7 +1,7 @@
 /**
  * 给 H5 预览截图，三套主题各一张，供 /design-check 对照设计稿。
  *
- * 跑：pnpm shots（要先 pnpm dev:h5 把预览起起来）
+ * 跑：pnpm shots（要先 pnpm dev:h5 把预览起起来）；只截其中几个：pnpm shots Main GroupHome
  * 第一次用先装浏览器：pnpm -F @yiqi/tools-shots install:browser
  *
  * 产物在 .shots/<主题>/<页面>.png，不入库——走查时现生成，
@@ -17,39 +17,58 @@ import { TARGETS, THEMES, VIEWPORT, type Theme } from "./shots.config";
 const BASE_URL = process.env.SHOTS_BASE_URL ?? "http://localhost:5173";
 const OUT_DIR = resolve(import.meta.dirname, "../../.shots");
 
-/**
- * 切主题：给页面根节点换掉 yq-theme-* 类。
- * 阶段 1 接了主题 store 之后改成走 store，现在直接改 class 就够截图用。
- */
+/** 切主题走主题 store（H5 开发模式下挂在 window 上的钩子），和用户点「换成软糖风」是同一条路 */
 async function applyTheme(page: Page, theme: Theme): Promise<void> {
-  await page.evaluate((name) => {
-    for (const element of document.querySelectorAll('[class*="yq-theme-"]')) {
-      element.className = element.className.replace(/yq-theme-[a-z]+/g, `yq-theme-${name}`);
-    }
+  const ok = await page.evaluate((name) => {
+    const setTheme = (window as unknown as { __yqSetTheme?: (theme: string) => void }).__yqSetTheme;
+    if (!setTheme) return false;
+    setTheme(name);
+    return true;
   }, theme);
+
+  if (!ok) {
+    throw new Error("页面上没有 __yqSetTheme：确认是 pnpm dev:h5 起的开发模式预览");
+  }
+}
+
+/** 等字体和插画都加载完：主题一换，插画的地址就变了 */
+async function settle(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+  });
+  await page.waitForFunction(() => Array.from(document.images).every((img) => img.complete));
+  await page.waitForTimeout(250);
 }
 
 async function main(): Promise<void> {
+  const wanted = process.argv.slice(2);
+  const targets = wanted.length > 0 ? TARGETS.filter((t) => wanted.includes(t.name)) : TARGETS;
+
+  if (targets.length === 0) {
+    throw new Error(`shots.config.ts 里没有 ${wanted.join("、")}，先在 TARGETS 里加一行`);
+  }
+
   const browser = await chromium.launch();
 
   try {
-    const context = await browser.newContext({
-      viewport: VIEWPORT,
-      // 设计稿截图是 1 倍图，这里也用 1 倍，方便逐像素对照
-      deviceScaleFactor: 1,
-    });
-    const page = await context.newPage();
     const written: string[] = [];
 
-    for (const target of TARGETS) {
+    for (const target of targets) {
+      const context = await browser.newContext({
+        viewport: target.viewport ?? VIEWPORT,
+        // 设计稿截图是 1 倍图，这里也用 1 倍，方便逐像素对照
+        deviceScaleFactor: 1,
+      });
+      const page = await context.newPage();
+      const query = target.query ? `?${target.query}` : "";
+
       // uni-app 的 H5 默认走 hash 路由
-      await page.goto(`${BASE_URL}/#${target.route}`, { waitUntil: "networkidle" });
-      // 等首屏渲染和入场动效落定
-      await page.waitForTimeout(400);
+      await page.goto(`${BASE_URL}/#${target.route}${query}`, { waitUntil: "networkidle" });
+      await settle(page);
 
       for (const theme of THEMES) {
         await applyTheme(page, theme);
-        await page.waitForTimeout(100);
+        await settle(page);
 
         const dir = resolve(OUT_DIR, theme);
         mkdirSync(dir, { recursive: true });
@@ -58,6 +77,8 @@ async function main(): Promise<void> {
         await page.screenshot({ path: file });
         written.push(file);
       }
+
+      await context.close();
     }
 
     console.log(`截了 ${written.length} 张：`);

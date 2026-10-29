@@ -1,14 +1,22 @@
 {
   "pages": [
     {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "一起不鸽"
-      }
+      "path": "pages/dev/components",
+      "style": { "navigationBarTitleText": "组件演示" }
+    },
+    {
+      "path": "pages/dev/health",
+      "style": { "navigationBarTitleText": "后端健康检查" }
     }
   ],
   "globalStyle": {
+    "navigationStyle": "custom",
     "navigationBarTitleText": "一起不鸽",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFF4DF",
+    // 下面两项只影响 H5 预览：窗口比 390 宽时也按 390 宽算 rpx，
+    // 这样按 1240 宽截风格说明板（设计稿 Main）时，设计稿的 px 和页面是 1:1
+    "rpxCalcMaxDeviceWidth": 390,
+    "rpxCalcBaseDeviceWidth": 390
   }
 }

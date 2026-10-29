@@ -276,6 +276,9 @@ const ROLES: Role[] = [
   { name: "tab-pill", from: color("color.tabActivePill") },
   { name: "tab-center-bg", from: color("color.tabCenter") },
   { name: "tab-center-fg", from: color("color.onTabCenter") },
+  { name: "segment-active-bg", from: color("color.segmentActive") },
+  { name: "color-scrim", from: color("color.scrim") },
+  { name: "color-grabber", from: color("color.grabber") },
 
   // ---- 描边 ----
   ...[
@@ -292,6 +295,7 @@ const ROLES: Role[] = [
     "band",
     "row",
     "rowKing",
+    "sheet",
   ].map((key) => ({ name: `border-${kebab(key)}`, from: length(`border.${key}`) })),
 
   // ---- 圆角 ----
@@ -313,6 +317,7 @@ const ROLES: Role[] = [
     "tabbar",
     "tabCenter",
     "tabPill",
+    "sheet",
   ].map((key) => ({ name: `radius-${kebab(key)}`, from: length(`radius.${key}`) })),
 
   // ---- 投影 ----
@@ -327,6 +332,7 @@ const ROLES: Role[] = [
   { name: "shadow-selected", from: length("shadow.selected") },
   { name: "shadow-tabbar", from: length("shadow.tabbar") },
   { name: "shadow-tab-center", from: length("shadow.tabCenter") },
+  { name: "shadow-segment-active", from: length("shadow.segmentActive") },
   ...SHADOW_TONES.flatMap((tone) =>
     (Object.entries(CONTROL_SHADOWS) as [string, string][]).map(([size, path]) => ({
       name: `shadow-${tone}-${size}`,
