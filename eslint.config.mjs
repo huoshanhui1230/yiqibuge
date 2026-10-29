@@ -33,6 +33,7 @@ export default tseslint.config(
       ".shots/**",
       "docs/design/**",
       "apps/miniapp/src/styles/themes.css",
+      "apps/miniapp/src/theme/theme-meta.generated.ts",
     ],
   },
 

@@ -7,6 +7,16 @@
       content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
     />
     <title>一起不鸽 · H5 预览</title>
+    <!--
+      H5 预览只在开发时用来对照设计稿截图，字体和设计稿 HTML 一样从 Google Fonts 加载
+      （docs/decisions.md 第 24 条）。小程序里不走这里：快乐体运行时用 uni.loadFontFace 加载。
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+KuaiLe&display=swap"
+    />
   </head>
   <body>
     <div id="app"></div>

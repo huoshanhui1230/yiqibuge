@@ -9,5 +9,8 @@ pnpm-lock.yaml
 docs/
 *.md
 
-# 由 tokens.json 生成
+# 由 tokens.json 和设计稿生成
 apps/miniapp/src/styles/themes.css
+apps/miniapp/src/styles/icons.css
+apps/miniapp/src/theme/theme-meta.generated.ts
+apps/miniapp/src/static/themes/
