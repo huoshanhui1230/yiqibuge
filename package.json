@@ -13,6 +13,7 @@
     "dev:db": "docker compose up -d",
     "dev:db:down": "docker compose down",
     "dev:db:reset": "docker compose down -v && docker compose up -d",
+    "dev:db:test-init": "docker exec -i yiqi-mysql mysql -uroot -proot < docker/mysql-init/01-test-db.sql",
     "migrate": "pnpm -F @yiqi/server db:migrate",
     "migrate:gen": "pnpm -F @yiqi/server db:generate",
     "dev:server": "pnpm -F @yiqi/server start:dev",

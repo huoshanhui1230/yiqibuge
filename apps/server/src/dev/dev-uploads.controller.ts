@@ -81,16 +81,18 @@ export class DevUploadsController {
   @Get("files/:name")
   async file(
     @Param("name") name: string,
-    @Res() response: { sendFile(path: string): void },
+    @Res() response: { sendFile(path: string, options: { root: string }): void },
   ): Promise<void> {
     this.onlyInFakeDriver();
 
-    const path = join(UPLOAD_DIR, name);
-    const exists = /^[A-Za-z0-9._-]+$/.test(name) && (await stat(path).catch(() => null))?.isFile();
+    const exists =
+      /^[A-Za-z0-9._-]+$/.test(name) &&
+      (await stat(join(UPLOAD_DIR, name)).catch(() => null))?.isFile();
     if (!exists) {
       throw new NotFoundException();
     }
 
-    response.sendFile(path);
+    // 用 root：目录名 .uploads 以点开头，直接给全路径时 Express 当隐藏文件不发；root 也挡住了 ../ 越界
+    response.sendFile(name, { root: UPLOAD_DIR });
   }
 }

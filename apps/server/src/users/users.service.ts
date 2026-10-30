@@ -13,13 +13,9 @@ import { Errors } from "../common/business-error";
 import { ensureCleanText, isAllowedImageUrl } from "../common/content";
 import { ENV, type Env } from "../config/env";
 import { DB, type Db } from "../db/db.module";
+import { isDuplicateKey } from "../db/errors";
 import { appUser, type AppUser } from "../db/schema";
 import { CONTENT_SECURITY, type ContentSecurityPort } from "../wechat/ports";
-
-/** MySQL 唯一键冲突 */
-function isDuplicateKey(error: unknown): boolean {
-  return (error as { code?: string } | null)?.code === "ER_DUP_ENTRY";
-}
 
 export function toMeDto(user: AppUser): MeDto {
   return {

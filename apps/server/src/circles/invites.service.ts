@@ -16,15 +16,12 @@ import { and, eq } from "drizzle-orm";
 
 import { Errors } from "../common/business-error";
 import { parseId } from "../common/ids";
+import { isDuplicateKey } from "../db/errors";
 import { circle, circleJoinRequest, type AppUser, type Circle } from "../db/schema";
 import { briefOf, CircleStore } from "./circle-store";
 
 /** 换邀请码撞上别的群正在用的码，最多重来几次（30^6 个码，几乎撞不上） */
 const MAX_CODE_ATTEMPTS = 5;
-
-function isDuplicateKey(error: unknown): boolean {
-  return (error as { code?: string } | null)?.code === "ER_DUP_ENTRY";
-}
 
 /** 加入落地页要的东西都在这一页的空结果里先定好形状，阶段 2、3 再往里填统计和计划 */
 const EMPTY_STATS = { plansThisMonth: 0, formedThisMonth: 0, longestPeaceStreak: 0 };

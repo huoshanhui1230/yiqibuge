@@ -34,9 +34,7 @@
       "compositePrimaryKeys": {
         "app_meta_k": {
           "name": "app_meta_k",
-          "columns": [
-            "k"
-          ]
+          "columns": ["k"]
         }
       },
       "uniqueConstraints": {},
@@ -144,9 +142,7 @@
       "indexes": {
         "idx_app_user_unionid": {
           "name": "idx_app_user_unionid",
-          "columns": [
-            "unionid"
-          ],
+          "columns": ["unionid"],
           "isUnique": false
         }
       },
@@ -154,17 +150,13 @@
       "compositePrimaryKeys": {
         "app_user_id": {
           "name": "app_user_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "uk_app_user_openid": {
           "name": "uk_app_user_openid",
-          "columns": [
-            "openid"
-          ]
+          "columns": ["openid"]
         }
       },
       "checkConstraint": {}
@@ -300,9 +292,7 @@
       "indexes": {
         "idx_circle_owner": {
           "name": "idx_circle_owner",
-          "columns": [
-            "owner_id"
-          ],
+          "columns": ["owner_id"],
           "isUnique": false
         }
       },
@@ -310,23 +300,17 @@
       "compositePrimaryKeys": {
         "circle_id": {
           "name": "circle_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "uk_circle_invite_token": {
           "name": "uk_circle_invite_token",
-          "columns": [
-            "invite_token"
-          ]
+          "columns": ["invite_token"]
         },
         "uk_circle_invite_code": {
           "name": "uk_circle_invite_code",
-          "columns": [
-            "invite_code"
-          ]
+          "columns": ["invite_code"]
         }
       },
       "checkConstraint": {}
@@ -381,10 +365,7 @@
       "indexes": {
         "idx_circle_join_request_status": {
           "name": "idx_circle_join_request_status",
-          "columns": [
-            "circle_id",
-            "status"
-          ],
+          "columns": ["circle_id", "status"],
           "isUnique": false
         }
       },
@@ -392,10 +373,7 @@
       "compositePrimaryKeys": {
         "pk_circle_join_request": {
           "name": "pk_circle_join_request",
-          "columns": [
-            "circle_id",
-            "user_id"
-          ]
+          "columns": ["circle_id", "user_id"]
         }
       },
       "uniqueConstraints": {},
@@ -474,18 +452,12 @@
       "indexes": {
         "idx_circle_member_user": {
           "name": "idx_circle_member_user",
-          "columns": [
-            "user_id",
-            "status"
-          ],
+          "columns": ["user_id", "status"],
           "isUnique": false
         },
         "idx_circle_member_circle": {
           "name": "idx_circle_member_circle",
-          "columns": [
-            "circle_id",
-            "status"
-          ],
+          "columns": ["circle_id", "status"],
           "isUnique": false
         }
       },
@@ -493,10 +465,7 @@
       "compositePrimaryKeys": {
         "pk_circle_member": {
           "name": "pk_circle_member",
-          "columns": [
-            "circle_id",
-            "user_id"
-          ]
+          "columns": ["circle_id", "user_id"]
         }
       },
       "uniqueConstraints": {},

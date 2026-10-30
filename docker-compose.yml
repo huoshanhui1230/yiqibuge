@@ -23,6 +23,8 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      # 第一次建数据卷时自动建接口测试用的 yiqibuge_test 库（已有的容器跑一次 pnpm dev:db:test-init）
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
       interval: 5s
