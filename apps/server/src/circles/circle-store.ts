@@ -175,6 +175,31 @@ export class CircleStore {
     return { circle: found, member };
   }
 
+  /**
+   * 事务里锁住群那一行（SELECT … FOR UPDATE），再重新查一遍我在不在群里。
+   * 退群、移出、转让、解散、审核都走这里：和加入、彼此之间都串行，读到的是最新状态，
+   * 不会出现「转让给正在退群的人」这种没有群主的群。检查和 requireMember 一样。
+   */
+  async lockForMember(
+    circleId: number | null,
+    userId: number,
+    tx: Db,
+  ): Promise<{ circle: Circle; member: CircleMember }> {
+    if (circleId === null) throw Errors.circleNotFound();
+
+    const found = await this.lockCircle(circleId, tx);
+    const member = found ? await this.membership(circleId, userId, tx) : undefined;
+
+    if (!found || !member || member.status !== "active") {
+      throw Errors.circleNotFound();
+    }
+    if (found.status === "dissolved") {
+      throw Errors.circleDissolved();
+    }
+
+    return { circle: found, member };
+  }
+
   async requireOwner(
     circleId: number | null,
     userId: number,

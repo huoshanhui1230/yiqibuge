@@ -314,6 +314,42 @@ describe("群组：邀请和加入", () => {
     expect(list.body).toEqual([]);
 
     const preview = await api.as("e2e_c").get(`/invites/preview?code=${got.code}`).expect(200);
-    expect((preview.body as InvitePreviewDto).status).toBe("dissolved");
+    // 解散了只说「已解散」：群名、成员、发卡人都不再给拿着旧邀请的人看
+    expect(preview.body as InvitePreviewDto).toMatchObject({
+      status: "dissolved",
+      circle: null,
+      inviter: null,
+    });
+  });
+
+  it("审核开着时申请过、后来群主关了审核：落地页能直接加入，加了申请也不再挂着", async () => {
+    const got = await invite();
+    await api.as("e2e_owner").put(`/circles/${circleId}`, { needApproval: true }).expect(200);
+    const first = await api.as("e2e_b").post("/circles/join", { code: got.code }).expect(200);
+    expect((first.body as JoinResult).status).toBe("pending");
+
+    await api.as("e2e_owner").put(`/circles/${circleId}`, { needApproval: false }).expect(200);
+
+    const preview = await api.as("e2e_b").get(`/invites/preview?code=${got.code}`).expect(200);
+    expect((preview.body as InvitePreviewDto).status).toBe("ok");
+    const joined = await api.as("e2e_b").post("/circles/join", { code: got.code }).expect(200);
+    expect((joined.body as JoinResult).status).toBe("joined");
+
+    const ownerView = await api.as("e2e_owner").get(`/circles/${circleId}/members`).expect(200);
+    expect((ownerView.body as MembersResult).pending).toEqual([]);
+    const detail = await api.as("e2e_owner").get(`/circles/${circleId}`).expect(200);
+    expect((detail.body as CircleDetailDto).pendingCount).toBe(0);
+  });
+
+  it("被移出过的人申请还挂着时，群主关了审核也照样要等群主同意", async () => {
+    const got = await invite();
+    const bId = (await api.as("e2e_b").get("/me").expect(200)).body as { id: string };
+    await api.as("e2e_b").post("/circles/join", { code: got.code }).expect(200);
+    await api.as("e2e_owner").delete(`/circles/${circleId}/members/${bId.id}`).expect(200);
+    const again = await api.as("e2e_b").post("/circles/join", { code: got.code }).expect(200);
+    expect((again.body as JoinResult).status).toBe("pending");
+
+    const preview = await api.as("e2e_b").get(`/invites/preview?code=${got.code}`).expect(200);
+    expect((preview.body as InvitePreviewDto).status).toBe("pending");
   });
 });

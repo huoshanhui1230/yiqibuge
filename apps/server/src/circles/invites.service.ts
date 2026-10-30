@@ -130,6 +130,16 @@ export class InvitesService {
         upcomingPlans: [],
       };
     }
+    // 群解散了：只说「已解散」，群名和成员都不再给拿着旧邀请的人看（docs/spec.md「隐私」）
+    if (found.status === "dissolved") {
+      return {
+        status: "dissolved",
+        circle: null,
+        inviter: null,
+        stats: EMPTY_STATS,
+        upcomingPlans: [],
+      };
+    }
 
     const [members, memberCount, viewerMember, viewerRequest] = await Promise.all([
       this.store.activeMembers(found.id, 8),
@@ -144,10 +154,13 @@ export class InvitesService {
       (fromId !== null ? await this.store.activeMember(found.id, fromId) : undefined) ??
       (await this.store.activeMember(found.id, found.ownerId));
 
+    // 申请还挂着，但现在已经不用审核了（群主关了「加入需群主同意」，也不是被移出过的人）：
+    // 按能直接加入显示，点了就进群（join 里会把旧申请了结）
+    const needsApproval = found.needApproval || viewerMember?.status === "removed";
+
     let status: InvitePreviewStatus = "ok";
-    if (found.status === "dissolved") status = "dissolved";
-    else if (viewerMember?.status === "active") status = "member";
-    else if (viewerRequest) status = "pending";
+    if (viewerMember?.status === "active") status = "member";
+    else if (viewerRequest && needsApproval) status = "pending";
     else if (!found.inviteExpireAt || isInviteExpired(found.inviteExpireAt, new Date()))
       status = "expired";
     else if (memberCount >= MAX_MEMBERS) status = "full";

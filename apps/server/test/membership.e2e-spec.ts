@@ -1,6 +1,8 @@
 import type { CircleDetailDto, InviteDto, LeavePreviewDto, MembersResult } from "@yiqi/shared";
+import { and, eq } from "drizzle-orm";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 
+import { circle, circleMember } from "../src/db/schema";
 import { client, createTestApp, resetDb, signUp, type Client, type TestApp } from "./app";
 
 /** 退群、移除、转让、解散（docs/spec.md「退出、移除与解散」，决定第 26 条） */
@@ -101,6 +103,15 @@ describe("群组：退群、移除、转让、解散", () => {
       .expect(400);
     expect(self.body).toMatchObject({ code: "TARGET_IS_SELF" });
 
+    // 路径里给自己的 id 前面补 0，也还是自己：群主不能借此把自己移出群
+    const padded = await api
+      .as("e2e_owner")
+      .delete(`/circles/${circleId}/members/0${ownerId}`)
+      .expect(400);
+    expect(padded.body).toMatchObject({ code: "TARGET_IS_SELF" });
+    const after = await api.as("e2e_owner").get(`/circles/${circleId}`).expect(200);
+    expect((after.body as CircleDetailDto).myRole).toBe("owner");
+
     await api.as("e2e_b").post(`/circles/${circleId}/leave`).expect(204);
     const gone = await api
       .as("e2e_owner")
@@ -132,6 +143,36 @@ describe("群组：退群、移除、转让、解散", () => {
 
     expect(res.body).toMatchObject({ code: "TARGET_NOT_MEMBER" });
     await api.as("e2e_b").post(`/circles/${circleId}/transfer`, { toUserId: bId }).expect(403);
+
+    const me = (await api.as("e2e_owner").get("/me").expect(200)).body as { id: string };
+    const self = await api
+      .as("e2e_owner")
+      .post(`/circles/${circleId}/transfer`, { toUserId: `0${me.id}` })
+      .expect(400);
+    expect(self.body).toMatchObject({ code: "TARGET_IS_SELF" });
+  });
+
+  it("转让给小红的同时小红在退群：不管谁先到，群里总有一个在群里的群主", async () => {
+    const [transfer, leave] = await Promise.all([
+      api.as("e2e_owner").post(`/circles/${circleId}/transfer`, { toUserId: bId }),
+      api.as("e2e_b").post(`/circles/${circleId}/leave`),
+    ]);
+
+    // 转让先到：小红成了群主，退群被拦下（还有人，要先转让）；退群先到：小红走了，转让被拦下
+    const outcome = [transfer.status, leave.status].sort().join(",");
+    expect(["200,409"]).toContain(outcome);
+
+    const [row] = await t.db
+      .select({ ownerId: circle.ownerId })
+      .from(circle)
+      .where(eq(circle.id, Number(circleId)));
+    const [ownerMember] = await t.db
+      .select()
+      .from(circleMember)
+      .where(
+        and(eq(circleMember.circleId, Number(circleId)), eq(circleMember.userId, row!.ownerId)),
+      );
+    expect(ownerMember).toMatchObject({ role: "owner", status: "active" });
   });
 
   it("解散：只有群主能解散", async () => {

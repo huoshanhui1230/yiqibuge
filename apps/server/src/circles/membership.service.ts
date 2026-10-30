@@ -34,8 +34,17 @@ function blockerError(blocker: MemberActionBlocker): Error {
 }
 
 /**
+ * 规则函数按字符串比「是不是我自己」：用解析后的数字转回字符串再比，
+ * 否则「07」和「7」会被当成两个人，群主就能把自己移出群。解析不了的原样交给规则（当成不在群里）。
+ */
+function targetIdText(targetId: number | null, rawUserId: string): string {
+  return targetId === null ? rawUserId : String(targetId);
+}
+
+/**
  * 进群、退群、移除、审核、转让、解散（docs/spec.md「退出、移除与解散」，决定第 26 条）。
  * 规则本身是 packages/shared 里的纯函数（有单元测试），这里负责查库、加锁、落库。
+ * 会改成员关系的操作都在事务里先锁群那一行（CircleStore.lockForMember），彼此串行。
  *
  * 退群和被移出时「退出未开始的计划、24 小时内已跟的按鸽了」要等阶段 2 有了计划再接
  * （shared 的 planExitOutcome 已经写好并测过）。
@@ -99,18 +108,29 @@ export class MembershipService {
       }
 
       await this.putIn(tx, locked.id, user.id, now);
+      // 审核开着时申请过、后来群主关了审核：旧申请一并了结，群主的待审核列表里不再挂着
+      await tx
+        .update(circleJoinRequest)
+        .set({ status: "approved", decidedAt: now })
+        .where(
+          and(
+            eq(circleJoinRequest.circleId, locked.id),
+            eq(circleJoinRequest.userId, user.id),
+            eq(circleJoinRequest.status, "pending"),
+          ),
+        );
       return { status: "joined" as const, circleId };
     });
   }
 
-  /** 同意入群申请：也在锁里点人数 */
+  /** 同意入群申请：也在锁里点人数，并在锁里确认我还是群主 */
   async approve(user: AppUser, circleId: number | null, rawUserId: string): Promise<MembersResult> {
-    const { circle: found } = await this.store.requireOwner(circleId, user.id);
     const targetId = parseId(rawUserId);
-    if (targetId === null) throw Errors.requestNotFound();
 
-    await this.store.db.transaction(async (tx) => {
-      await this.store.lockCircle(found.id, tx);
+    const id = await this.store.db.transaction(async (tx) => {
+      const { circle: found, member } = await this.store.lockForMember(circleId, user.id, tx);
+      if (member.role !== "owner") throw Errors.notOwner();
+      if (targetId === null) throw Errors.requestNotFound();
 
       const [request] = await tx
         .select()
@@ -133,9 +153,10 @@ export class MembershipService {
         .where(
           and(eq(circleJoinRequest.circleId, found.id), eq(circleJoinRequest.userId, targetId)),
         );
+      return found.id;
     });
 
-    return this.circles.membersOf(found.id, user.id, true);
+    return this.circles.membersOf(id, user.id, true);
   }
 
   async reject(user: AppUser, circleId: number | null, rawUserId: string): Promise<MembersResult> {
@@ -160,24 +181,31 @@ export class MembershipService {
 
   /** 群主把人移出群：不计鸽（docs/spec.md「退出、移除与解散」） */
   async remove(user: AppUser, circleId: number | null, rawUserId: string): Promise<MembersResult> {
-    const { circle: found, member } = await this.store.requireMember(circleId, user.id);
     const targetId = parseId(rawUserId);
-    const target = targetId === null ? undefined : await this.store.membership(found.id, targetId);
 
-    const blocker = removeBlocker({
-      actorRole: member.role,
-      actorId: String(user.id),
-      targetId: rawUserId,
-      targetStatus: target?.status ?? null,
+    const id = await this.store.db.transaction(async (tx) => {
+      const { circle: found, member } = await this.store.lockForMember(circleId, user.id, tx);
+      const target =
+        targetId === null ? undefined : await this.store.membership(found.id, targetId, tx);
+
+      const blocker = removeBlocker({
+        actorRole: member.role,
+        actorId: String(user.id),
+        targetId: targetIdText(targetId, rawUserId),
+        targetStatus: target?.status ?? null,
+      });
+      if (blocker) throw blockerError(blocker);
+
+      await tx
+        .update(circleMember)
+        .set({ status: "removed", leftAt: new Date() })
+        .where(
+          and(eq(circleMember.circleId, found.id), eq(circleMember.userId, targetId as number)),
+        );
+      return found.id;
     });
-    if (blocker) throw blockerError(blocker);
 
-    await this.store.db
-      .update(circleMember)
-      .set({ status: "removed", leftAt: new Date() })
-      .where(and(eq(circleMember.circleId, found.id), eq(circleMember.userId, targetId as number)));
-
-    return this.circles.membersOf(found.id, user.id, true);
+    return this.circles.membersOf(id, user.id, true);
   }
 
   /** 退群前弹窗要说明的内容：群主拦在哪；会受影响的计划阶段 2 再填 */
@@ -194,19 +222,21 @@ export class MembershipService {
 
   /** 主动退群。群主不能直接退：群里还有人要先转让，只剩自己只能解散 */
   async leave(user: AppUser, circleId: number | null): Promise<void> {
-    const { circle: found, member } = await this.store.requireMember(circleId, user.id);
-    const blocker = leaveBlocker({
-      role: member.role,
-      activeMemberCount: await this.store.activeCount(found.id),
+    await this.store.db.transaction(async (tx) => {
+      const { circle: found, member } = await this.store.lockForMember(circleId, user.id, tx);
+      const blocker = leaveBlocker({
+        role: member.role,
+        activeMemberCount: await this.store.activeCount(found.id, tx),
+      });
+
+      if (blocker === "OWNER_MUST_TRANSFER") throw Errors.ownerMustTransfer();
+      if (blocker === "OWNER_ALONE") throw Errors.ownerAlone();
+
+      await tx
+        .update(circleMember)
+        .set({ status: "left", leftAt: new Date() })
+        .where(and(eq(circleMember.circleId, found.id), eq(circleMember.userId, user.id)));
     });
-
-    if (blocker === "OWNER_MUST_TRANSFER") throw Errors.ownerMustTransfer();
-    if (blocker === "OWNER_ALONE") throw Errors.ownerAlone();
-
-    await this.store.db
-      .update(circleMember)
-      .set({ status: "left", leftAt: new Date() })
-      .where(and(eq(circleMember.circleId, found.id), eq(circleMember.userId, user.id)));
   }
 
   /** 转让群主：原群主变成普通成员 */
@@ -215,20 +245,22 @@ export class MembershipService {
     circleId: number | null,
     rawUserId: string,
   ): Promise<CircleDetailDto> {
-    const { circle: found, member } = await this.store.requireMember(circleId, user.id);
     const targetId = parseId(rawUserId);
-    const target = targetId === null ? undefined : await this.store.membership(found.id, targetId);
 
-    const blocker = transferBlocker({
-      actorRole: member.role,
-      actorId: String(user.id),
-      targetId: rawUserId,
-      targetStatus: target?.status ?? null,
-    });
-    if (blocker) throw blockerError(blocker);
+    const id = await this.store.db.transaction(async (tx) => {
+      const { circle: found, member } = await this.store.lockForMember(circleId, user.id, tx);
+      const target =
+        targetId === null ? undefined : await this.store.membership(found.id, targetId, tx);
 
-    const newOwnerId = targetId as number;
-    await this.store.db.transaction(async (tx) => {
+      const blocker = transferBlocker({
+        actorRole: member.role,
+        actorId: String(user.id),
+        targetId: targetIdText(targetId, rawUserId),
+        targetStatus: target?.status ?? null,
+      });
+      if (blocker) throw blockerError(blocker);
+
+      const newOwnerId = targetId as number;
       await tx
         .update(circle)
         .set({ ownerId: newOwnerId, updatedAt: new Date() })
@@ -241,9 +273,10 @@ export class MembershipService {
         .update(circleMember)
         .set({ role: "owner" })
         .where(and(eq(circleMember.circleId, found.id), eq(circleMember.userId, newOwnerId)));
+      return found.id;
     });
 
-    return this.circles.detail(user, found.id);
+    return this.circles.detail(user, id);
   }
 
   /**
@@ -251,13 +284,15 @@ export class MembershipService {
    * 未开始的计划全部取消并通知，阶段 2 有了计划再接。
    */
   async dissolve(user: AppUser, circleId: number | null): Promise<void> {
-    const { circle: found, member } = await this.store.requireMember(circleId, user.id);
-    if (dissolveBlocker({ actorRole: member.role })) throw Errors.notOwner();
+    await this.store.db.transaction(async (tx) => {
+      const { circle: found, member } = await this.store.lockForMember(circleId, user.id, tx);
+      if (dissolveBlocker({ actorRole: member.role })) throw Errors.notOwner();
 
-    const now = new Date();
-    await this.store.db
-      .update(circle)
-      .set({ status: "dissolved", dissolvedAt: now, updatedAt: now })
-      .where(eq(circle.id, found.id));
+      const now = new Date();
+      await tx
+        .update(circle)
+        .set({ status: "dissolved", dissolvedAt: now, updatedAt: now })
+        .where(eq(circle.id, found.id));
+    });
   }
 }
