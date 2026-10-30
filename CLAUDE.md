@@ -41,6 +41,7 @@ pnpm -F @yiqi/tools-shots install:browser   # 截图用的浏览器，装一次�
 ```
 pnpm dev:db           # 起 MySQL 8 + Redis（docker compose），要先开 Docker Desktop
 pnpm dev:db:down      # 停掉；pnpm dev:db:reset 清库重来
+pnpm dev:db:test-init # 2026-10-30 之前建的 MySQL 容器没有 yiqibuge_test 库，补建一次
 pnpm migrate          # 跑数据库迁移
 pnpm migrate:gen      # 改了 src/db/schema 后生成迁移 SQL
 pnpm dev:server       # 起后端，http://localhost:3000/api/v1
@@ -48,19 +49,23 @@ pnpm dev:worker       # 起 Worker 进程（定时和延时任务）
 pnpm dev:h5           # H5 预览，http://localhost:5173
 pnpm dev:mp           # 编译小程序（watch），产物给微信开发者工具
 pnpm build:mp         # 编译小程序（一次性），产物在 apps/miniapp/dist/build/mp-weixin
-pnpm shots            # Playwright 给 H5 截图到 .shots/，走查用
+pnpm shots            # Playwright 给 H5 截图到 .shots/，走查用；pnpm shots GroupHome Invite 只截这几页
+pnpm -F @yiqi/miniapp gen:theme   # 改了 docs/design/tokens.json 后重新生成三套主题的 CSS 变量
+pnpm -F @yiqi/miniapp gen:art     # 从设计稿 HTML 重新抽插画、生成图标
 ```
 
 提交前三件套：
 ```
 pnpm typecheck        # 全仓类型检查
 pnpm lint             # 全仓 lint（pnpm lint:fix 自动修）
+pnpm format:check     # Prettier 格式（pnpm format 自动修）；lint 不查格式
 pnpm test             # 全仓单元测试
-pnpm test:e2e         # 后端接口测试，要先 pnpm dev:db 和 pnpm migrate
+pnpm test:e2e         # 后端接口测试，用独立的 yiqibuge_test 库（自己跑迁移），要先 pnpm dev:db
 ```
 
 小程序界面要你自己看：`pnpm build:mp` 后在微信开发者工具里导入 `apps/miniapp/dist/build/mp-weixin`。
 本地联调（请求层 local 档）需要在开发者工具里关掉「校验合法域名」。
+改了 packages/shared 后先 `pnpm -F @yiqi/shared build`；H5 预览要停掉、删 `apps/miniapp/node_modules/.vite` 再起，不然用的是旧的共用包。
 
 ## 做事方式
 - 改动涉及多个文件时，先在计划模式里出方案，我确认后再写代码。
