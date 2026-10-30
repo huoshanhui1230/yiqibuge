@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { APP_NAME, THEMES, THEME_META, type ThemeName } from "@yiqi/shared";
+import { APP_NAME, THEMES, THEME_META, revealRuleText, type ThemeName } from "@yiqi/shared";
 import { computed, ref } from "vue";
 
 import tokens from "../../../../../docs/design/tokens.json";
@@ -525,8 +525,8 @@ function useTestUser(openid: string): void {
           <YqListGroup label="鸽子王" tone="king">
             <YqListRow
               label="鸽子王评选"
-              sub="每周一 10:00 揭晓；关掉后不评选，也不显示鸽榜"
-              size="lg"
+              :sub="`${revealRuleText()}；关掉后不评选，也不显示鸽榜`"
+              size="xl"
               strong
             >
               <template #left><YqIllustration name="gg" :width="34" /></template>

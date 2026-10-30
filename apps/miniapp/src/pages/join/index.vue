@@ -2,6 +2,7 @@
 import { onLoad } from "@dcloudio/uni-app";
 import {
   CIRCLE_TYPE_LABELS,
+  INVITE_TTL_DAYS,
   MAX_MEMBERS,
   parseInviteCode,
   type InvitePreviewDto,
@@ -118,7 +119,11 @@ const action = computed(() => {
         enabled: false,
       };
     case "expired":
-      return { text: "邀请过期了", hint: "邀请 7 天内有效，找群友重新发一个", enabled: false };
+      return {
+        text: "邀请过期了",
+        hint: `邀请 ${INVITE_TTL_DAYS} 天内有效，找群友重新发一个`,
+        enabled: false,
+      };
     case "full":
       return {
         text: "群满了",

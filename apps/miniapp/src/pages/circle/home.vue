@@ -7,6 +7,7 @@ import {
   formatRevealCountdown,
   formatWeekRange,
   timeZoneLabel,
+  weekDeadlineText,
   type CircleDetailDto,
   type MemberDto,
   type MembersResult,
@@ -152,7 +153,7 @@ const bubble = computed(() => {
   const leader = board.value?.rows[0];
 
   return leader
-    ? `${leader.user.name}暂时领跑，周日 24:00 前谁都可能后来居上`
+    ? `${leader.user.name}暂时领跑，${weekDeadlineText()} 前谁都可能后来居上`
     : "这周还没人鸽，保持住！";
 });
 

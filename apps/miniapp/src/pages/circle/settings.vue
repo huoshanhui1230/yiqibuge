@@ -10,6 +10,7 @@ import {
   checkCircleName,
   checkOptionalText,
   isCircleType,
+  revealRuleText,
   timeZoneLabel,
   trimText,
   utcOffsetLabel,
@@ -395,7 +396,7 @@ const confirmCopy = computed(() => {
         <YqListGroup label="鸽子王" tone="king">
           <YqListRow
             label="鸽子王评选"
-            sub="每周一 10:00 揭晓；关掉后不评选，也不显示鸽榜"
+            :sub="`${revealRuleText()}；关掉后不评选，也不显示鸽榜`"
             size="xl"
             strong
           >
@@ -460,7 +461,7 @@ const confirmCopy = computed(() => {
         <YqListGroup label="鸽子王" tone="king">
           <YqListRow
             label="鸽子王评选"
-            sub="每周一 10:00 揭晓"
+            :sub="revealRuleText()"
             :value="onOff(circle.pigeonEnabled)"
             size="xl"
             strong
