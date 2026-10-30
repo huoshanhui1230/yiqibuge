@@ -254,6 +254,8 @@ const ROLES: Role[] = [
     },
   ]).flat(),
   { name: "avatar-ring", from: color("avatarRing.color") },
+  /** 贴纸式的歪着贴乘上这个系数：贴纸风、软糖风是 1，清爽风是 0（摆正） */
+  { name: "tilt-scale", from: raw("tilt.scale") },
   { name: "avatar-flaked-bg", from: color("color.flakedAvatarBg") },
   { name: "avatar-flaked-fg", from: color("color.flakedAvatarText") },
   { name: "avatar-flaked-ring", from: color("color.flakedAvatarRing") },

@@ -71,6 +71,7 @@ page,
   --yq-avatar-8-bg: #FFE1D9;
   --yq-avatar-8-fg: #2A1E16;
   --yq-avatar-ring: #2A1E16;
+  --yq-tilt-scale: 1;
   --yq-avatar-flaked-bg: #E7E5E4;
   --yq-avatar-flaked-fg: #57534E;
   --yq-avatar-flaked-ring: #2A1E16;
@@ -252,6 +253,7 @@ page,
   --yq-avatar-8-bg: #FFE3EA;
   --yq-avatar-8-fg: #4A3228;
   --yq-avatar-ring: #6B4A3A;
+  --yq-tilt-scale: 1;
   --yq-avatar-flaked-bg: #E7E5E4;
   --yq-avatar-flaked-fg: #57534E;
   --yq-avatar-flaked-ring: #6B4A3A;
@@ -433,6 +435,7 @@ page,
   --yq-avatar-8-bg: #FFEDE8;
   --yq-avatar-8-fg: #B23A1E;
   --yq-avatar-ring: #FFFFFF;
+  --yq-tilt-scale: 0;
   --yq-avatar-flaked-bg: #E7E5E4;
   --yq-avatar-flaked-fg: #57534E;
   --yq-avatar-flaked-ring: #B9B2A6;

@@ -29,8 +29,10 @@ const props = withDefaults(
     king?: KingKind | null;
     /** 主题选择页里画别的主题时用 */
     theme?: ThemeName;
+    /** 鸽王的皇冠上下晃（群组主页的鸽王横幅），动效开关关掉时不晃 */
+    bob?: boolean;
   }>(),
-  { size: 40, state: "normal", king: undefined, theme: undefined },
+  { size: 40, state: "normal", king: undefined, theme: undefined, bob: false },
 );
 
 const { theme: currentTheme } = useTheme();
@@ -130,7 +132,12 @@ const crownStyle = computed(() =>
       </view>
       <image class="yq-avatar__layer" :src="art('hood-front')" />
       <image v-if="kingKind === 'streak'" class="yq-avatar__layer" :src="art('shades')" />
-      <image class="yq-avatar__crown" :src="art('crown')" :style="crownStyle" />
+      <image
+        class="yq-avatar__crown"
+        :class="{ 'yq-anim yq-avatar__crown--bob': bob }"
+        :src="art('crown')"
+        :style="crownStyle"
+      />
     </template>
 
     <template v-else>
@@ -190,6 +197,21 @@ const crownStyle = computed(() =>
 .yq-avatar__fly,
 .yq-avatar__crown {
   position: absolute;
+}
+
+.yq-avatar__crown--bob {
+  animation: yq-crown-bob 2s ease-in-out infinite;
+}
+
+@keyframes yq-crown-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(4deg);
+  }
 }
 
 .yq-avatar__layer {

@@ -21,7 +21,8 @@ withDefaults(
     danger?: boolean;
     /** 标题加粗（鸽子王评选） */
     strong?: boolean;
-    size?: "md" | "lg" | "auto";
+    /** md 46、lg 52、xl 60（鸽子王评选那行），auto 按内容；都不含分隔线 */
+    size?: "md" | "lg" | "xl" | "auto";
     divider?: boolean;
   }>(),
   {
@@ -67,8 +68,9 @@ const tone = inject<"default" | "king">("yqListTone", "default");
 </template>
 
 <style scoped>
+/* 设计稿的行高不含底下的分隔线，所以不用 border-box */
 .yq-row {
-  box-sizing: border-box;
+  box-sizing: content-box;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -80,6 +82,10 @@ const tone = inject<"default" | "king">("yqListTone", "default");
 
 .yq-row--lg {
   min-height: 52px;
+}
+
+.yq-row--xl {
+  min-height: 60px;
 }
 
 .yq-row--auto {

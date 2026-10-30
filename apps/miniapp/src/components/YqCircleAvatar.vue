@@ -119,7 +119,8 @@ const iconStyle = computed(() => ({
   box-shadow: var(--yq-shadow-formed-md);
 }
 
+/* 歪着贴，清爽风摆正（--yq-tilt-scale 是 0） */
 .yq-tile--tilt {
-  transform: rotate(-4deg);
+  transform: rotate(calc(-4deg * var(--yq-tilt-scale)));
 }
 </style>
