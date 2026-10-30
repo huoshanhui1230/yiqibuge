@@ -50,7 +50,13 @@ watch(
     <text v-if="hint" class="hint">{{ hint }}</text>
     <template #footer>
       <view class="actions">
-        <YqButton class="actions__cancel" variant="secondary" size="lg" block @click="emit('close')">
+        <YqButton
+          class="actions__cancel"
+          variant="secondary"
+          size="lg"
+          block
+          @click="emit('close')"
+        >
           算了
         </YqButton>
         <YqButton

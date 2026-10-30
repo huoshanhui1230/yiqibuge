@@ -61,7 +61,11 @@ async function load(): Promise<void> {
     blocked.value = "";
   } catch (error) {
     const code = errorCode(error);
-    if (code === "INVITE_NOT_ALLOWED" || code === "CIRCLE_NOT_FOUND" || code === "CIRCLE_DISSOLVED") {
+    if (
+      code === "INVITE_NOT_ALLOWED" ||
+      code === "CIRCLE_NOT_FOUND" ||
+      code === "CIRCLE_DISSOLVED"
+    ) {
       blocked.value = errorMessage(error);
       return;
     }

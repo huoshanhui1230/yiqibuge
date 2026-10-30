@@ -42,7 +42,9 @@ const timezone = ref(deviceTimeZone(now));
 const zoneOpen = ref(false);
 const saving = ref(false);
 
-const avatar = computed(() => pickedAvatar.value || presetAvatar(DEFAULT_PRESET_BY_TYPE[type.value]));
+const avatar = computed(
+  () => pickedAvatar.value || presetAvatar(DEFAULT_PRESET_BY_TYPE[type.value]),
+);
 
 const zoneOptions = computed(() => {
   const options = COMMON_TIME_ZONES.map((option) => ({
@@ -61,10 +63,14 @@ const zoneOptions = computed(() => {
   return options;
 });
 
-const zoneText = computed(() => `${timeZoneLabel(timezone.value)} ${utcOffsetLabel(timezone.value, now)}`);
+const zoneText = computed(
+  () => `${timeZoneLabel(timezone.value)} ${utcOffsetLabel(timezone.value, now)}`,
+);
 
 // 行内样式不经过 px→rpx 插件：设计稿的 24 自己换，安全区是屏幕 px 原样加
-const barStyle = { paddingBottom: `calc(${rpx(24)} + ${platform.getNavMetrics().safeAreaBottom}px)` };
+const barStyle = {
+  paddingBottom: `calc(${rpx(24)} + ${platform.getNavMetrics().safeAreaBottom}px)`,
+};
 
 function pickZone(value: string): void {
   timezone.value = value;

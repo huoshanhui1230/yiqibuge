@@ -463,7 +463,9 @@ export const mockDb = {
         upcomingPlans: [],
       };
     }
-    const inviterId = found.memberIds.includes(query.from ?? "") ? (query.from as string) : found.ownerId;
+    const inviterId = found.memberIds.includes(query.from ?? "")
+      ? (query.from as string)
+      : found.ownerId;
     return {
       status: found.dissolved ? "dissolved" : "ok",
       circle: {

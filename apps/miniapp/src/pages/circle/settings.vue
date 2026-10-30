@@ -96,7 +96,11 @@ const zoneOptions = computed(() => {
   const current = circle.value?.timezone;
   // 群时区不在常用列表里（建群时手机是别的时区）：放在最前面，免得看不到当前值
   if (current && !options.some((option) => option.value === current)) {
-    options.unshift({ value: current, label: timeZoneLabel(current), sub: utcOffsetLabel(current, now) });
+    options.unshift({
+      value: current,
+      label: timeZoneLabel(current),
+      sub: utcOffsetLabel(current, now),
+    });
   }
 
   return options;
@@ -168,7 +172,10 @@ function savePenalty(value: string): void {
     toast(problem);
     return;
   }
-  void update({ penaltyText: trimText(value) || null }, trimText(value) ? "任务卡写好了" : "任务卡清掉了");
+  void update(
+    { penaltyText: trimText(value) || null },
+    trimText(value) ? "任务卡写好了" : "任务卡清掉了",
+  );
 }
 
 async function saveNickname(value: string): Promise<void> {
@@ -337,7 +344,13 @@ const confirmCopy = computed(() => {
           <YqListRow label="群头像" size="lg" arrow @click="editor = 'avatar'">
             <template #right><YqCircleAvatar :avatar="circle.avatar" :size="34" /></template>
           </YqListRow>
-          <YqListRow label="群名" :value="circle.name" display-value arrow @click="editor = 'name'" />
+          <YqListRow
+            label="群名"
+            :value="circle.name"
+            display-value
+            arrow
+            @click="editor = 'name'"
+          />
           <YqListRow
             label="群类型"
             :value="CIRCLE_TYPE_LABELS[circle.type]"
@@ -364,7 +377,12 @@ const confirmCopy = computed(() => {
               />
             </template>
           </YqListRow>
-          <YqListRow label="仅群主可邀请" sub="关闭时，人人都能拉朋友进群" size="lg" :divider="false">
+          <YqListRow
+            label="仅群主可邀请"
+            sub="关闭时，人人都能拉朋友进群"
+            size="lg"
+            :divider="false"
+          >
             <template #right>
               <YqSwitch
                 :model-value="circle.inviteOwnerOnly"
@@ -389,7 +407,13 @@ const confirmCopy = computed(() => {
               />
             </template>
           </YqListRow>
-          <YqListRow label="鸽王任务卡" size="auto" arrow :divider="false" @click="editor = 'penalty'">
+          <YqListRow
+            label="鸽王任务卡"
+            size="auto"
+            arrow
+            :divider="false"
+            @click="editor = 'penalty'"
+          >
             <template #below>
               <text v-if="circle.penaltyText" class="task">{{ circle.penaltyText }}</text>
               <text v-else class="task task--empty">还没写，鸽子王这周要做点什么？</text>
@@ -445,7 +469,9 @@ const confirmCopy = computed(() => {
             <template #left><YqIllustration name="gg" :width="34" /></template>
           </YqListRow>
           <YqListRow v-if="circle.penaltyText" label="鸽王任务卡" size="auto" :divider="false">
-            <template #below><text class="task">{{ circle.penaltyText }}</text></template>
+            <template #below
+              ><text class="task">{{ circle.penaltyText }}</text></template
+            >
           </YqListRow>
         </YqListGroup>
       </template>
@@ -464,7 +490,12 @@ const confirmCopy = computed(() => {
     </view>
 
     <template v-if="circle">
-      <YqSheet :visible="editor === 'avatar'" title="换个群头像" :dismissible="!saving" @close="editor = null">
+      <YqSheet
+        :visible="editor === 'avatar'"
+        title="换个群头像"
+        :dismissible="!saving"
+        @close="editor = null"
+      >
         <CircleAvatarGrid :model-value="circle.avatar" @pick="saveAvatar" />
       </YqSheet>
 

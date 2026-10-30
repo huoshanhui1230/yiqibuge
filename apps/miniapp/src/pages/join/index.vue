@@ -34,7 +34,9 @@ const query = ref<JoinBody & { from?: string }>({});
 const preview = ref<InvitePreviewDto | null>(null);
 const joining = ref(false);
 // 行内样式不经过 px→rpx 插件：设计稿的 24 自己换，安全区是屏幕 px 原样加
-const ctaStyle = { paddingBottom: `calc(${rpx(24)} + ${platform.getNavMetrics().safeAreaBottom}px)` };
+const ctaStyle = {
+  paddingBottom: `calc(${rpx(24)} + ${platform.getNavMetrics().safeAreaBottom}px)`,
+};
 
 onLoad((options) => {
   const code = parseInviteCode(String(options?.code ?? ""));
@@ -79,7 +81,9 @@ const people = computed<AvatarPerson[]>(() => {
   return info.members.map((user) => ({ ...user, king: kings.has(user.id) ? "week" : null }));
 });
 
-const kingNames = computed(() => circle.value?.king?.users.map((user) => user.name).join("、") ?? "");
+const kingNames = computed(
+  () => circle.value?.king?.users.map((user) => user.name).join("、") ?? "",
+);
 
 const stats = computed(() => {
   const value = preview.value?.stats;
@@ -99,16 +103,28 @@ const action = computed(() => {
   switch (status.value) {
     case "ok":
       return circle.value?.needApproval
-        ? { text: "申请加入", hint: "这个群要群主同意才能进；点了用微信一键登录，不用填资料", enabled: true }
+        ? {
+            text: "申请加入",
+            hint: "这个群要群主同意才能进；点了用微信一键登录，不用填资料",
+            enabled: true,
+          }
         : { text: "加入群组", hint: "点「加入群组」时用微信一键登录，不用填资料", enabled: true };
     case "member":
       return { text: "进入群组", hint: "你已经在这个群里了", enabled: true };
     case "pending":
-      return { text: "已申请，等群主同意", hint: "群主同意后，群组列表里就能看到这个群", enabled: false };
+      return {
+        text: "已申请，等群主同意",
+        hint: "群主同意后，群组列表里就能看到这个群",
+        enabled: false,
+      };
     case "expired":
       return { text: "邀请过期了", hint: "邀请 7 天内有效，找群友重新发一个", enabled: false };
     case "full":
-      return { text: "群满了", hint: `一个群最多 ${MAX_MEMBERS} 人，找群主腾个位置`, enabled: false };
+      return {
+        text: "群满了",
+        hint: `一个群最多 ${MAX_MEMBERS} 人，找群主腾个位置`,
+        enabled: false,
+      };
     default:
       return null;
   }
@@ -141,7 +157,11 @@ async function join(): Promise<void> {
   } catch (error) {
     toastError(error);
     // 过期、满员、解散了：刷新一下，按新状态显示
-    if (["INVITE_EXPIRED", "CIRCLE_FULL", "CIRCLE_DISSOLVED", "INVITE_INVALID"].includes(errorCode(error))) {
+    if (
+      ["INVITE_EXPIRED", "CIRCLE_FULL", "CIRCLE_DISSOLVED", "INVITE_INVALID"].includes(
+        errorCode(error),
+      )
+    ) {
       await load();
     }
   } finally {
@@ -158,10 +178,15 @@ function goHome(): void {
   <YqPage>
     <YqNavBar variant="brand" />
 
-    <view v-if="preview && (status === 'invalid' || status === 'dissolved' || !circle)" class="body">
+    <view
+      v-if="preview && (status === 'invalid' || status === 'dissolved' || !circle)"
+      class="body"
+    >
       <YqEmptyState
         :title="status === 'dissolved' ? '这个群已经解散了' : '这个邀请不对'"
-        :desc="status === 'dissolved' ? '找朋友再拉你进别的群吧' : '核对一下邀请码，或者让群友再发一次'"
+        :desc="
+          status === 'dissolved' ? '找朋友再拉你进别的群吧' : '核对一下邀请码，或者让群友再发一次'
+        "
       >
         <YqButton variant="secondary" size="md" @click="goHome">去我的群组</YqButton>
       </YqEmptyState>

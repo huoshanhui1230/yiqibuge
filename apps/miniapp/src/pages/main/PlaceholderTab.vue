@@ -36,7 +36,13 @@ function go(url: string): void {
       <YqEmptyState :title="text.empty" :desc="text.desc" />
 
       <YqListGroup v-if="tab === 'me'" label="外观">
-        <YqListRow label="主题" sub="贴纸风、软糖风、清爽风" arrow :divider="false" @click="go('/pages/settings/theme')" />
+        <YqListRow
+          label="主题"
+          sub="贴纸风、软糖风、清爽风"
+          arrow
+          :divider="false"
+          @click="go('/pages/settings/theme')"
+        />
       </YqListGroup>
 
       <YqListGroup v-if="tab === 'me' && showDev" label="开发用">

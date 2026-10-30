@@ -65,7 +65,9 @@ const pickedName = computed(() => THEME_META[picked.value].name);
 const unchanged = computed(() => picked.value === theme.value);
 
 // 行内样式不经过 px→rpx 插件：设计稿的 24 自己换，安全区是屏幕 px 原样加
-const barStyle = { paddingBottom: `calc(${rpx(24)} + ${platform.getNavMetrics().safeAreaBottom}px)` };
+const barStyle = {
+  paddingBottom: `calc(${rpx(24)} + ${platform.getNavMetrics().safeAreaBottom}px)`,
+};
 
 async function apply(): Promise<void> {
   if (unchanged.value || saving.value) return;
@@ -154,7 +156,14 @@ async function apply(): Promise<void> {
 
     <view class="bar-spacer" />
     <view class="bar" :style="barStyle">
-      <YqButton variant="primary" size="lg" block :disabled="unchanged" :loading="saving" @click="apply">
+      <YqButton
+        variant="primary"
+        size="lg"
+        block
+        :disabled="unchanged"
+        :loading="saving"
+        @click="apply"
+      >
         {{ unchanged ? `正在用${pickedName}` : `换成${pickedName}` }}
       </YqButton>
       <text class="bar__hint">随时能换回来，不影响任何数据</text>

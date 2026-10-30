@@ -126,7 +126,9 @@ const weekRange = computed(() =>
 const revealText = computed(() =>
   board.value ? formatRevealCountdown(now.value, board.value.revealAt) : "",
 );
-const topPoints = computed(() => Math.max(1, ...(board.value?.rows.map((row) => row.points) ?? [])));
+const topPoints = computed(() =>
+  Math.max(1, ...(board.value?.rows.map((row) => row.points) ?? [])),
+);
 
 function rowSub(row: PigeonBoardRowDto): string {
   const last = row.lastFlake;
@@ -333,55 +335,54 @@ function soon(what: string): void {
 
       <!-- 成员（没有设计稿，用设置行拼） -->
       <template v-else-if="tab === 'members'">
-        <YqCard v-if="isOwner && roster.pending.length > 0" padding="sm">
-          <YqListGroup :label="`等你同意（${roster.pending.length}）`">
-            <YqListRow
-              v-for="(request, index) in roster.pending"
-              :key="request.user.id"
-              size="lg"
-              :label="request.user.name"
-              :sub="requestSub(request.requestedAt)"
-              :divider="index < roster.pending.length - 1"
-            >
-              <template #left><YqAvatar :user="request.user" :size="36" /></template>
-              <template #right>
-                <view class="decide">
-                  <YqButton variant="secondary" size="mini" @click="decide(request.user.id, false)">
-                    拒绝
-                  </YqButton>
-                  <YqButton variant="king" size="mini" @click="decide(request.user.id, true)">
-                    同意
-                  </YqButton>
-                </view>
-              </template>
-            </YqListRow>
-          </YqListGroup>
-        </YqCard>
-
-        <YqCard padding="sm">
-          <YqListGroup :label="`成员（${roster.members.length}）`">
-            <YqListRow
-              v-for="(member, index) in roster.members"
-              :key="member.user.id"
-              size="lg"
-              :label="member.isMe ? `${member.user.name}（我）` : member.user.name"
-              :sub="memberSub(member)"
-              :divider="index < roster.members.length - 1"
-            >
-              <template #left><YqAvatar :user="member.user" :size="36" /></template>
-              <template #right>
-                <YqButton
-                  v-if="isOwner && !member.isMe"
-                  variant="secondary"
-                  size="mini"
-                  @click="removing = member"
-                >
-                  移出
+        <YqListGroup
+          v-if="isOwner && roster.pending.length > 0"
+          :label="`等你同意（${roster.pending.length}）`"
+        >
+          <YqListRow
+            v-for="(request, index) in roster.pending"
+            :key="request.user.id"
+            size="lg"
+            :label="request.user.name"
+            :sub="requestSub(request.requestedAt)"
+            :divider="index < roster.pending.length - 1"
+          >
+            <template #left><YqAvatar :user="request.user" :size="36" /></template>
+            <template #right>
+              <view class="decide">
+                <YqButton variant="secondary" size="mini" @click="decide(request.user.id, false)">
+                  拒绝
                 </YqButton>
-              </template>
-            </YqListRow>
-          </YqListGroup>
-        </YqCard>
+                <YqButton variant="king" size="mini" @click="decide(request.user.id, true)">
+                  同意
+                </YqButton>
+              </view>
+            </template>
+          </YqListRow>
+        </YqListGroup>
+
+        <YqListGroup :label="`成员（${roster.members.length}）`">
+          <YqListRow
+            v-for="(member, index) in roster.members"
+            :key="member.user.id"
+            size="lg"
+            :label="member.isMe ? `${member.user.name}（我）` : member.user.name"
+            :sub="memberSub(member)"
+            :divider="index < roster.members.length - 1"
+          >
+            <template #left><YqAvatar :user="member.user" :size="36" /></template>
+            <template #right>
+              <YqButton
+                v-if="isOwner && !member.isMe"
+                variant="secondary"
+                size="mini"
+                @click="removing = member"
+              >
+                移出
+              </YqButton>
+            </template>
+          </YqListRow>
+        </YqListGroup>
       </template>
     </view>
 
@@ -390,7 +391,11 @@ function soon(what: string): void {
     <YqConfirmSheet
       :visible="removing !== null"
       :title="removing ? `把${removing.user.name}移出群？` : ''"
-      :subtitle="removing ? `${removing.user.name}会退出本群所有计划，不算鸽。以后再用邀请加入，要你同意。` : ''"
+      :subtitle="
+        removing
+          ? `${removing.user.name}会退出本群所有计划，不算鸽。以后再用邀请加入，要你同意。`
+          : ''
+      "
       confirm-text="移出"
       :loading="busy"
       @confirm="confirmRemove"

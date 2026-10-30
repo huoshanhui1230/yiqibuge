@@ -27,7 +27,11 @@ export const TARGETS: ShotTarget[] = [
   { name: "GroupHome", route: "/pages/circle/home", query: "id=c-dorm&tab=board" },
   { name: "GroupSettings", route: "/pages/circle/settings", query: "id=c-dorm" },
   { name: "Invite", route: "/pages/circle/invite", query: "id=c-dorm" },
-  { name: "JoinLanding", route: "/pages/join/index", query: "t=mockInviteTokenDorm00A&from=u-jie-9" },
+  {
+    name: "JoinLanding",
+    route: "/pages/join/index",
+    query: "t=mockInviteTokenDorm00A&from=u-jie-9",
+  },
   // 设计稿画的是「选中了下一套、还没换」的样子
   { name: "ThemePicker", route: "/pages/settings/theme", query: "preview=next" },
 ];

@@ -18,10 +18,20 @@ export function fakePigeonBoard(
 
   const rows: PigeonBoardDto["rows"] = [];
   if (second) {
-    rows.push({ user: second, points: 2, flakeCount: 1, lastFlake: { planTitle: "周五火锅局", tier: "medium" } });
+    rows.push({
+      user: second,
+      points: 2,
+      flakeCount: 1,
+      lastFlake: { planTitle: "周五火锅局", tier: "medium" },
+    });
   }
   if (third) {
-    rows.push({ user: third, points: 1, flakeCount: 1, lastFlake: { planTitle: "周三奶茶局", tier: "small" } });
+    rows.push({
+      user: third,
+      points: 1,
+      flakeCount: 1,
+      lastFlake: { planTitle: "周三奶茶局", tier: "small" },
+    });
   }
 
   return {

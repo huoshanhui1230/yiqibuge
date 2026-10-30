@@ -105,8 +105,12 @@ function lookup(): void {
             :size="28"
             :king="circle.king.streakWeeks >= 2 ? 'streak' : 'week'"
           />
-          <text class="band__text">本周鸽子王：{{ circle.king.users.map((u) => u.name).join("、") }}</text>
-          <YqChip v-if="circle.king.streakWeeks >= 2" tone="dark">连任 {{ circle.king.streakWeeks }} 周</YqChip>
+          <text class="band__text"
+            >本周鸽子王：{{ circle.king.users.map((u) => u.name).join("、") }}</text
+          >
+          <YqChip v-if="circle.king.streakWeeks >= 2" tone="dark"
+            >连任 {{ circle.king.streakWeeks }} 周</YqChip
+          >
           <text v-else class="band__side">鸽值 {{ circle.king.points }} ›</text>
         </template>
         <template v-else-if="circle.peaceStreak > 0 && circle.pigeonEnabled" #band>

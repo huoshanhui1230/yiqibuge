@@ -52,8 +52,7 @@ export class MockRouter {
       const params = Object.fromEntries(
         route.keys.map((key, index) => [key, decodeURIComponent(found[index + 1] ?? "")]),
       );
-      return () =>
-        route.handler({ params, query, body: (body ?? {}) as Record<string, unknown> });
+      return () => route.handler({ params, query, body: (body ?? {}) as Record<string, unknown> });
     }
 
     return undefined;

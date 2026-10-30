@@ -46,7 +46,9 @@ export function mockResponse<T>(options: RequestOptions): Promise<T> {
 
   if (!run) {
     return Promise.reject(
-      new Error(`H5 预览还没有「${method} ${options.url}」的假数据，去 src/mocks/index.ts 加一条。`),
+      new Error(
+        `H5 预览还没有「${method} ${options.url}」的假数据，去 src/mocks/index.ts 加一条。`,
+      ),
     );
   }
 
