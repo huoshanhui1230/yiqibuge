@@ -23,6 +23,16 @@ export function weekBounds(instant: Instant, zone: string): WeekBounds {
   return { start: start.toJSDate(), end: start.plus({ weeks: 1 }).toJSDate() };
 }
 
+/** 群设置里鸽子王评选那行的说明：「每周一 10:00 揭晓」 */
+export function revealRuleText(): string {
+  return `每周一 ${String(REVEAL_HOUR).padStart(2, "0")}:00 揭晓`;
+}
+
+/** 一周算到哪一刻为止（weekBounds 的 end），鸽榜的提示语里用：「周日 24:00」 */
+export function weekDeadlineText(): string {
+  return "周日 24:00";
+}
+
 /** 这一周的鸽子王什么时候揭晓：下周一 10:00（群时区） */
 export function weekRevealAt(weekStart: Instant, zone: string): Date {
   return DateTime.fromJSDate(toDate(weekStart))

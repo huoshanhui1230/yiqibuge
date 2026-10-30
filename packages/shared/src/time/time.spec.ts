@@ -8,9 +8,11 @@ import {
   formatRevealCountdown,
   formatWeekRange,
   isValidTimeZone,
+  revealRuleText,
   timeZoneLabel,
   utcOffsetLabel,
   weekBounds,
+  weekDeadlineText,
   weekRevealAt,
 } from "./index";
 
@@ -162,6 +164,16 @@ describe("这周的鸽子王什么时候揭晓", () => {
     expect(weekRevealAt("2026-09-27T14:00:00Z", "Australia/Sydney").toISOString()).toBe(
       "2026-10-04T23:00:00.000Z",
     );
+  });
+});
+
+describe("规则说明里的时刻", () => {
+  it("揭晓时刻跟着 REVEAL_HOUR 走", () => {
+    expect(revealRuleText()).toBe("每周一 10:00 揭晓");
+  });
+
+  it("一周算到周日 24:00", () => {
+    expect(weekDeadlineText()).toBe("周日 24:00");
   });
 });
 

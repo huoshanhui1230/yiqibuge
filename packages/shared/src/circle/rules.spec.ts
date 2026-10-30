@@ -122,6 +122,51 @@ describe("退群时计划上的表态怎么处理", () => {
     ).toBe("exit");
   });
 
+  it("候补递补上来 2 小时内（含）退群，不计鸽", () => {
+    const startAt = startIn(10 * HOUR);
+    const promotedAt = (msAgo: number) => new Date(now.getTime() - msAgo);
+
+    expect(
+      planExitOutcome({
+        reason: "leave",
+        status: "in",
+        startAt,
+        now,
+        promotedAt: promotedAt(HOUR / 2),
+      }),
+    ).toBe("exit");
+    expect(
+      planExitOutcome({
+        reason: "leave",
+        status: "in",
+        startAt,
+        now,
+        promotedAt: promotedAt(2 * HOUR),
+      }),
+    ).toBe("exit");
+  });
+
+  it("递补超过 2 小时再退群，照样按鸽了算", () => {
+    expect(
+      planExitOutcome({
+        reason: "leave",
+        status: "in",
+        startAt: startIn(10 * HOUR),
+        now,
+        promotedAt: new Date(now.getTime() - 2 * HOUR - 1),
+      }),
+    ).toBe("flake");
+    expect(
+      planExitOutcome({
+        reason: "leave",
+        status: "in",
+        startAt: startIn(10 * HOUR),
+        now,
+        promotedAt: null,
+      }),
+    ).toBe("flake");
+  });
+
   it("被群主移出，就算马上开始也不计鸽", () => {
     expect(planExitOutcome({ reason: "removed", status: "in", startAt: startIn(HOUR), now })).toBe(
       "exit",

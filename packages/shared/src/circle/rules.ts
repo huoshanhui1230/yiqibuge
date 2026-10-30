@@ -117,11 +117,17 @@ export type PlanExitOutcome = "flake" | "exit" | "keep";
 /** 主动退群时，这么多小时内开始、已经跟了的计划按鸽了算 */
 export const LEAVE_FLAKE_WINDOW_HOURS = 24;
 
+/** 从候补递补成「跟了」之后这么多小时内退出，不计鸽（docs/spec.md「满员后有人鸽了」） */
+export const PROMOTION_GRACE_HOURS = 2;
+
+const HOUR_MS = 60 * 60 * 1000;
+
 /**
  * 退群或被移出时，这个人在某个计划上的表态怎么处理（docs/spec.md「退出、移除与解散」
  * 和「业务规则与边界情况」）：
  * - 计划已经开始：冻结，不动；
  * - 主动退群、已经跟了、离开始不到（含）24 小时：按鸽了处理，防止退群逃鸽；
+ *   但候补递补上来还不到（含）2 小时的不算（递补后 2 小时内退出不计鸽）；
  * - 其余情况（被移出、候补、待确认、没表态、不跟、已经鸽过）：悄悄退出，不计鸽。
  *
  * 发起人自己的计划不走这里：发起人不能鸽自己的计划，退群时怎么处理留到阶段 2 定。
@@ -132,6 +138,8 @@ export function planExitOutcome(input: {
   status: ResponseStatus;
   startAt: Date | string;
   now: Date;
+  /** 从候补递补成「跟了」的时刻；不是递补上来的不传或传 null */
+  promotedAt?: Date | string | null;
 }): PlanExitOutcome {
   const msToStart = new Date(input.startAt).getTime() - input.now.getTime();
 
@@ -139,9 +147,13 @@ export function planExitOutcome(input: {
     return "keep";
   }
 
-  const withinWindow = msToStart <= LEAVE_FLAKE_WINDOW_HOURS * 60 * 60 * 1000;
+  const withinWindow = msToStart <= LEAVE_FLAKE_WINDOW_HOURS * HOUR_MS;
+  const justPromoted =
+    input.promotedAt !== undefined &&
+    input.promotedAt !== null &&
+    input.now.getTime() - new Date(input.promotedAt).getTime() <= PROMOTION_GRACE_HOURS * HOUR_MS;
 
-  if (input.reason === "leave" && input.status === "in" && withinWindow) {
+  if (input.reason === "leave" && input.status === "in" && withinWindow && !justPromoted) {
     return "flake";
   }
 
