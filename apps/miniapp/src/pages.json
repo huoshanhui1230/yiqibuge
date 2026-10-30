@@ -1,5 +1,43 @@
 {
+  // 第一项是启动页。顶部导航每页自己画（决定第 21 条），这里的标题只给页面栈和分享兜底用
   "pages": [
+    {
+      "path": "pages/main/index",
+      "style": { "navigationBarTitleText": "群组" }
+    },
+    {
+      "path": "pages/login/index",
+      "style": { "navigationBarTitleText": "登录" }
+    },
+    {
+      "path": "pages/legal/agreement",
+      "style": { "navigationBarTitleText": "用户协议" }
+    },
+    {
+      "path": "pages/circle/create",
+      "style": { "navigationBarTitleText": "建个群" }
+    },
+    {
+      "path": "pages/circle/home",
+      "style": { "navigationBarTitleText": "群组主页" }
+    },
+    {
+      "path": "pages/circle/settings",
+      "style": { "navigationBarTitleText": "群设置" }
+    },
+    {
+      "path": "pages/circle/invite",
+      "style": { "navigationBarTitleText": "邀请好友" }
+    },
+    {
+      "path": "pages/join/index",
+      "style": { "navigationBarTitleText": "加入群组" }
+    },
+    {
+      "path": "pages/settings/theme",
+      "style": { "navigationBarTitleText": "主题" }
+    },
+    // 开发用，阶段 5 提审前从正式包里拿掉（docs/platform-checklist.md）
     {
       "path": "pages/dev/components",
       "style": { "navigationBarTitleText": "组件演示" }
