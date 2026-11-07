@@ -5,6 +5,7 @@
 ## 当前状态
 
 - **阶段**：阶段 1 · 主题、组件、登录、群组 —— 已完成（2026-10-30），代码在 `phase-1` 分支，还没合并到 `main`
+- **部署**：首次部署云托管的代码已备好（2026-11-07），线上还没发布过。步骤见 `docs/platform-checklist.md`「部署到微信云托管」
 - **下一步**：阶段 2 · 时间文案、发起计划、计划详情、表态（开工前先定下面「待确认」的 1、10、11）
 - **上一步**：第 0 步 · 搭工程，已完成并全部验证过（2026-10-27）
 
@@ -164,6 +165,48 @@
 - 改了 `packages/shared` 以后：要先 `pnpm -F @yiqi/shared build`；H5 预览要停掉、删 `apps/miniapp/node_modules/.vite` 再起，不然 Vite 预打包的旧版共用包里没有新导出，页面直接白屏（这次碰到了）。
 - 这些只能在微信开发者工具里看（H5 预览替代不了）：CSS 变量里的 rpx、mask 图标、SVG 插画、`loadFontFace`、顶部导航和胶囊对齐、头像昵称填写、分享卡片、组件标签上写的 class 能不能落到组件根节点上。
 
+### 首次部署准备 — 2026-11-07
+
+决定见 `docs/decisions.md` 第 27–30 条，操作步骤见 `docs/platform-checklist.md`「部署到微信云托管」。
+
+**查到的问题**（用生产镜像 + 全新空库实测出来的）
+
+- 没有东西跑迁移：部署上去 `health` 报 `db:down`，登录 500（`Table 'app_user' doesn't exist`）。
+- 两个实例同时迁移，后到的报 `Table 'app_meta' already exists`，3 轮都这样。
+- 开发者工具一直是游客模式（`touristappid`）：AppID 填在了顶层，`mp-weixin.appid` 是空的，`wx.cloud` 用不了。
+- `WX_APP_SECRET` 是启动必填项，但没有代码读它。
+
+**改了什么**
+
+- `Dockerfile`：换腾讯 npm 镜像；只装后端依赖；启动时先跑迁移再起服务。
+- `apps/server/src/db/migrate.ts`：加 `GET_LOCK`，多实例同时启动时排队。
+- `apps/server/src/config/env.ts`：`WECHAT_DRIVER=real` 不再要求 AppID 和 AppSecret，正式环境拒绝假实现的断言保留。
+- `apps/miniapp/src/manifest.json`：AppID 挪到 `mp-weixin.appid`，顶层留空。
+
+**验证结果**
+
+| 验了什么 | 结果 |
+| --- | --- |
+| `pnpm typecheck`、`lint`、`format:check` | 通过 |
+| `pnpm test` | 160 个通过：shared 98、server 29、miniapp 33 |
+| `pnpm test:e2e` | 跑完的都是 47 个全过，但 35 次运行里有 10 次进程崩溃，见下面「已知问题」 |
+| `pnpm build:mp` | 成功，`project.config.json` 的 `appid` 是真实 AppID |
+| 镜像构建 | 成功，365MB |
+| 两个容器同时启动，指向同一个空库 | 都起来了，各跑一次迁移没报错，6 张表、2 条迁移记录 |
+| 重启已迁移的容器 | 正常 |
+| 带 `x-wx-openid` 登录 | 200；不带身份头、只带假身份头都是 401 |
+| `REDIS_URL` 占位 | 登录正常，运行约 4 分钟进程没崩；`health` 约 10 秒后返回 `ok:false`、`redis:down` |
+| Worker 启动命令 | 能起，不跑迁移 |
+| 数据库连不上 | 容器退出码 1 |
+| 正式环境留着假驱动 | 容器退出码 1，日志写明原因 |
+
+**没验证到的**：微信云托管的线上构建、真实的 callContainer 请求、云托管 MySQL。这些要发布后才知道。
+
+**已知问题**
+
+- **接口测试在本机 Windows 上约三成概率中途崩溃**（35 次里 10 次）。现象是 `Error: Channel closed`，Vitest 子进程退出码 `0xC0000409`（原生快速失败），没有 JS 异常，Windows 事件日志里也没有记录。已排除：不是断言失败（没崩的运行用例全过）；和测试文件无关（去掉 `join`、只跑 `join` 都是 8 次崩 2 次）；换 `singleFork` 没用（5 次崩 2 次）。根因还没查到，也没有在改动之前的提交上复现过；这次改动在接口测试路径上只碰了 `env.ts` 里假驱动下不会执行到的判断。线上是 Linux 容器，不走这条路。
+- **本机 Docker 构建偶尔报 `EAI_AGAIN`**：构建容器第一次解析某个域名时超时，和代码、镜像源都无关。先 `docker run --rm node:24-alpine node -e "require('dns').lookup('<域名>',console.log)"` 解析一次再构建就好。
+
 ---
 
 ## 待确认问题
@@ -176,12 +219,12 @@
 3. ~~**主题 store 用什么（影响阶段 1）**~~ —— 已定（2026-10-30 阶段 1 方案）：用 Vue 的 `ref` 写成 composable（`apps/miniapp/src/theme/useTheme.ts`），不引入 pinia。
 4. ~~**token 里的 px 要不要换成 rpx（影响阶段 1）**~~ —— 已定（2026-10-30 阶段 1 方案）：生成器把复合值里的 px 也解析出来，乘 750/390 换成 rpx；1px 细线和 999px 胶囊圆角保持原样。H5 预览在 `pages.json` 里把 rpx 的计算宽度固定成 390，这样 1240 宽截 Main 时和设计稿是 1:1。
 5. ~~**原生导航栏用不了主题变量（影响阶段 1）**~~ —— 已定，见 `docs/decisions.md` 第 21 条（2026-10-28）：**全局 `navigationStyle: "custom"`**，顶部导航自己画成组件。查设计稿发现这其实没得选：25 个手机页面全都从 `top: 0` 开始、自绘 44px header、右上角留了胶囊位，根本没给原生导航栏留空间。三个实现坑（状态栏高度、胶囊实测位置、H5 没有胶囊）记在 `.claude/rules/miniapp.md`「顶部导航」。
-6. **云托管的身份请求头名字要按官方文档核对**。`apps/server/src/wechat/real/real-cloud-run-identity.ts` 和 `apps/miniapp/src/env.d.ts` 里按 `x-wx-openid` / `x-wx-from-openid` 写的，`.claude/rules/server.md` 要求「以微信云托管官方文档为准」，接云托管时核一遍。
+6. ~~**云托管的身份请求头名字要按官方文档核对**~~ —— 已核对（2026-11-07）：官方就是 `X-WX-OPENID`、`X-WX-UNIONID`，资源复用时是 `X-WX-FROM-OPENID`、`X-WX-FROM-UNIONID`，和代码一致（Express 收到的头名都是小写，代码按小写读）。真实的云托管请求还没验证过，第一次连通时看一眼。
 7. ~~**字体还没接**~~ —— 已定，见 `docs/decisions.md` 第 24 条（2026-10-30）：H5 预览从 Google Fonts 加载；小程序里正文用系统字体，快乐体运行时用 `uni.loadFontFace` 从云存储加载，失败就退回系统字体。
 8. ~~**图片存储（影响阶段 1）**~~ —— 已定，见 `docs/decisions.md` 第 23 条（2026-10-30）：微信云托管对象存储，库里存 `cloud://` 文件 ID。`.env.example` 里的 `COS_BUCKET`、`COS_REGION` 占位不再需要。
 9. **提审前要查的几项（阶段 5）**。
    - `apps/miniapp/src/manifest.json` 里 `mp-weixin.setting.urlCheck: false`（方便本地联调关掉域名校验），提审前确认要不要改回 true。
-   - `mp-weixin.appid` 还空着，发版前要填真实的微信 AppID；顶层那个 `appid` 是 uni-app 自己生成的 DCloud 应用 ID，不是微信的，别搞混。
+   - AppID 已填好（2026-11-07）：`mp-weixin.appid` 是真实的微信 AppID，顶层 `appid` 留空。**更正**：这里原来写「顶层 appid 是 uni-app 生成的 DCloud ID」是错的，提交 `2fe8017` 的说明也一样。那个值就是微信 AppID，只是填错了位置（uni 的 ID 都是 `__UNI__` 开头，也没有代码回写 manifest）。
    - uni 统计已经显式关掉（`uniStatistics.enable: false`），正式产物里核对过没有任何上报端点。但 uni-app 运行时仍会在本地存一个设备标识 `__DC_STAT_UUID`（只落在小程序自己的 storage 里，不外发），填「用户隐私保护指引」时留意要不要声明。
    - 后端这边已经是硬拦截，不用人查：`NODE_ENV=production` 配 `WECHAT_DRIVER=fake` 时直接启动失败，正式镜像里验证过。
    - `pages/dev/components`、`pages/dev/health` 两个开发页面要从 `pages.json` 里拿掉（「我的」里的入口只在非 cloud 档出现，但页面本身还在包里）。
@@ -191,6 +234,8 @@
 13. **邀请码手动重新生成、邀请海报和小程序码（阶段 3）**。现在邀请过期后打开邀请页自动换新，没有手动「重新生成」的入口（设计稿里也没有）；海报只占了位。
 14. **按钮高度**：设计稿的中号按钮是 46，`docs/spec.md` 写的是「主要按钮高度不低于 48」。现在按设计稿做，长辈友好要不要整体加高，阶段 4 走查时定。
 15. **开了「仅群主可邀请」，之前发出去的邀请还能用（影响阶段 1）**。三种邀请全群共用一个 token 和邀请码（决定第 26 条），分不出是谁发的；群主打开这个开关时没有换新，所以成员之前转出去的卡片和邀请码在 7 天内照样能进群。两种做法：① 打开开关时立刻换一套新邀请（群主自己发出去的也一起失效）；② 维持现状，最多 7 天后自然失效。审查时发现，还没改。
+16. **Redis 怎么解决（阶段 3 之前要定）**。云托管不能直接开 Redis（决定第 29 条）。要么买腾讯云上海地域的 Redis，走私有网络，持续付费；要么提醒任务改用云托管定时触发器（spec 选型表的备选），但要重新评估「精确到分钟的延时任务」这条要求。另外现在 `REDIS_URL` 连不上时 ioredis 会一直打重连日志，实测每分钟约 170 行，占位期间云托管的日志会比较吵。
+17. **`WechatAuthPort` 已经没人用了**。决定第 22 条之后登录不调 `code2Session`，`WECHAT_AUTH` 只注册、没有注入。`real-wechat-auth.ts`、`fake-wechat-auth.ts` 和 `WX_APPID`、`WX_APP_SECRET` 两个环境变量都可以删。不影响运行，找时间清掉。
 
 ### 仓库之外
 

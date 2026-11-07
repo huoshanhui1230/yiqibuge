@@ -11,9 +11,17 @@
 
 ## 部署到微信云托管（后端）
 
-在云托管「服务管理 → 新建服务」里建，**不要用它首页那些「免费快速部署」模板**——那些是空白脚手架，我们自己有 `Dockerfile`。
+这一节核对于 2026-11-07。
 
-选择代码这一步：
+**先准备**
+
+- [ ] **开通 MySQL 8.0**：在云托管后台开通，拿到内网地址和账号。库要自己建：库名 `yiqibuge`，字符集选 utf8mb4（群名、昵称里会有 emoji）。迁移只建表，不建库。
+- [ ] **基础库最低版本**：小程序后台设到 2.23.0 以上，`callContainer` 要求这个版本。
+- Redis 先不用买（决定第 29 条）。云托管不能直接开 Redis，官方做法是买腾讯云**上海地域**的 Redis，在「服务详情 → 设置 → 私有网络设置」里打通。阶段 3 之前用不到。
+
+**新建服务**
+
+在云托管「服务管理 → 新建服务」里建，**不要用它首页那些「免费快速部署」模板**——那些是空白脚手架，我们自己有 `Dockerfile`。
 
 | 字段 | 填什么 |
 | --- | --- |
@@ -23,25 +31,29 @@
 | 目标目录 | **留空**（就是仓库根） |
 | Dockerfile 文件 / 名称 | 有 / `Dockerfile` |
 
-目标目录必须留空。`Dockerfile` 放在仓库根就是为了这个：构建上下文要包含 `pnpm-workspace.yaml`、`pnpm-lock.yaml` 和 `packages/shared`，而云托管要求 Dockerfile 与目标目录同级。填成 `apps/server` 会在 `pnpm install --frozen-lockfile` 那步失败。
+目标目录必须留空。`Dockerfile` 放在仓库根就是为了这个：构建上下文要包含 `pnpm-workspace.yaml`、`pnpm-lock.yaml` 和 `packages/shared`，而云托管要求 Dockerfile 与目标目录同级。填成 `apps/server` 会在安装依赖那步失败。
 
-环境变量（不填服务起不来，后端有启动断言）：
+环境变量：
 
 ```
 DATABASE_URL=mysql://<用户>:<密码>@<内网地址>:3306/yiqibuge?timezone=Z
-REDIS_URL=redis://<内网地址>:6379
+REDIS_URL=redis://127.0.0.1:6379
 WECHAT_DRIVER=real
-WX_APPID=wx...
-WX_APP_SECRET=...
 ```
 
-- `NODE_ENV=production`、`APP_ROLE=web`、`PORT=3000` 已经写在 Dockerfile 里，不用再填。
+- `DATABASE_URL` **必须连得上**。容器启动时先跑数据库迁移，连不上就起不来，云托管不会切到新版本（决定第 27 条）。
+- `REDIS_URL` 现在是占位值，指向一个没有 Redis 的地址。`GET /api/v1/health` 会等约 10 秒后返回 `ok:false`、`redis:down`，日志里有重连报错，这些都是预期的，登录和群组不受影响。如果云托管的健康检查要配路径，不要指向 `/health`。
 - `WECHAT_DRIVER` 必须是 `real`：配成 `fake` 时后端会拒绝启动（防止假数据开关漏进正式版）。
-- MySQL 和 Redis 要先在云托管后台开通，拿内网地址。只想先验证镜像能不能跑通的话，这两个填占位值也能启动，`GET /api/v1/health` 会返回 `ok:false` 加 `db:down`、`redis:down`，服务本身是活的。
+- 不用填 `WX_APPID`、`WX_APP_SECRET`（决定第 30 条）。不要把 AppSecret 放进云托管。
+- `NODE_ENV=production`、`APP_ROLE=web`、`PORT=3000` 已经写在 Dockerfile 里，不用再填。
 
-- 小程序只用 `wx.cloud.callContainer` 调后端（决定第 19 条），用不到公网域名：在服务设置里**关掉公网访问**。后端按云托管注入的 openid 认人，公网入口开着时这些身份请求头能不能被伪造，以官方文档为准，关掉最省心。
+**发布之后**
 
-Worker 以后部署成**第二个服务**，同一个镜像，启动命令改成 `node dist/worker.js`、环境变量 `APP_ROLE=worker`。
+- [ ] **关掉公网访问**：小程序只用 `wx.cloud.callContainer` 调后端（决定第 19 条），用不到公网入口，官方也建议关掉。后端按云托管注入的 openid 认人，不留公网入口最省心。
+- [ ] **填小程序的环境变量**：把环境 ID 和服务名填进 `apps/miniapp/.env.production` 的 `VITE_CLOUD_ENV`、`VITE_CLOUD_SERVICE`（不是秘密，可以入库），重新 `pnpm build:mp`，在微信开发者工具里连起来测。
+- 绑定 GitHub 后云托管会生成流水线，之后往 `main` 推代码可能会自动部署。`main` 就是线上分支（决定第 28 条），以流水线的实际设置为准。
+
+Worker 以后部署成**第二个服务**，同一个镜像，启动命令改成 `node dist/worker.js`、环境变量 `APP_ROLE=worker`。Worker 不跑迁移，只有 web 服务负责。
 
 ## 开发期间办
 - [ ] **订阅消息模板**：按 docs/spec.md「通知矩阵」和「订阅消息额度策略」，在公众平台的订阅消息里挑一次性订阅模板，记下模板 ID 交给开发。个人主体只能用一次性订阅。
@@ -66,4 +78,8 @@ Worker 以后部署成**第二个服务**，同一个镜像，启动命令改成
 - 小程序备案要求：https://www.secrss.com/articles/57609
 - 小程序备案办理（小游戏版说明，含办结时限）：https://developers.weixin.qq.com/minigame/introduction/guide/xcxba
 - 云托管 callContainer：https://docs.cloudbase.net/en/run/develop/access/mini
+- 小程序调用云托管（官方）：https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/development/call/mini.html
+- 云托管请求头（官方）：https://developers.weixin.qq.com/minigame/dev/wxcloudrun/src/development/weixin/
+- 云托管内网调用 Redis（官方）：https://developers.weixin.qq.com/minigame/dev/wxcloudrun/src/practice/redis.html
+- 提高构建效率（官方）：https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/scene/build/speed.html
 - 动态消息（V1.1 加强版）：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html

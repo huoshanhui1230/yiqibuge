@@ -6,7 +6,7 @@ declare const __API_MODE__: "cloud" | "local" | "mock";
 /**
  * 微信小程序的全局对象。@dcloudio/types 不带 wx.cloud 和隐私接口的类型，
  * 这里按微信官方文档只声明用到的那部分（其余能力一律走 uni.*）。
- * 待办：接云托管时按官方文档核对字段名，结论记进 docs/progress.md。
+ * callContainer 的字段已按官方文档核对（2026-11-07）。
  */
 declare const wx: {
   cloud?: {

@@ -24,7 +24,7 @@
 - apps/miniapp：uni-app（Vue 3 + TypeScript + Vite），只编译微信小程序；另有一个只在开发时用的 H5 预览，接口走假数据，用来截图对照设计稿
 - apps/server：NestJS 模块化单体；同一份代码另起一个 Worker 进程跑定时和延时任务（BullMQ + Redis）
 - 数据库 MySQL 8；图片存储在第 1 阶段定
-- 部署在微信云托管，小程序用 wx.cloud.callContainer 调后端
+- 部署在微信云托管，小程序用 wx.cloud.callContainer 调后端；`main` 是线上分支，每个阶段在自己的分支上做，验收后合入
 - packages/shared：前后端共用的类型、时间文案、鸽值计算
 - 包管理用 pnpm workspace
 
