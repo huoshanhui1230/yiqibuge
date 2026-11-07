@@ -46,18 +46,9 @@ describe("环境变量校验", () => {
     ).toThrowError(/不允许用微信能力的假实现/);
   });
 
-  it("用真实现但没配 AppID 或密钥时拒绝启动", () => {
-    expect(() => validateEnv({ ...base, WECHAT_DRIVER: "real" })).toThrowError(/WX_APPID/);
-  });
-
-  it("正式环境配齐真实现的凭据时可以启动", () => {
-    const env = validateEnv({
-      ...base,
-      NODE_ENV: "production",
-      WECHAT_DRIVER: "real",
-      WX_APPID: "wx123",
-      WX_APP_SECRET: "secret",
-    });
+  // 身份走云托管注入的请求头，不把 AppSecret 放进云托管（docs/decisions.md 第 30 条）
+  it("正式环境用真实现时不要求 AppID 和密钥", () => {
+    const env = validateEnv({ ...base, NODE_ENV: "production", WECHAT_DRIVER: "real" });
 
     expect(env.WECHAT_DRIVER).toBe("real");
   });

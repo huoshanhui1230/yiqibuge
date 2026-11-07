@@ -33,6 +33,7 @@ export const envSchema = z.object({
   FAKE_DEFAULT_OPENID: z.string().default("openid_test_a"),
   FAKE_USERS: fakeUsers,
 
+  // 这两个现在没有代码读：身份走云托管注入的请求头，微信接口走开放接口服务（决定第 30 条）
   WX_APPID: z.string().default(""),
   WX_APP_SECRET: z.string().default(""),
   WX_SUBSCRIBE_TEMPLATE_IDS: z.string().default(""),
@@ -61,13 +62,8 @@ export function validateEnv(raw: Record<string, unknown>): Env {
 
   if (env.NODE_ENV === "production" && env.WECHAT_DRIVER === "fake") {
     throw new Error(
-      "正式环境（NODE_ENV=production）不允许用微信能力的假实现。" +
-        "请把 WECHAT_DRIVER 改成 real，并配好 WX_APPID 和 WX_APP_SECRET。",
+      "正式环境（NODE_ENV=production）不允许用微信能力的假实现。请把 WECHAT_DRIVER 改成 real。",
     );
-  }
-
-  if (env.WECHAT_DRIVER === "real" && (env.WX_APPID === "" || env.WX_APP_SECRET === "")) {
-    throw new Error("WECHAT_DRIVER=real 时必须配 WX_APPID 和 WX_APP_SECRET。");
   }
 
   return env;
