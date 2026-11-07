@@ -158,9 +158,10 @@ describe("群组：退群、移除、转让、解散", () => {
       api.as("e2e_b").post(`/circles/${circleId}/leave`),
     ]);
 
-    // 转让先到：小红成了群主，退群被拦下（还有人，要先转让）；退群先到：小红走了，转让被拦下
+    // 转让先到：小红成了群主（200），退群被拦下（409，还有人，要先转让）；
+    // 退群先到：小红走了（204），转让被拦下（409）。谁先拿到锁不确定，两种都对
     const outcome = [transfer.status, leave.status].sort().join(",");
-    expect(["200,409"]).toContain(outcome);
+    expect(["200,409", "204,409"]).toContain(outcome);
 
     const [row] = await t.db
       .select({ ownerId: circle.ownerId })
