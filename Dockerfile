@@ -1,6 +1,6 @@
 # 后端（apps/server）的镜像。一个镜像两个入口：
-#   web    → node dist/main.js    （HTTP 服务，默认）
-#   worker → node dist/worker.js  （定时与延时任务）
+#   web    → 先跑数据库迁移，再起 HTTP 服务（默认）
+#   worker → node dist/worker.js（定时与延时任务，不跑迁移）
 # 在云托管里把 worker 部署成第二个服务，启动命令改成 node dist/worker.js、APP_ROLE=worker 即可。
 #
 # 为什么放在仓库根而不是 apps/server/：
@@ -12,11 +12,15 @@
 #   docker build -t yiqi-server .
 
 FROM node:24-alpine AS build
+# 云托管线上构建时官方建议换国内源；corepack 下载 pnpm 也走这里
+ENV COREPACK_NPM_REGISTRY=https://mirrors.tencent.com/npm/
+ENV npm_config_registry=https://mirrors.tencent.com/npm/
 RUN corepack enable
 WORKDIR /repo
 
 COPY . .
-RUN pnpm install --frozen-lockfile
+# 只装后端和共用包的依赖，不装 uni-app 和 Playwright
+RUN pnpm install --frozen-lockfile --filter "@yiqi/server..."
 RUN pnpm -F @yiqi/shared build && pnpm -F @yiqi/server build
 # deploy 会把 @yiqi/shared 的产物一起打进去，并剪掉 devDependencies
 RUN pnpm --filter @yiqi/server deploy --prod /out
@@ -30,4 +34,6 @@ WORKDIR /app
 COPY --from=build /out .
 
 EXPOSE 3000
-CMD ["node", "dist/main.js"]
+# 迁移失败容器就起不来，云托管不会切到这个版本（docs/decisions.md 第 27 条）。
+# exec 让 node 成为 1 号进程，收得到停止信号。
+CMD ["sh", "-c", "node dist/db/migrate.js && exec node dist/main.js"]
