@@ -9,8 +9,9 @@ allowBuilds:
   esbuild: true
   "@swc/core": true
   playwright: true
-  # msgpackr-extract 是 bullmq 底下 msgpackr 的原生加速模块，纯属可选：
-  # 不编译它 msgpackr 照样跑，而编译要 node-gyp 和 MSVC，Windows 上容易挂。故意不装。
+  # msgpackr-extract 是 bullmq 底下 msgpackr 的原生加速模块。它的安装脚本只负责在没有
+  # 预编译包时用 node-gyp 编译（要 MSVC，Windows 上容易挂），所以不跑。预编译包是可选依赖，
+  # 照样会装上、被加载；就算没有，msgpackr 也会退回纯 JS。
   msgpackr-extract: false
   # core-js 的 postinstall 只是打一条募捐横幅，没有功能，故意不跑。
   core-js: false

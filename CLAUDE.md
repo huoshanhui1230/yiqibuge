@@ -26,7 +26,7 @@
 - 数据库 MySQL 8；图片存储在第 1 阶段定
 - 部署在微信云托管，小程序用 wx.cloud.callContainer 调后端；`main` 是线上分支，每个阶段在自己的分支上做，验收后合入
 - packages/shared：前后端共用的类型、时间文案、鸽值计算
-- 包管理用 pnpm workspace
+- 包管理用 pnpm workspace；Node 要 24.22.2 以上（Windows 上更老的 24.x 跑接口测试会随机崩溃，见 docs/progress.md）
 
 ## 常用命令
 

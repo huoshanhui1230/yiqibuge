@@ -6,6 +6,7 @@
 
 - **阶段**：阶段 1 · 主题、组件、登录、群组 —— 已完成（2026-10-30），代码在 `phase-1` 分支，还没合并到 `main`
 - **部署**：首次部署云托管的代码已备好（2026-11-07），线上还没发布过。步骤见 `docs/platform-checklist.md`「部署到微信云托管」
+- **本机要做的**：把 Node 升到 24.22.2 以上。现在的 v24.15.0 在这台 Windows 上跑接口测试约四分之一的概率崩溃，见「首次部署准备」的已知问题
 - **下一步**：阶段 2 · 时间文案、发起计划、计划详情、表态（开工前先定下面「待确认」的 1、10、11）
 - **上一步**：第 0 步 · 搭工程，已完成并全部验证过（2026-10-27）
 
@@ -14,6 +15,8 @@
 ## 环境与版本
 
 本机实测（2026-10-27）：Node v24.15.0、pnpm 12.15.0、Docker 29.4.2 + Compose v5.1.3、git 2.45.1。
+
+**Node 要 24.22.2 以上**（2026-11-07）：更老的 24.x 在 Windows build 26200 上会随机崩溃，见「首次部署准备」的已知问题。线上镜像用 `node:24-alpine`，构建时拿到的是最新的 24.x。
 
 ### 为什么好几个依赖不能用最新版
 
@@ -39,7 +42,7 @@
 
 - 放行安装脚本，**pnpm 12 认 `allowBuilds`，不认 `onlyBuiltDependencies`**（后者是 pnpm 10/11 的写法）。`pnpm-workspace.yaml` 里两份都留着。
 - 第一次装如果报 `ERR_PNPM_IGNORED_BUILDS`，跑一次 `pnpm install --allow-build=<包名>` 就好。
-- `msgpackr-extract`（bullmq 底下的原生加速模块）和 `core-js`（只打募捐横幅）**故意不编译**，列在 `ignoredBuiltDependencies` 里。
+- `msgpackr-extract`（bullmq 底下的原生加速模块）和 `core-js`（只打募捐横幅）的安装脚本**故意不跑**，列在 `ignoredBuiltDependencies` 里。注意 `msgpackr-extract` 的预编译包是可选依赖，照样会装上、被 BullMQ 加载，跳过的只是编译。
 
 ---
 
@@ -189,7 +192,8 @@
 | --- | --- |
 | `pnpm typecheck`、`lint`、`format:check` | 通过 |
 | `pnpm test` | 160 个通过：shared 98、server 29、miniapp 33 |
-| `pnpm test:e2e` | 跑完的都是 47 个全过，但 35 次运行里有 10 次进程崩溃，见下面「已知问题」 |
+| `pnpm test:e2e` | Node 24.22.2 上 47 个全过，连跑 30 次无崩溃；Node 24.15.0 上随机崩溃，见下面「已知问题」 |
+| 接口测试放进 Linux 容器（Node 24.22.2，和线上同一套基础镜像） | 连跑 12 次，47 个全过 |
 | `pnpm build:mp` | 成功，`project.config.json` 的 `appid` 是真实 AppID |
 | 镜像构建 | 成功，365MB |
 | 两个容器同时启动，指向同一个空库 | 都起来了，各跑一次迁移没报错，6 张表、2 条迁移记录 |
@@ -204,8 +208,22 @@
 
 **已知问题**
 
-- **接口测试在本机 Windows 上约三成概率中途崩溃**（35 次里 10 次）。现象是 `Error: Channel closed`，Vitest 子进程退出码 `0xC0000409`（原生快速失败），没有 JS 异常，Windows 事件日志里也没有记录。已排除：不是断言失败（没崩的运行用例全过）；和测试文件无关（去掉 `join`、只跑 `join` 都是 8 次崩 2 次）；换 `singleFork` 没用（5 次崩 2 次）。根因还没查到，也没有在改动之前的提交上复现过；这次改动在接口测试路径上只碰了 `env.ts` 里假驱动下不会执行到的判断。线上是 Linux 容器，不走这条路。
+- **接口测试在 Node 24.15.0 上随机崩溃，升级 Node 解决**。现象是 `Error: Channel closed`，Vitest 子进程退出码 `0xC0000409`，没有 stderr、没有 JS 栈，Windows 事件日志和 `--report-on-fatalerror` 都没有记录。这是 Node 在 Windows build 26200 上的已知问题 [nodejs/node#62260](https://github.com/nodejs/node/issues/62260)（还开着），里面有人的环境和这台机器一样（Node 24.15.0、build 26200）。和我们的代码无关。
+
+  | 环境 | 运行次数 | 崩溃 |
+  | --- | --- | --- |
+  | Windows，Node 24.15.0 | 63 | 16（约 25%） |
+  | Windows，Node 24.15.0 + `--no-maglev` | 21 | 1（少了，没根除） |
+  | Windows，Node 24.22.2 | 62 | 0 |
+  | Linux 容器，Node 24.22.2 | 12 | 0 |
+
+  已排除：具体测试文件（去掉 `join`、只跑 `join` 都会崩）、`app.close()`（也崩在测试中途）、每个文件换进程（`singleFork` 没用）、`msgpackr-extract` 原生模块（关掉还崩）。不走 Vitest 的子进程时跑 60 次没复现，和 issue 里「要走测试运行器的子进程路径」一致。没定位到是 Node 的哪个改动修好的：24.x 的 V8 版本都一样，libuv 从 1.51.0 升到了 1.52.1，这只是线索。只实测了 24.22.2，issue 里有人报告 24.19.0 也不崩。
 - **本机 Docker 构建偶尔报 `EAI_AGAIN`**：构建容器第一次解析某个域名时超时，和代码、镜像源都无关。先 `docker run --rm node:24-alpine node -e "require('dns').lookup('<域名>',console.log)"` 解析一次再构建就好。
+
+**顺手修掉的问题**
+
+- 换到 Node 24.22.2 后暴露了一个写窄的测试：`membership.e2e-spec.ts`「转让给小红的同时小红在退群」只接受转让先到（`200,409`），退群先到（`204,409`）也是合法结果。24.15 上恰好总是转让先到，24.22.2 上约三成是退群先到，断言失败。改成两种都接受，后面「群里总有一个在群里的群主」的检查不变。不是后端 bug。
+- `pnpm-workspace.yaml` 里写的「`msgpackr-extract` 故意不装」不对，改了注释：跳过的只是编译，预编译包照样会装上。
 
 ---
 
