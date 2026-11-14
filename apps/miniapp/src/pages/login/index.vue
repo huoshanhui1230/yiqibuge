@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onLoad } from "@dcloudio/uni-app";
-import { APP_NAME, checkNickname, trimText } from "@yiqi/shared";
+import { APP_NAME, NICKNAME_MAX, checkNickname, trimText } from "@yiqi/shared";
 import { computed, ref } from "vue";
 
 import YqAvatar from "../../components/YqAvatar.vue";
@@ -140,7 +140,7 @@ async function start(): Promise<void> {
             <YqInput
               v-model="nickname"
               type="nickname"
-              :maxlength="12"
+              :maxlength="NICKNAME_MAX"
               counter
               display
               placeholder="点这里用微信昵称"

@@ -55,6 +55,7 @@ watch(
           variant="secondary"
           size="lg"
           block
+          :disabled="loading"
           @click="emit('close')"
         >
           算了
