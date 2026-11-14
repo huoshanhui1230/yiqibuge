@@ -1,11 +1,11 @@
 import { Test } from "@nestjs/testing";
 import { APP_NAME } from "@yiqi/shared";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ENV } from "../config/env";
 import { DB } from "../db/db.module";
 import { REDIS } from "../redis/redis.module";
-import { HealthService } from "./health.service";
+import { CHECK_TIMEOUT_MS, HealthService } from "./health.service";
 
 const env = { APP_ROLE: "web", WECHAT_DRIVER: "fake" };
 
@@ -72,5 +72,24 @@ describe("HealthService", () => {
 
     expect(result.ok).toBe(false);
     expect(result.deps).toEqual({ db: "up", redis: "down" });
+  });
+
+  describe("依赖迟迟不回", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("到时间就按 down 返回，不让 health 一直挂着", async () => {
+      const never = new Promise<never>(() => undefined);
+      const service = await buildService(never, never);
+      vi.useFakeTimers();
+
+      const pending = service.check();
+      await vi.advanceTimersByTimeAsync(CHECK_TIMEOUT_MS);
+      const result = await pending;
+
+      expect(result.ok).toBe(false);
+      expect(result.deps).toEqual({ db: "down", redis: "down" });
+    });
   });
 });

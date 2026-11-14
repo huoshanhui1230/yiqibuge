@@ -42,7 +42,7 @@ WECHAT_DRIVER=real
 ```
 
 - `DATABASE_URL` **必须连得上**。容器启动时先跑数据库迁移，连不上就起不来，云托管不会切到新版本（决定第 27 条）。
-- `REDIS_URL` 现在是占位值，指向一个没有 Redis 的地址。`GET /api/v1/health` 会等约 10 秒后返回 `ok:false`、`redis:down`，日志里有重连报错，这些都是预期的，登录和群组不受影响。如果云托管的健康检查要配路径，不要指向 `/health`。
+- `REDIS_URL` 现在是占位值，指向一个没有 Redis 的地址。`GET /api/v1/health` 会在 2 秒内返回 `ok:false`、`redis:down`（HTTP 状态码还是 200）。日志里 `[Redis]`、`[Queue]` 各记一行连不上，之后同样的错误大约每 10 分钟再记一次。这些都是预期的，登录和群组不受影响。如果云托管的健康检查要配路径，不要指向 `/health`：它每次都查数据库和 Redis，Redis 占位期间一直是 `ok:false`。
 - `WECHAT_DRIVER` 必须是 `real`：配成 `fake` 时后端会拒绝启动（防止假数据开关漏进正式版）。
 - 不用填 `WX_APPID`、`WX_APP_SECRET`（决定第 30 条）。不要把 AppSecret 放进云托管。
 - `NODE_ENV=production`、`APP_ROLE=web`、`PORT=3000` 已经写在 Dockerfile 里，不用再填。

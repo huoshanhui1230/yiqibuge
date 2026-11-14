@@ -1,9 +1,19 @@
-import { Global, Inject, Module, type OnApplicationShutdown } from "@nestjs/common";
+import { Global, Inject, Logger, Module, type OnApplicationShutdown } from "@nestjs/common";
 import { Redis } from "ioredis";
 
 import { ENV, type Env } from "../config/env";
+import { createConnectionLog } from "./connection-log";
 
 export const REDIS = "REDIS";
+
+function createRedis(url: string): Redis {
+  // 连不上时别无限重试同一条命令，让 health 直接报 down
+  const redis = new Redis(url, { maxRetriesPerRequest: 2 });
+  const log = createConnectionLog(new Logger("Redis"));
+  redis.on("error", (error: Error) => log.error(error));
+  redis.on("ready", () => log.ready());
+  return redis;
+}
 
 @Global()
 @Module({
@@ -11,11 +21,7 @@ export const REDIS = "REDIS";
     {
       provide: REDIS,
       inject: [ENV],
-      useFactory: (env: Env) =>
-        new Redis(env.REDIS_URL, {
-          // 连不上时别无限重试，让 health 直接报 down
-          maxRetriesPerRequest: 2,
-        }),
+      useFactory: (env: Env) => createRedis(env.REDIS_URL),
     },
   ],
   exports: [REDIS],
