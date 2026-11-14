@@ -1,5 +1,6 @@
 import { API_PREFIX } from "../../request/constants";
 import { FAKE_OPENID_HEADER, devOpenid } from "../../request/dev-identity";
+import { ApiRequestError } from "../../request/types";
 import type {
   ContainerRequest,
   ContainerResponse,
@@ -81,17 +82,24 @@ export const wechatPlatform: Platform = {
     }
 
     const env = cloudEnv();
-    const result = await cloud().callContainer({
-      config: { env },
-      path: request.path,
-      method: request.method,
-      header: {
-        "X-WX-SERVICE": service,
-        "content-type": "application/json",
-        "x-request-id": request.requestId,
-      },
-      data: request.data,
-    });
+    const result = await cloud()
+      .callContainer({
+        config: { env },
+        path: request.path,
+        method: request.method,
+        header: {
+          "X-WX-SERVICE": service,
+          "content-type": "application/json",
+          "x-request-id": request.requestId,
+        },
+        data: request.data,
+      })
+      .catch((error: unknown) => {
+        // 请求没到后端（断网、服务没起来）。微信给的 errMsg 是英文的技术信息，
+        // 不直接弹给用户，和 local 档连不上时一样换成中文；原始错误留在控制台好排查。
+        console.error("callContainer 失败", error);
+        throw new ApiRequestError("NETWORK", "网络不太好，稍后再试。", 0);
+      });
 
     return { statusCode: result.statusCode, data: result.data };
   },
