@@ -3,13 +3,11 @@ import { describe, expect, it } from "vitest";
 import { validateEnv } from "../../config/env";
 import { FAKE_OPENID_HEADER, FakeCloudRunIdentity } from "./fake-cloud-run-identity";
 import { FakeContentSecurity } from "./fake-content-security";
-import { FakeWechatAuth } from "./fake-wechat-auth";
 
 const env = validateEnv({
   DATABASE_URL: "mysql://yiqi:yiqi@127.0.0.1:3307/yiqibuge?timezone=Z",
   REDIS_URL: "redis://127.0.0.1:6379",
   FAKE_DEFAULT_OPENID: "openid_test_a",
-  FAKE_USERS: "openid_test_a:小明,openid_test_b:小红",
 });
 
 describe("假身份（本地切换测试用户）", () => {
@@ -25,20 +23,6 @@ describe("假身份（本地切换测试用户）", () => {
 
   it("头是空字符串时退回默认用户", () => {
     expect(identity.openidFrom({ [FAKE_OPENID_HEADER]: "   " })).toBe("openid_test_a");
-  });
-});
-
-describe("假登录", () => {
-  const auth = new FakeWechatAuth(env);
-
-  it("认 FAKE_USERS 里的昵称，换成对应的 openid", async () => {
-    await expect(auth.code2Session("小红")).resolves.toMatchObject({ openid: "openid_test_b" });
-  });
-
-  it("不认识的 code 就当成 openid 本身，方便临时造用户", async () => {
-    await expect(auth.code2Session("openid_临时")).resolves.toMatchObject({
-      openid: "openid_临时",
-    });
   });
 });
 

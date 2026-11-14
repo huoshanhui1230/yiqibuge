@@ -3,22 +3,6 @@ import { z } from "zod";
 /** 注入令牌：拿到校验过的、带类型的环境变量 */
 export const ENV = "ENV";
 
-/** 假身份：形如 openid_test_a:小明,openid_test_b:小红 */
-const fakeUsers = z
-  .string()
-  .default("")
-  .transform((raw) =>
-    raw
-      .split(",")
-      .map((entry) => entry.trim())
-      .filter((entry) => entry.length > 0)
-      .map((entry) => {
-        const [openid, nickname] = entry.split(":");
-        return { openid: (openid ?? "").trim(), nickname: (nickname ?? "").trim() };
-      })
-      .filter((user) => user.openid.length > 0),
-  );
-
 export const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   // web = HTTP 服务进程，worker = 定时和延时任务进程，两者同一份代码
@@ -30,12 +14,10 @@ export const envSchema = z.object({
   REDIS_URL: z.string().min(1, "不能为空，参考 .env.example"),
 
   WECHAT_DRIVER: z.enum(["fake", "real"]).default("fake"),
+  // 假身份：请求没带 X-Fake-Openid 头时用这个测试用户
   FAKE_DEFAULT_OPENID: z.string().default("openid_test_a"),
-  FAKE_USERS: fakeUsers,
 
-  // 这两个现在没有代码读：身份走云托管注入的请求头，微信接口走开放接口服务（决定第 30 条）
-  WX_APPID: z.string().default(""),
-  WX_APP_SECRET: z.string().default(""),
+  // 不要 AppID 和 AppSecret：身份走云托管注入的请求头，微信接口走开放接口服务（决定第 30 条）
   WX_SUBSCRIBE_TEMPLATE_IDS: z.string().default(""),
 });
 

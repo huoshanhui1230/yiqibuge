@@ -26,17 +26,15 @@ describe("环境变量校验", () => {
     expect(validateEnv({ ...base, PORT: "4000" }).PORT).toBe(4000);
   });
 
-  it("把 FAKE_USERS 解析成测试用户列表", () => {
+  it("旧 .env 里还留着已经删掉的变量时照样能启动", () => {
     const env = validateEnv({
       ...base,
-      FAKE_USERS: "openid_test_a:小明, openid_test_b:小红 ,,openid_test_c:阿强",
+      WX_APPID: "wx0000000000000000",
+      WX_APP_SECRET: "x",
+      FAKE_USERS: "openid_test_a:小明",
     });
 
-    expect(env.FAKE_USERS).toEqual([
-      { openid: "openid_test_a", nickname: "小明" },
-      { openid: "openid_test_b", nickname: "小红" },
-      { openid: "openid_test_c", nickname: "阿强" },
-    ]);
+    expect(env).not.toHaveProperty("WX_APP_SECRET");
   });
 
   // 这条是硬规则：假开关不能漏进正式版（docs/prompts.md 阶段 5 要查）

@@ -41,7 +41,7 @@ interface ImportMetaEnv {
   readonly VITE_CLOUD_SERVICE: string;
   /** 站酷快乐体文件的 https 地址（放在云存储），没配就用系统字体（docs/decisions.md 第 24 条） */
   readonly VITE_FONT_DISPLAY_URL: string;
-  /** local 档默认用哪个测试用户（后端 FAKE_USERS 里的 openid） */
+  /** local 档默认用哪个测试用户的 openid（后端假驱动按 X-Fake-Openid 头认人） */
   readonly VITE_FAKE_OPENID: string;
 }
 
