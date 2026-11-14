@@ -76,11 +76,12 @@ export class MembershipService {
     const found = await this.invites.findByInvite(body.t, body.code);
 
     if (!found) throw Errors.inviteInvalid();
-    if (found.status === "dissolved") throw Errors.circleDissolved();
 
     return this.store.db.transaction(async (tx) => {
       const locked = await this.store.lockCircle(found.id, tx);
       if (!locked) throw Errors.inviteInvalid();
+      // 在锁里看：查邀请和上锁之间群主可能刚好解散了，解散只改状态、不作废邀请
+      if (locked.status === "dissolved") throw Errors.circleDissolved();
 
       const now = new Date();
       const circleId = String(locked.id);
