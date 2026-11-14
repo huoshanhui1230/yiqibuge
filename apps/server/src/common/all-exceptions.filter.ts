@@ -33,6 +33,7 @@ const CODE_BY_STATUS = new Map<number, string>([
   [HttpStatus.FORBIDDEN, "FORBIDDEN"],
   [HttpStatus.NOT_FOUND, "NOT_FOUND"],
   [HttpStatus.CONFLICT, "CONFLICT"],
+  [HttpStatus.PAYLOAD_TOO_LARGE, "PAYLOAD_TOO_LARGE"],
   [HttpStatus.TOO_MANY_REQUESTS, "TOO_MANY_REQUESTS"],
 ]);
 
@@ -42,8 +43,18 @@ const MESSAGE_BY_STATUS = new Map<number, string>([
   [HttpStatus.FORBIDDEN, "没有权限做这件事。"],
   [HttpStatus.NOT_FOUND, "找不到要看的内容。"],
   [HttpStatus.CONFLICT, "和当前状态冲突，刷新一下再试。"],
+  [HttpStatus.PAYLOAD_TOO_LARGE, "内容太大了，换个小一点的再试。"],
   [HttpStatus.TOO_MANY_REQUESTS, "操作太频繁，歇一会儿再试。"],
 ]);
+
+/**
+ * 查 code 和兜底文案用的状态码。上面没单独列的 4xx（405、415 之类）也是请求本身的问题，
+ * 按 400 说，不能说成「服务器出了点问题」。返回给客户端的 HTTP 状态码不变。
+ */
+function lookupStatus(status: number): number {
+  const unlistedClientError = status >= 400 && status < 500 && !CODE_BY_STATUS.has(status);
+  return unlistedClientError ? HttpStatus.BAD_REQUEST : status;
+}
 
 /**
  * 项目规则要求错误 message 一律中文、能直接显示给用户（.claude/rules/server.md）。
@@ -101,7 +112,7 @@ function messageOf(exception: unknown, status: number): string {
     return raw;
   }
 
-  return MESSAGE_BY_STATUS.get(status) ?? "服务器出了点问题，稍后再试。";
+  return MESSAGE_BY_STATUS.get(lookupStatus(status)) ?? "服务器出了点问题，稍后再试。";
 }
 
 @Catch()
@@ -117,7 +128,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const body: ApiError = {
-      code: businessCode(exception) ?? CODE_BY_STATUS.get(status) ?? "INTERNAL_ERROR",
+      code: businessCode(exception) ?? CODE_BY_STATUS.get(lookupStatus(status)) ?? "INTERNAL_ERROR",
       message: messageOf(exception, status),
     };
 

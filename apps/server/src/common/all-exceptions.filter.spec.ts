@@ -1,9 +1,11 @@
 import {
   BadRequestException,
   ForbiddenException,
+  HttpException,
   HttpStatus,
   Logger,
   NotFoundException,
+  PayloadTooLargeException,
   type ArgumentsHost,
 } from "@nestjs/common";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -102,6 +104,28 @@ describe("统一错误返回", () => {
 
     expect(sent.body?.code).toBe("CONFLICT");
     expect(sent.body?.message).toBe("群满了。");
+  });
+
+  it("上传超过大小限制：413，说内容太大，不说成服务器出错", () => {
+    const { host, sent } = hostWith();
+
+    // FileInterceptor 超过 limits.fileSize 时抛的就是这个，文案是英文
+    filter.catch(new PayloadTooLargeException("File too large"), host);
+
+    expect(sent.status).toBe(413);
+    expect(sent.body).toEqual({
+      code: "PAYLOAD_TOO_LARGE",
+      message: "内容太大了，换个小一点的再试。",
+    });
+  });
+
+  it("没单独列出的 4xx 按请求有问题说，状态码原样返回", () => {
+    const { host, sent } = hostWith();
+
+    filter.catch(new HttpException("Method Not Allowed", HttpStatus.METHOD_NOT_ALLOWED), host);
+
+    expect(sent.status).toBe(405);
+    expect(sent.body).toEqual({ code: "BAD_REQUEST", message: "请求内容不对，检查一下再试。" });
   });
 
   it("不是 HttpException 的意外错误走 500，文案也是中文", () => {
