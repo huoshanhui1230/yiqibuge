@@ -39,6 +39,13 @@ function ownerText(circle: CircleSummaryDto): string {
   return circle.myRole === "owner" ? "你是群主" : `${circle.owner.name}是群主`;
 }
 
+/** 横条底色，判断顺序和下面三个横条插槽一致：关了评选就一律是「已关闭」的灰 */
+function bandTone(circle: CircleSummaryDto): "king" | "peace" | "muted" {
+  if (!circle.pigeonEnabled) return "muted";
+  if (circle.king) return "king";
+  return circle.peaceStreak > 0 ? "peace" : "muted";
+}
+
 function open(circle: CircleSummaryDto): void {
   uni.navigateTo({ url: `/pages/circle/home?id=${circle.id}` });
 }
@@ -85,7 +92,7 @@ function lookup(): void {
         v-for="circle in circles ?? []"
         :key="circle.id"
         padding="none"
-        :band-tone="circle.king ? 'king' : circle.peaceStreak > 0 ? 'peace' : 'muted'"
+        :band-tone="bandTone(circle)"
         @click="open(circle)"
       >
         <view class="circle">
