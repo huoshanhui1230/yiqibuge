@@ -21,7 +21,7 @@ async function bootstrap(): Promise<void> {
   const env = app.get<Env>(ENV);
 
   new Logger("Worker").log(
-    `${APP_NAME} Worker 已启动（微信能力：${env.WECHAT_DRIVER}）。第 0 步还没有注册任务。`,
+    `${APP_NAME} Worker 已启动（微信能力：${env.WECHAT_DRIVER}）。还没有任务，阶段 3 加。`,
   );
 }
 
